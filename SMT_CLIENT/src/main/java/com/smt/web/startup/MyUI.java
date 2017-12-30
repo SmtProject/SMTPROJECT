@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.smt.application.service.TestService;
+import com.smt.application.service.SmtUserService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -26,14 +26,14 @@ public class MyUI extends UI {
         final VerticalLayout layout = new VerticalLayout();
 		System.out.println();
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring/smt-client-services.xml");  
-		TestService testService = (TestService) context.getBean("TestServiceBean");
+		SmtUserService userService = (SmtUserService) context.getBean("TestServiceBean");
 		
         final TextField name = new TextField();
         name.setCaption("Type your name here:");
 
         Button button = new Button("Click Me");
         button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " +testService.getTestString() 
+            layout.addComponent(new Label("Thanks " +userService.getCount() 
                     + ", it works!"));
         });
         

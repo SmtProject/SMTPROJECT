@@ -6,17 +6,17 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import com.smt.application.service.TestService;
+import com.smt.application.service.SmtUserService;
 
 public class SmtServiceProvider implements ApplicationContextAware,BeanFactoryPostProcessor{
 	private static SmtServiceProvider instance;
-	private TestService testService;
+	private SmtUserService testService;
 	private ApplicationContext applicationContext;
-	public TestService getTestService() {
+	public SmtUserService getTestService() {
 		return testService;
 	}
 
-	public void setTestService(TestService testService) {
+	public void setTestService(SmtUserService testService) {
 		this.testService = testService;
 	}
 
