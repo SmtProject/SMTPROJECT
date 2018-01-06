@@ -1,15 +1,12 @@
 package com.smt.web.startup;
 
-import javax.servlet.annotation.WebServlet;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.smt.application.service.SmtUserService;
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
@@ -44,10 +41,10 @@ public class MyUI extends UI {
         setContent(layout);
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
-		private static final long serialVersionUID = 1L;
-		
-    }
+//    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+//    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+//    public static class MyUIServlet extends VaadinServlet {
+//		private static final long serialVersionUID = 1L;
+//		
+//    }
 }
