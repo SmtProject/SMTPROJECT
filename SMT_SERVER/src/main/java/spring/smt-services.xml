@@ -6,10 +6,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <import resource="classpath:spring/smt-server-beans.xml"/>
    
 <bean class="org.springframework.remoting.rmi.RmiServiceExporter">  
-    <property name="serviceName" value="TestService"></property>  
+    <property name="serviceName" value="SmtUserService"></property>  
     <property name="serviceInterface" value="com.smt.application.service.SmtUserService"></property>  
     <property name="registryPort" value="1099"></property>  
-    <property name="service" ref="TestServiceBean"></property>  
+    <property name="service" ref="SmtUserServiceBean"></property>  
 </bean> 
  
 </beans>  

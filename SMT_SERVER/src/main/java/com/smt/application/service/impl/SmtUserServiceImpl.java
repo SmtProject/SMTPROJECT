@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysema.query.types.Predicate;
 import com.smt.application.service.SmtUserService;
+import com.smt.data.entity.QSmtUser;
 import com.smt.data.entity.SmtUser;
 import com.smt.data.repository.SmtUserRepository;
 
@@ -18,8 +20,8 @@ import com.smt.data.repository.SmtUserRepository;
 @Service
 public class SmtUserServiceImpl implements SmtUserService {
 
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 	@Autowired
 	private SmtUserRepository smtUserRepository;
 
@@ -42,11 +44,18 @@ public class SmtUserServiceImpl implements SmtUserService {
 			smtUserRepository.save(smtUser);
 		}
 	}
-	
+
 	@Transactional(readOnly = true)
 	@Override
 	public long getCount() {
 		return smtUserRepository.count();
+	}
+	@Transactional(readOnly = true)
+	@Override
+	public SmtUser login(String username, String password){
+		Predicate predicate = QSmtUser.smtUser.userName.eq(username).and(QSmtUser.smtUser.password.eq(password));
+		SmtUser res = smtUserRepository.findOne(predicate);
+		return res;
 	}
 
 }

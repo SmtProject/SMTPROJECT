@@ -1,17 +1,18 @@
 package com.smt.data.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import smt.model.tools.Role;
 @Entity
 @Table(name = "SMT_USER")
-public class SmtUser {
+public class SmtUser implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 
@@ -31,7 +32,7 @@ public class SmtUser {
 
 	private Integer phone;
 
-	private Role role;
+	private String role;
 
 	@Id
 	@Column(name = "ID")
@@ -116,13 +117,12 @@ public class SmtUser {
 		this.phone = phone;
 	}
 
-	@Enumerated
 	@Column(name = "ROLE")
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 

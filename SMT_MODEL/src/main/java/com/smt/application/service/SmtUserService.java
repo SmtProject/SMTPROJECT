@@ -16,5 +16,5 @@ public interface SmtUserService extends Serializable{
 
 	void add(SmtUser smtUser);
 	
- 
+	SmtUser login(String username,String password);
 }

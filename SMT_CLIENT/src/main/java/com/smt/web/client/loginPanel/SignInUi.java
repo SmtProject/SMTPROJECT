@@ -2,6 +2,9 @@ package com.smt.web.client.loginPanel;
 
 import java.io.File;
 import javax.servlet.annotation.WebServlet;
+
+import com.smt.data.entity.SmtUser;
+import com.smt.web.client.service.SmtServiceProvider;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -83,7 +86,10 @@ public class SignInUi extends UI{
 	}
 	public void onLoginButtonClick() {
 		if(!userNameTxt.isEmpty() && !passwordTxt.isEmpty()) {
-
+			SmtUser smtUser = SmtServiceProvider.getInstance().getSmtUserService().login(userNameTxt.getValue(), passwordTxt.getValue());
+			if(smtUser == null)
+				Notification.show("Validation","incorrect UserName or Password",Notification.Type.ERROR_MESSAGE);
+				
 		}else {
 			Notification.show("Validation","UserName and Password should be field",Notification.Type.ERROR_MESSAGE);
 		}

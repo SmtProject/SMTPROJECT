@@ -5,8 +5,8 @@
 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	
-	<bean id="TestServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-		<property name="serviceUrl" value="rmi://localhost:1099/TestService"></property>
+	<bean id="SmtUserServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/SmtUserService"></property>
 		<property name="serviceInterface" value="com.smt.application.service.SmtUserService"></property>
 	</bean>
 
