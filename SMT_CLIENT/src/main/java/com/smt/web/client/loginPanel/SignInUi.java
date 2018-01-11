@@ -1,17 +1,10 @@
 package com.smt.web.client.loginPanel;
 
 import java.io.File;
-import javax.servlet.annotation.WebServlet;
-
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.service.SmtServiceProvider;
-import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.Title;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -19,23 +12,19 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
-@Title("LoginPage")
-@Theme("valo")
-public class SignInUi extends UI{
+
+public class SignInUi extends VerticalLayout{
 
 	private static final long serialVersionUID = -6665288220966642392L;
 	private TextField userNameTxt;
 	private PasswordField passwordTxt;
 	private Button loginButton;
 	private Image image ;
-
-	@Override
-	protected void init(VaadinRequest request) {
+	
+	protected SignInUi() {
 		initComponents();
 		initLayout();
 	}
@@ -43,7 +32,6 @@ public class SignInUi extends UI{
 	private void initComponents() {
 		FileResource resource = new FileResource(new File(getClass().getClassLoader().getResource("image/smtLogo.png").getFile()));
 		image = new Image("",resource);
-
 		userNameTxt = new TextField("User:");
 		userNameTxt.setWidth("300px");
 		userNameTxt.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
@@ -74,31 +62,25 @@ public class SignInUi extends UI{
 		fields.setSpacing(true);
 		fields.setMargin(new MarginInfo(true, true, true, false));
 		fields.setSizeUndefined();
-		VerticalLayout uiLayout = new VerticalLayout();
-		uiLayout.addComponent(image);
-		uiLayout.setComponentAlignment(image, Alignment.MIDDLE_CENTER);
-		uiLayout.addComponent(fields);
-		uiLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-		uiLayout.setSizeFull();
-		setStyleName(Reindeer.LAYOUT_BLUE);
-		setFocusedComponent(userNameTxt);
-		setContent(uiLayout);
+	
+		addComponent(image);
+		setComponentAlignment(image, Alignment.MIDDLE_CENTER);
+		addComponent(fields);
+		setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
+		setSizeFull();
 	}
 	public void onLoginButtonClick() {
 		if(!userNameTxt.isEmpty() && !passwordTxt.isEmpty()) {
 			SmtUser smtUser = SmtServiceProvider.getInstance().getSmtUserService().login(userNameTxt.getValue(), passwordTxt.getValue());
 			if(smtUser == null)
 				Notification.show("Validation","incorrect UserName or Password",Notification.Type.ERROR_MESSAGE);
-				
+			else {
+				Global.mainUi.signIn(smtUser);
+			}
 		}else {
 			Notification.show("Validation","UserName and Password should be field",Notification.Type.ERROR_MESSAGE);
 		}
 
 	}
-	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-	@VaadinServletConfiguration(ui = SignInUi.class, productionMode = false)
-	public static class MyUIServlet extends VaadinServlet {
-		private static final long serialVersionUID = 1L;
 
-	}
 }
