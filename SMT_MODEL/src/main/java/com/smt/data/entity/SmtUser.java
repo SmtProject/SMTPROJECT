@@ -34,6 +34,27 @@ public class SmtUser implements Serializable {
 
 	private String role;
 
+	public SmtUser() {
+		
+	}
+	
+
+	public SmtUser(Integer id, String firstName, String middleName, String lastName, String userName, String password,
+			String email, String address, Integer phone, String role) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		LastName = lastName;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.address = address;
+		this.phone = phone;
+		this.role = role;
+	}
+
+
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
