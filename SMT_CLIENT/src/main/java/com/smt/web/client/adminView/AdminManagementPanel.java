@@ -6,8 +6,7 @@ import javax.xml.bind.ValidationException;
 
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.service.SmtServiceProvider;
-import com.vaadin.addon.tableexport.DefaultTableHolder;
-import com.vaadin.addon.tableexport.ExcelExport;
+import com.smt.web.client.toolBox.BtnFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
@@ -15,7 +14,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
 public class AdminManagementPanel extends VerticalLayout {
@@ -24,7 +22,6 @@ public class AdminManagementPanel extends VerticalLayout {
 	private FilteredGrid userGrid ;
 	private BeanItemContainer<SmtUser>container;
 	private Button addUserBtn;
-	private Button exportCSVButton;
 	
 	public AdminManagementPanel() {
 		initComponents();
@@ -36,13 +33,13 @@ public class AdminManagementPanel extends VerticalLayout {
 		userGrid=new FilteredGrid();
 		addUserBtn=new Button("Add New");
 		addUserBtn.setIcon(FontAwesome.USER_PLUS);
-		exportCSVButton = new Button("Export Excel");
 		initListeners();
 	}
 
 	private void intiLayout() {
 		HorizontalLayout btnsLayout=new HorizontalLayout(addUserBtn);
-		btnsLayout.addComponent(exportCSVButton);
+		btnsLayout.addComponent(BtnFactory.ExportGridBtn(userGrid));
+		btnsLayout.setSpacing(true);
 		addComponents(userGrid,btnsLayout);
 		userGrid.setSizeFull();
 		setMargin(true);
@@ -58,7 +55,7 @@ public class AdminManagementPanel extends VerticalLayout {
 
 	protected void onAddUserBtnClicked() {
 		SmtUser user=new SmtUser(0, "", "", "", "", "", "", "", 0, "");
-		container.addItem(user);
+		container.addItemAt(0,user);
 		userGrid.select(user);
 		userGrid.editItem(user);
 	}
@@ -127,19 +124,6 @@ public class AdminManagementPanel extends VerticalLayout {
 				onAddUserBtnClicked();
 			}
 		});	
-	
-		exportCSVButton.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7842749587704454705L;
-
-			public void buttonClick(ClickEvent event) {
-				Table table = new Table("", userGrid.getContainerDataSource());
-				ExcelExport excelExport = new ExcelExport(new DefaultTableHolder(table));
-				excelExport.excludeCollapsedColumns();
-				excelExport.setDisplayTotals(false);
-				excelExport.export();
-			}
-		});
-		
 	
 	}
 }
