@@ -12,6 +12,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
@@ -75,7 +76,7 @@ public class SignInUi extends VerticalLayout{
 			if(smtUser == null)
 				Notification.show("Validation","incorrect UserName or Password",Notification.Type.ERROR_MESSAGE);
 			else {
-				Global.mainUi.signIn(smtUser);
+				((MainUi)UI.getCurrent()).signIn(smtUser);
 			}
 		}else {
 			Notification.show("Validation","UserName and Password should be field",Notification.Type.ERROR_MESSAGE);

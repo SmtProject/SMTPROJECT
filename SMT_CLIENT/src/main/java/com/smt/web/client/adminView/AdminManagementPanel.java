@@ -3,8 +3,7 @@ package com.smt.web.client.adminView;
 import java.util.List;
 
 import javax.xml.bind.ValidationException;
-
-import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Admin;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.BtnFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -18,9 +17,9 @@ import com.vaadin.ui.VerticalLayout;
 
 public class AdminManagementPanel extends VerticalLayout {
 	private static final long serialVersionUID = 8856843837941346930L;
-	private List<SmtUser> users;
+	private List<Admin> adminUsers;
 	private FilteredGrid userGrid ;
-	private BeanItemContainer<SmtUser>container;
+	private BeanItemContainer<Admin>container;
 	private Button addUserBtn;
 	
 	public AdminManagementPanel() {
@@ -46,30 +45,30 @@ public class AdminManagementPanel extends VerticalLayout {
 		setSizeFull();
 	}
 	private void initData() {
-		users=SmtServiceProvider.getInstance().getSmtUserService().findAll();
-		container=new BeanItemContainer<>(SmtUser.class, users);
+		adminUsers=SmtServiceProvider.getInstance().getSmtUserService().findAllAdmins();
+		container=new BeanItemContainer<>(Admin.class, adminUsers);
 		userGrid.setBeanContainerDataSource(container);
 		modifyGrid();
 
 	}
 
 	protected void onAddUserBtnClicked() {
-		SmtUser user=new SmtUser(0, "", "", "", "", "", "", "", 0, "");
+		Admin user=new Admin(0, "", "", "", "", "", "", "", 0, "");
 		container.addItemAt(0,user);
 		userGrid.select(user);
 		userGrid.editItem(user);
 	}
 
-	private void onBtnSaveClicked(SmtUser smtUser) throws  FieldGroup.CommitException{
+	private void onBtnSaveClicked(Admin smtUser) throws  FieldGroup.CommitException{
 		if(smtUser!=null) {
 		try {
-			SmtServiceProvider.getInstance().getSmtUserService().save(smtUser);
+			SmtServiceProvider.getInstance().getSmtUserService().saveAdmin(smtUser);
 		} catch (ValidationException e) {
 			throw new FieldGroup.CommitException( e.getMessage());
 		}
 		}
 	}
-	private void validation (SmtUser smtUser)throws FieldGroup.CommitException{
+	private void validation (Admin smtUser)throws FieldGroup.CommitException{
 		if(smtUser!=null) {
 			if(smtUser.getFirstName()==null || smtUser.getFirstName().isEmpty()) {
 				throw new FieldGroup.CommitException("Emty First Name");
@@ -86,6 +85,9 @@ public class AdminManagementPanel extends VerticalLayout {
 			if(smtUser.getPassword()==null || smtUser.getPassword().isEmpty() || smtUser.getPassword().length()<6) {
 				throw new FieldGroup.CommitException("Password Should be At least 6 characters");
 			}
+			if(smtUser.getRole()==null) {
+				throw new FieldGroup.CommitException("Emty Admin Role");
+			}
 			
 		}else {
 			throw new FieldGroup.CommitException("Emty smtUser");
@@ -95,7 +97,6 @@ public class AdminManagementPanel extends VerticalLayout {
 	private void modifyGrid() {	
 		userGrid.setColumnOrder("firstName","middleName","lastName","userName","email","password","address","phone");
 		userGrid.getColumn("id").setHidden(true);
-		userGrid.getColumn("role").setHidden(true);
 		userGrid.setEditorEnabled(true);
 		userGrid.getEditorFieldGroup().addCommitHandler(new FieldGroup.CommitHandler() {
 			private static final long serialVersionUID = 1L;

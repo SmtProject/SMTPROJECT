@@ -1,7 +1,6 @@
 package com.smt.web.client.loginPanel;
 
 import javax.servlet.annotation.WebServlet;
-
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.Main.HomeMainView;
 import com.vaadin.annotations.Theme;
@@ -16,10 +15,11 @@ import com.vaadin.ui.themes.Reindeer;
 @Theme("valo")
 public class MainUi extends UI{
 	private static final long serialVersionUID = -4125237708871024800L;
+	
+	public SmtUser smtUser;
 
 	@Override
 	protected void init(VaadinRequest request) {
-		Global.mainUi=this;
 		setStyleName(Reindeer.LAYOUT_BLUE);
 		setContent(new SignInUi());
 	}
@@ -31,14 +31,22 @@ public class MainUi extends UI{
 	}
 	public void signIn(SmtUser smtUser) {
 		if(smtUser!=null) {
-			Global.smtUser=smtUser;
+			setSmtUser(smtUser);
 		changeView(new HomeMainView());
 		}
 	}
 	public void signOut() {
-		Global.smtUser=null;
+		setSmtUser(null);
 		changeView(new SignInUi());
 	}
+	
+	public SmtUser getSmtUser() {
+		return smtUser;
+	}
+	public void setSmtUser(SmtUser smtUser) {
+		this.smtUser = smtUser;
+	}
+
 
 @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MainUi.class, productionMode = false)

@@ -1,46 +1,42 @@
 package com.smt.data.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-@Entity
-@Table(name = "SMT_USER")
-public class SmtUser implements Serializable {
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
 
-	private static final long serialVersionUID = 1L;
-
-	private Integer id;
-
-	private String firstName;
-
-	private String middleName;
-
-	private String LastName;
-
-	private String userName;
-
-	private String password;
-
-	private String email;
-
-	private String address;
-
-	private Integer phone;
-
-	private String role;
-
+@MappedSuperclass
+public class SmtUser implements Serializable{
+	private static final long serialVersionUID = 2555049373808343194L;
+	
+	public enum SmtUserStatus{ACTIVE,INACTIVE}
+	
+	protected Integer id;
+	protected String firstName;
+	protected String middleName;
+	protected String LastName;
+	protected String userName;
+	protected String password;
+	protected String email;
+	protected String address;
+	protected Integer phone;
+	protected SmtUserStatus status;
+	protected String session;
+	protected String createdBy;
+	protected Date createdDate;
+	protected String updatedby;
+	protected Date updatedDate;
+	
+	
 	public SmtUser() {
 		
 	}
-	
 
 	public SmtUser(Integer id, String firstName, String middleName, String lastName, String userName, String password,
-			String email, String address, Integer phone, String role) {
+			String email, String address, Integer phone) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -51,13 +47,9 @@ public class SmtUser implements Serializable {
 		this.email = email;
 		this.address = address;
 		this.phone = phone;
-		this.role = role;
 	}
 
-
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column (name = "ID")
 	public Integer getId() {
 		return id;
 	}
@@ -137,15 +129,64 @@ public class SmtUser implements Serializable {
 	public void setPhone(Integer phone) {
 		this.phone = phone;
 	}
-
-	@Column(name = "ROLE")
-	public String getRole() {
-		return role;
+	
+	@Column(name = "STATUS")
+	@Enumerated(EnumType.STRING) 
+	public SmtUserStatus getStatus() {
+		return status;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setStatus(SmtUserStatus status) {
+		this.status = status;
+	}
+	@Column(name = "SESSION")
+	public String getSession() {
+		return session;
 	}
 
+	public void setSession(String session) {
+		this.session = session;
+	}
+	@Column(name = "CREATEDBY")
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	@Column(name = "CREATEDATE")
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	@Column(name = "UPDATEDBY")
+	public String getUpdatedby() {
+		return updatedby;
+	}
+
+	public void setUpdatedby(String updatedby) {
+		this.updatedby = updatedby;
+	}
+	@Column(name = "UPDATEDATE")
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+	public void setFollowedAttribute(String userName,Date nowDate) {
+		if(createdBy==null && createdDate==null) {
+			this.createdBy=userName;
+			this.createdDate=nowDate;
+		}else {
+			this.updatedby=userName;
+			this.updatedDate=nowDate;
+		}
+	}
 
 }

@@ -4,91 +4,90 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.mysema.query.types.Predicate;
 import com.smt.application.service.SmtUserService;
-import com.smt.data.entity.QSmtUser;
 import com.smt.data.entity.SmtUser;
-import com.smt.data.repository.SmtUserRepository;
+import com.smt.data.entity.Admin;
+import com.smt.data.entity.QAdmin;
+import com.smt.data.repository.AdminRepository;
 
-/**
- * Service layer. Specify transactional behavior and mainly delegate calls to
- * Repository.
- */
 @Service
 public class SmtUserServiceImpl implements SmtUserService {
 
 
 	private static final long serialVersionUID = 1L;
 	@Autowired
-	private SmtUserRepository smtUserRepository;
+	private AdminRepository adminRepository;
 
 	@Transactional
 	@Override
-	public void save(SmtUser smtUser) throws ValidationException{
-		if(smtUser!=null) {
-			if(smtUser.getFirstName()==null || smtUser.getFirstName().isEmpty()) {
-				throw new ValidationException("Emty First Name");
+	public void saveAdmin(Admin admin) throws ValidationException{
+		if(admin!=null) {
+			if(admin.getRole()==null) {
+				throw new ValidationException("Emty Admin Role");
 			}
-			if(smtUser.getMiddleName()==null || smtUser.getMiddleName().isEmpty()) {
-				throw new ValidationException("Emty Middle Name");
-			}
-			if(smtUser.getLastName()==null || smtUser.getLastName().isEmpty()) {
-				throw new ValidationException("Emty Last Name");
-			}
-			if(smtUser.getPassword()==null || smtUser.getPassword().isEmpty()) {
-				throw new ValidationException("Emty password");
-			}
-			if(smtUser.getPassword()==null || smtUser.getPassword().isEmpty() || smtUser.getPassword().length()<6) {
-				throw new ValidationException("Password Should be At least 6 characters");
-			}
-			_validateSmtUserUnidnes(smtUser);
-			smtUserRepository.save(smtUser);
+			_smtUserValidation(admin);
+			_validateAdminUnidnes(admin);
+			adminRepository.save(admin);
 		}else {
-			throw new ValidationException("Emty smtUser");
+			throw new ValidationException("Emty Admin Info");
 		}
 	}
 	
-	private void _validateSmtUserUnidnes(SmtUser smtUserToSave) throws ValidationException{
-		if(smtUserToSave!=null) {
-			SmtUser serverSmtUser = smtUserRepository.findOne(QSmtUser.smtUser.userName.equalsIgnoreCase(smtUserToSave.getUserName()));
-			if(serverSmtUser!=null && !serverSmtUser.getId().equals(smtUserToSave.getId())) {
+	private void _validateAdminUnidnes(Admin adminToSave) throws ValidationException{
+		if(adminToSave!=null) {
+			Admin serverSmtUser = adminRepository.findOne(QAdmin.admin.userName.equalsIgnoreCase(adminToSave.getUserName()));
+			if(serverSmtUser!=null && !serverSmtUser.getId().equals(adminToSave.getId())) {
 				throw new ValidationException("UserName Already Exists");
 			}
 		}else {
-			throw new ValidationException("Emty smtUser");
+			throw new ValidationException("Emty Admin Info");
+		}
+	}
+	private void _smtUserValidation(SmtUser user)throws ValidationException{
+		if(user.getFirstName()==null || user.getFirstName().isEmpty()) {
+			throw new ValidationException("Emty First Name");
+		}
+		if(user.getMiddleName()==null || user.getMiddleName().isEmpty()) {
+			throw new ValidationException("Emty Middle Name");
+		}
+		if(user.getLastName()==null || user.getLastName().isEmpty()) {
+			throw new ValidationException("Emty Last Name");
+		}
+		if(user.getPassword()==null || user.getPassword().isEmpty()) {
+			throw new ValidationException("Emty password");
+		}
+		if(user.getPassword()==null || user.getPassword().isEmpty() || user.getPassword().length()<6) {
+			throw new ValidationException("Password Should be At least 6 characters");
 		}
 	}
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<SmtUser> findAll() {
-		return smtUserRepository.findAll();
+	public List<Admin> findAllAdmins() {
+		return adminRepository.findAll();
 	}
 
 	@Transactional
 	@Override
-	public void addAll(Collection<SmtUser> users) {
-		for (SmtUser smtUser : users) {
-			smtUserRepository.save(smtUser);
+	public void addAllAdmins(Collection<Admin> users) {
+		for (Admin admin : users) {
+			adminRepository.save(admin);
 		}
 	}
 
 	@Transactional(readOnly = true)
 	@Override
-	public long getCount() {
-		return smtUserRepository.count();
+	public long getAdminsCount() {
+		return adminRepository.count();
 	}
 	@Transactional(readOnly = true)
 	@Override
 	public SmtUser login(String username, String password){
-		Predicate predicate = QSmtUser.smtUser.userName.eq(username).and(QSmtUser.smtUser.password.eq(password));
-		SmtUser res = smtUserRepository.findOne(predicate);
-		return res;
+		Admin result=adminRepository.findOne(QAdmin.admin.userName.eq(username).and(QAdmin.admin.password.eq(password)));
+		return result;
 	}
 
 }

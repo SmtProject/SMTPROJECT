@@ -6,17 +6,18 @@ import java.util.List;
 
 import javax.xml.bind.ValidationException;
 
+import com.smt.data.entity.Admin;
 import com.smt.data.entity.SmtUser;
 
 public interface SmtUserService extends Serializable{
 
-	long getCount();
+	long getAdminsCount();
 
-	void addAll(Collection<SmtUser> users);
+	void addAllAdmins(Collection<Admin> users);
 
-	List<SmtUser> findAll();
+	List<Admin> findAllAdmins();
 
-	void save(SmtUser smtUser) throws ValidationException;
+	void saveAdmin(Admin admin) throws ValidationException;
 	
 	SmtUser login(String username,String password);
 }

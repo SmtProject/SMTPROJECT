@@ -2,13 +2,14 @@ package com.smt.web.client.Main;
 
 
 import com.smt.web.client.adminView.AdminManagementPanel;
-import com.smt.web.client.loginPanel.Global;
+import com.smt.web.client.loginPanel.MainUi;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class HomeMainView extends VerticalLayout{
@@ -42,12 +43,12 @@ public class HomeMainView extends VerticalLayout{
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				Global.mainUi.signOut();
+				((MainUi)UI.getCurrent()).signOut();
 			}
 		});
 	}
 	private void smtUserMenu() {
-		MenuItem smtUseManagement=mainMenuBar.addItem("Smt Users", FontAwesome.USER_SECRET,null);
+		MenuItem smtUseManagement=mainMenuBar.addItem("Smt Admins", FontAwesome.USER_SECRET,null);
 		smtUseManagement.setCommand(new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override

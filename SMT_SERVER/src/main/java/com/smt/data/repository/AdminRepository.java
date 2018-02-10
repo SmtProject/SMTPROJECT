@@ -4,10 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
-import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Admin;
 
 
 @Repository
-public interface SmtUserRepository extends JpaRepository<SmtUser, Integer>,QueryDslPredicateExecutor<SmtUser>{
+public interface AdminRepository extends JpaRepository<Admin, Integer>,QueryDslPredicateExecutor<Admin>{
 	
 }
