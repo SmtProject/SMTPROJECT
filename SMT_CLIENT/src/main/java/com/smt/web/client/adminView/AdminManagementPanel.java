@@ -1,9 +1,12 @@
 package com.smt.web.client.adminView;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.ValidationException;
+
 import com.smt.data.entity.Admin;
+import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.BtnFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -13,6 +16,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class AdminManagementPanel extends VerticalLayout {
@@ -53,7 +57,7 @@ public class AdminManagementPanel extends VerticalLayout {
 	}
 
 	protected void onAddUserBtnClicked() {
-		Admin user=new Admin(0, "", "", "", "", "", "", "", 0, "");
+		Admin user=new Admin(null, "", "", "", "", "", "", "", "", "");
 		container.addItemAt(0,user);
 		userGrid.select(user);
 		userGrid.editItem(user);
@@ -61,11 +65,14 @@ public class AdminManagementPanel extends VerticalLayout {
 
 	private void onBtnSaveClicked(Admin smtUser) throws  FieldGroup.CommitException{
 		if(smtUser!=null) {
-		try {
-			SmtServiceProvider.getInstance().getSmtUserService().saveAdmin(smtUser);
-		} catch (ValidationException e) {
-			throw new FieldGroup.CommitException( e.getMessage());
-		}
+			smtUser.setFollowedAttribute(((MainUi)UI.getCurrent()).getSmtUser().getUserName(), new Date());
+			try {
+				Admin savedUser=SmtServiceProvider.getInstance().getSmtUserService().saveAdmin(smtUser);
+				if(smtUser.getId()==null)
+					container.getItem(smtUser).setBean(savedUser);
+			} catch (ValidationException e) {
+				throw new FieldGroup.CommitException( e.getMessage());
+			}
 		}
 	}
 	private void validation (Admin smtUser)throws FieldGroup.CommitException{
@@ -82,9 +89,13 @@ public class AdminManagementPanel extends VerticalLayout {
 			if(smtUser.getPassword()==null || smtUser.getPassword().isEmpty()) {
 				throw new FieldGroup.CommitException("Emty password");
 			}
+			if(smtUser.getStatus()==null ) {
+				throw new FieldGroup.CommitException("Emty Status");
+			}
 			if(smtUser.getPassword()==null || smtUser.getPassword().isEmpty() || smtUser.getPassword().length()<6) {
 				throw new FieldGroup.CommitException("Password Should be At least 6 characters");
 			}
+			
 			if(smtUser.getRole()==null) {
 				throw new FieldGroup.CommitException("Emty Admin Role");
 			}
@@ -95,8 +106,9 @@ public class AdminManagementPanel extends VerticalLayout {
 		
 	}
 	private void modifyGrid() {	
-		userGrid.setColumnOrder("firstName","middleName","lastName","userName","email","password","address","phone");
-		userGrid.getColumn("id").setHidden(true);
+		userGrid.setColumnOrder("firstName","middleName","lastName","userName","email","password","address","phone","role","status","createdBy","createdDate","updatedBy","updatedDate");
+		userGrid.setHiddenColumns(new String[]{"id","session"});
+		userGrid.setNonEditableColumns(new String[]{"createdBy","createdDate","updatedBy","updatedDate"});
 		userGrid.setEditorEnabled(true);
 		userGrid.getEditorFieldGroup().addCommitHandler(new FieldGroup.CommitHandler() {
 			private static final long serialVersionUID = 1L;
@@ -107,9 +119,9 @@ public class AdminManagementPanel extends VerticalLayout {
 			@Override
 			public void postCommit(FieldGroup.CommitEvent commitEvent) throws     FieldGroup.CommitException {
 				try{
-				validation(container.getItem(userGrid.getEditedItemId()).getBean());
-				onBtnSaveClicked(container.getItem(userGrid.getEditedItemId()).getBean());
-				Notification.show("Done");
+					validation(container.getItem(userGrid.getEditedItemId()).getBean());
+					onBtnSaveClicked(container.getItem(userGrid.getEditedItemId()).getBean());
+					Notification.show("Done");
 				}catch (Exception e) {
 					Notification.show(e.getMessage(),Notification.Type.ERROR_MESSAGE);		
 					throw new FieldGroup.CommitException(e.getMessage());

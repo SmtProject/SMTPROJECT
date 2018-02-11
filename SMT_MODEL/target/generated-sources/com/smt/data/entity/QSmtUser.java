@@ -37,13 +37,13 @@ public class QSmtUser extends EntityPathBase<SmtUser> {
 
     public final StringPath password = createString("password");
 
-    public final NumberPath<Integer> phone = createNumber("phone", Integer.class);
+    public final StringPath phone = createString("phone");
 
     public final StringPath session = createString("session");
 
     public final EnumPath<SmtUser.SmtUserStatus> status = createEnum("status", SmtUser.SmtUserStatus.class);
 
-    public final StringPath updatedby = createString("updatedby");
+    public final StringPath updatedBy = createString("updatedBy");
 
     public final DateTimePath<java.util.Date> updatedDate = createDateTime("updatedDate", java.util.Date.class);
 

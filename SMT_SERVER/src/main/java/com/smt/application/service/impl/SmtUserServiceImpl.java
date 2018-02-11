@@ -23,14 +23,14 @@ public class SmtUserServiceImpl implements SmtUserService {
 
 	@Transactional
 	@Override
-	public void saveAdmin(Admin admin) throws ValidationException{
+	public Admin saveAdmin(Admin admin) throws ValidationException{
 		if(admin!=null) {
 			if(admin.getRole()==null) {
 				throw new ValidationException("Emty Admin Role");
 			}
 			_smtUserValidation(admin);
 			_validateAdminUnidnes(admin);
-			adminRepository.save(admin);
+			return adminRepository.save(admin);
 		}else {
 			throw new ValidationException("Emty Admin Info");
 		}
@@ -58,6 +58,9 @@ public class SmtUserServiceImpl implements SmtUserService {
 		}
 		if(user.getPassword()==null || user.getPassword().isEmpty()) {
 			throw new ValidationException("Emty password");
+		}
+		if(user.getStatus()==null ) {
+			throw new ValidationException("Emty Status");
 		}
 		if(user.getPassword()==null || user.getPassword().isEmpty() || user.getPassword().length()<6) {
 			throw new ValidationException("Password Should be At least 6 characters");

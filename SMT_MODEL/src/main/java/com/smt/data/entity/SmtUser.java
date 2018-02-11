@@ -22,12 +22,12 @@ public class SmtUser implements Serializable{
 	protected String password;
 	protected String email;
 	protected String address;
-	protected Integer phone;
+	protected String phone;
 	protected SmtUserStatus status;
 	protected String session;
 	protected String createdBy;
 	protected Date createdDate;
-	protected String updatedby;
+	protected String updatedBy;
 	protected Date updatedDate;
 	
 	
@@ -36,7 +36,7 @@ public class SmtUser implements Serializable{
 	}
 
 	public SmtUser(Integer id, String firstName, String middleName, String lastName, String userName, String password,
-			String email, String address, Integer phone) {
+			String email, String address, String phone) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -122,11 +122,11 @@ public class SmtUser implements Serializable{
 	}
 
 	@Column(name = "PHONE")
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	
@@ -164,12 +164,12 @@ public class SmtUser implements Serializable{
 		this.createdDate = createdDate;
 	}
 	@Column(name = "UPDATEDBY")
-	public String getUpdatedby() {
-		return updatedby;
+	public String getUpdatedBy() {
+		return updatedBy;
 	}
 
-	public void setUpdatedby(String updatedby) {
-		this.updatedby = updatedby;
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
 	}
 	@Column(name = "UPDATEDATE")
 	public Date getUpdatedDate() {
@@ -184,7 +184,7 @@ public class SmtUser implements Serializable{
 			this.createdBy=userName;
 			this.createdDate=nowDate;
 		}else {
-			this.updatedby=userName;
+			this.updatedBy=userName;
 			this.updatedDate=nowDate;
 		}
 	}

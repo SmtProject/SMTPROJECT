@@ -19,7 +19,7 @@ public class Admin extends SmtUser{
 	}
 
 	public Admin(Integer id, String firstName, String middleName, String lastName, String userName, String password,
-			String email, String address, Integer phone, String role) {
+			String email, String address, String phone, String role) {
 		super(id, firstName, middleName, lastName, userName, password, email, address, phone);
 	}
 

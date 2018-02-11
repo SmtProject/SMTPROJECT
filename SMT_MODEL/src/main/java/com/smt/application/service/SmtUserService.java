@@ -17,7 +17,7 @@ public interface SmtUserService extends Serializable{
 
 	List<Admin> findAllAdmins();
 
-	void saveAdmin(Admin admin) throws ValidationException;
+	Admin saveAdmin(Admin admin) throws ValidationException;
 	
 	SmtUser login(String username,String password);
 }

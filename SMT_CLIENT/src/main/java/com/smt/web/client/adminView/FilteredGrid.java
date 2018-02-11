@@ -40,4 +40,14 @@ public class FilteredGrid extends Grid{
 		}
 	
 	}
+	public void setNonEditableColumns(String [] columns) {
+		for (String string : columns) {
+			getColumn(string).setEditable(false);
+		}
+	}
+	public void setHiddenColumns(String [] columns) {
+		for (String string : columns) {
+			getColumn(string).setHidden(true);
+		}
+	}
 }
