@@ -18,9 +18,9 @@ public class Admin extends SmtUser{
 		super();
 	}
 
-	public Admin(Integer id, String firstName, String middleName, String lastName, String userName, String password,
+	public Admin(String firstName, String middleName, String lastName, String userName, String password,
 			String email, String address, String phone, String role) {
-		super(id, firstName, middleName, lastName, userName, password, email, address, phone);
+		super(firstName, middleName, lastName, userName, password, email, address, phone);
 	}
 
 

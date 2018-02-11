@@ -35,10 +35,8 @@ public class SmtUser implements Serializable{
 		
 	}
 
-	public SmtUser(Integer id, String firstName, String middleName, String lastName, String userName, String password,
+	public SmtUser(String firstName, String middleName, String lastName, String userName, String password,
 			String email, String address, String phone) {
-		super();
-		this.id = id;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		LastName = lastName;
