@@ -3,6 +3,7 @@ package com.smt.web.client.loginPanel;
 import java.io.File;
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.service.SmtServiceProvider;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -46,6 +47,7 @@ public class SignInUi extends VerticalLayout{
 		passwordTxt.setIcon(FontAwesome.LOCK);
 		passwordTxt.setRequired(true);
 		loginButton= new Button("Login");
+		loginButton.setClickShortcut(KeyCode.ENTER);
 		initListeners();
 	}
 	private void initListeners() {

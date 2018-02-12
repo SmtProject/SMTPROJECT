@@ -3,6 +3,7 @@ package com.smt.web.client.Main;
 
 import com.smt.web.client.adminView.AdminManagementPanel;
 import com.smt.web.client.loginPanel.MainUi;
+import com.smt.web.client.userData.LoggedInDataPanel;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Layout;
@@ -14,9 +15,13 @@ import com.vaadin.ui.VerticalLayout;
 
 public class HomeMainView extends VerticalLayout{
 	private static final long serialVersionUID = 7917194117050335193L;
+	
+	private LoggedInDataPanel loggedInDataPanel;
 
 	private MenuBar mainMenuBar;
 	private Layout content;
+	private MenuItem smtUseManagement;
+
 	
 	public HomeMainView() {
 		initComonent();
@@ -25,13 +30,17 @@ public class HomeMainView extends VerticalLayout{
 	private void initComonent() {
 		mainMenuBar = new MenuBar();
 		content=new VerticalLayout();
-		smtUserMenu() ;
+		loggedInDataPanel=new LoggedInDataPanel();
+		
+		smtAdminsMenu();
+		smtTeachersMenu();
 		addSinoutMenu();
 	}
 	
 	private void initLayout() {
 		this.setMargin(true);
 		this.setSpacing(true);
+		this.addComponent(loggedInDataPanel);
 		this.addComponent(mainMenuBar);
 	//	this.setSizeFull();
 	
@@ -47,15 +56,31 @@ public class HomeMainView extends VerticalLayout{
 			}
 		});
 	}
-	private void smtUserMenu() {
-		MenuItem smtUseManagement=mainMenuBar.addItem("Smt Admins", FontAwesome.USER_SECRET,null);
-		smtUseManagement.setCommand(new Command() {
+	private void smtAdminsMenu() {
+		if(smtUseManagement==null)
+			smtUseManagement=mainMenuBar.addItem("SMT Users",  FontAwesome.USER_PLUS,null);
+		MenuItem adminUsers=smtUseManagement.addItem("Admins", FontAwesome.USERS,null);
+		adminUsers.setCommand(new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				setContant(new AdminManagementPanel());
 			}
 		});
+
+	}
+	private void smtTeachersMenu() {
+		if(smtUseManagement==null)
+			smtUseManagement=mainMenuBar.addItem("SMT Users",  FontAwesome.USER_PLUS,null);
+		MenuItem teachersUsers=smtUseManagement.addItem("Teachers", FontAwesome.USERS,null);
+		teachersUsers.setCommand(new Command() {
+			private static final long serialVersionUID = -6491765760561550525L;
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				setContant(new VerticalLayout());
+			}
+		});
+
 	}
 	private void setContant(Layout layout) {
 		if(layout!=null) {

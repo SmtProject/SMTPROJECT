@@ -8,8 +8,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
+import smt.model.tools.Role;
+
 @MappedSuperclass
-public class SmtUser implements Serializable{
+public abstract class SmtUser implements Serializable{
 	private static final long serialVersionUID = 2555049373808343194L;
 	
 	public enum SmtUserStatus{ACTIVE,INACTIVE}
@@ -186,5 +188,20 @@ public class SmtUser implements Serializable{
 			this.updatedDate=nowDate;
 		}
 	}
+	@javax.persistence.Transient
+	public abstract Role getSmtRole();
+	
+	@javax.persistence.Transient
+	public String getFormatedName() {
+		String result="";
+		result+=getFirstName();
+		if(getMiddleName()!=null)
+			result+=" "+getMiddleName();
+		result+=" "+getLastName();
+		return result;
+
+	}
+
+	
 
 }

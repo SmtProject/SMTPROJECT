@@ -5,6 +5,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class FilteredGrid extends Grid{
 
@@ -20,8 +21,7 @@ public class FilteredGrid extends Grid{
 		for (Object pid: this.getContainerDataSource()
 				.getContainerPropertyIds()) {
 			HeaderCell cell = filterRow.getCell(pid);
-			TextField filterField = new TextField();
-			filterField.setColumns(8);
+			TextField filterField =getColumnFilterField();
 			filterField.addTextChangeListener(change -> {
 				if(container!=null) {
 					container.removeContainerFilters(pid);
@@ -50,4 +50,10 @@ public class FilteredGrid extends Grid{
 			getColumn(string).setHidden(true);
 		}
 	}
+	 private TextField getColumnFilterField() {
+	        TextField filter = new TextField();
+	        filter.setWidth("100%");
+	        filter.addStyleName(ValoTheme.TEXTFIELD_TINY);
+	        return filter;
+	    }
 }

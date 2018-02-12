@@ -8,21 +8,20 @@ import javax.persistence.Table;
 
 import smt.model.tools.Role;
 @Entity
-@Table(name = "ADMIN")
-public class Admin extends SmtUser{
+@Table(name = "TEACHER")
+public class Teacher extends SmtUser{
 	
 	private static final long serialVersionUID = 6839881742888319448L;
-	public enum AdminRole{SuperAdmin,Normal}
-	
-	protected AdminRole role;
+	protected String description;
 
-	protected Admin() {
+	protected Teacher() {
 		super();
 	}
 
-	public Admin(String firstName, String middleName, String lastName, String userName, String password,
-			String email, String address, String phone, String role) {
+	public Teacher(String firstName, String middleName, String lastName, String userName, String password,
+			String email, String address, String phone, String role,String description) {
 		super(firstName, middleName, lastName, userName, password, email, address, phone);
+		this.description=description;
 	}
 
 
@@ -31,20 +30,24 @@ public class Admin extends SmtUser{
 	public Integer getId() {
 		return id;
 	}
-	@Column(name = "ADMINROLE")
-	public AdminRole getRole() {
-		return role;
+	
+	@Column(name = "DESCRIPTION")
+	public String getDescription() {
+		return description;
 	}
 
-	public void setRole(AdminRole role) {
-		this.role = role;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
 	@javax.persistence.Transient
 	public Role getSmtRole() {
-		return Role.Admin;
+		return Role.Teacher;
 	}
+	
+	
+
 	
 
 }
