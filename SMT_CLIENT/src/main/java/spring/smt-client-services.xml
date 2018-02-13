@@ -10,7 +10,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 		<property name="serviceInterface" value="com.smt.application.service.SmtUserService"></property>
 	</bean>
 
-
+	<bean id="SmtImportServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/SmtImportService"></property>
+		<property name="serviceInterface" value="com.smt.application.service.SmtImportService"></property>
+	</bean>
 
 
 

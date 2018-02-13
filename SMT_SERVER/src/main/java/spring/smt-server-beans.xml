@@ -6,5 +6,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
   
 <bean id="SmtUserServiceBean" class="com.smt.application.service.impl.SmtUserServiceImpl"></bean> 
 
+<bean id="SmtImportServiceBean" class="com.smt.application.service.impl.SmtImportServiceImpl"></bean> 
+
  
 </beans>  

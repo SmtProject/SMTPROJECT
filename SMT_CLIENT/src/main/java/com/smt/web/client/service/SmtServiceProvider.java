@@ -3,6 +3,7 @@ package com.smt.web.client.service;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.smt.application.service.SmtImportService;
 import com.smt.application.service.SmtUserService;
 
 public class SmtServiceProvider {
@@ -12,7 +13,9 @@ public class SmtServiceProvider {
 	public SmtUserService getSmtUserService() {
 		return (SmtUserService) context.getBean("SmtUserServiceBean");
 	}
-
+	public SmtImportService getSmtImportService(){
+		return (SmtImportService)context.getBean("SmtImportServiceBean");
+	}
 	public static SmtServiceProvider getInstance() {
 		if (instance == null)
 			return new SmtServiceProvider();
