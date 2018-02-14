@@ -1,5 +1,7 @@
 package com.smt.web.client.toolBox;
 
+import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
+import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.addon.tableexport.CsvExport;
 import com.vaadin.addon.tableexport.DefaultTableHolder;
 import com.vaadin.addon.tableexport.ExcelExport;
@@ -10,9 +12,10 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 
+
 public class BtnFactory {
 	
-	public static MenuBar ExportGridBtn(Grid grid) {
+	public static MenuBar ExportGridBtn(Grid grid,TableName tableName,ColumnsType columnsType) {
 		MenuBar	export = new MenuBar();
 		MenuItem exportmenu=export.addItem("Export", FontAwesome.FILE_EXCEL_O,null);		
 		MenuItem exportExcel=exportmenu.addItem("Export Excel", new Command() {
@@ -20,6 +23,7 @@ public class BtnFactory {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				Table table = new Table("", grid.getContainerDataSource());
+				table.setVisibleColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
 				ExcelExport excelExport = new ExcelExport(new DefaultTableHolder(table));
 				excelExport.excludeCollapsedColumns();
 				excelExport.setDisplayTotals(false);

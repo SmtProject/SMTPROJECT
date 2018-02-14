@@ -5,6 +5,9 @@ import java.util.Collection;
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.toolBox.BtnFactory;
+import com.smt.web.client.toolBox.TableColumnFactory;
+import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
+import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.smt.web.excelImportTable.ExcelImportTableWindow;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
@@ -24,8 +27,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 	protected BeanItemContainer<T> container;
 	private Button addUserBtn;
 	private Button importExcelButton;
-
-	public abstract String[] getColumns();
+	protected TableName tableName;
 
 	public abstract void onBtnSaveClicked(T smtUser) throws FieldGroup.CommitException;
 
@@ -33,7 +35,8 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 
 	public abstract ImportState getImportState();
 	
-	public BaseManagementPanel() {
+	public BaseManagementPanel(TableName tableName) {
+		this.tableName=tableName;
 		initComponents();
 		intiLayout();
 		initData();
@@ -49,7 +52,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 
 	private void intiLayout() {
 		HorizontalLayout btnsLayout = new HorizontalLayout(addUserBtn);
-		btnsLayout.addComponent(BtnFactory.ExportGridBtn(userGrid));
+		btnsLayout.addComponent(BtnFactory.ExportGridBtn(userGrid,tableName,ColumnsType.ExportColumns));
 		btnsLayout.setSpacing(true);
 		btnsLayout.addComponent(importExcelButton);
 		addComponents(userGrid, btnsLayout);
@@ -65,8 +68,15 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 		container = new BeanItemContainer<>(getData());
 		userGrid.setBeanContainerDataSource(container);
 		userGrid.setColumns(getColumns());
+		userGrid.setNonEditableColumns(getNonEditbaleColumns());
 		modifyGrid();
 
+	}
+	public String[] getColumns() {
+		return TableColumnFactory.getTableColumn(tableName,ColumnsType.TableColumns);
+	}
+	public String[] getNonEditbaleColumns() {
+		return TableColumnFactory.getTableColumn(tableName,ColumnsType.NonEditableColumns);
 	}
 
 	public abstract void onAddUserBtnClicked();

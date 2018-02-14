@@ -1,26 +1,44 @@
 package com.smt.web.client.toolBox;
 
-import smt.model.tools.Role;
-
 public class TableColumnFactory {
+	
+	public enum TableName{AdminManagement,TeacherManagement}
+	public enum ColumnsType{TableColumns,ExportColumns,TemplateColumns,NonEditableColumns} 
 
-	public static String [] getTableColumn(Role role)
+	public static String [] getTableColumn(TableName tableName,ColumnsType columnsType)
 	{
-		switch (role) {
-		case Admin:
-			return getAdminColumn();
-		case Student:
-			return getStudentColumn();
+		switch (tableName) {
+		case AdminManagement:
+			return getAdminManagementColumn(columnsType);
+		case TeacherManagement:
+			return getTeacherManagementColumn(columnsType);
 		default:
 			return null;
 		}
 	}
 
-	private static String[] getStudentColumn() {
-		return new String[]{};
+	private static String [] getAdminManagementColumn(ColumnsType columnsType) {
+		switch (columnsType) {
+		case TableColumns:
+		case ExportColumns:
+			return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone","status","createdBy","createdDate","updatedBy","updatedDate"};
+		case TemplateColumns:
+			return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone"};
+		case NonEditableColumns:
+			return new String[]{	"createdBy","createdDate","updatedBy","updatedDate"};
+		default:
+			return null;
+		}
 	}
-
-	private static String [] getAdminColumn() {
-		return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone"};
+	private static String[] getTeacherManagementColumn(ColumnsType columnsType) {
+		switch (columnsType) {
+		case TableColumns:
+		case ExportColumns:
+		case TemplateColumns:
+		case NonEditableColumns:
+			return new String[]{	};
+		default:
+			return null;
+		}
 	}
 }

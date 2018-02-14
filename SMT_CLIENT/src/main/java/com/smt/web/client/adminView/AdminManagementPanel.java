@@ -10,13 +10,15 @@ import com.smt.web.client.importExcel.AdminImportState;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.service.SmtServiceProvider;
-import com.smt.web.client.toolBox.TableColumnFactory;
+import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.UI;
 
-import smt.model.tools.Role;
-
 public class AdminManagementPanel extends BaseManagementPanel<Admin> {
+
+	public AdminManagementPanel() {
+		super(TableName.AdminManagement);
+	}
 
 	private static final long serialVersionUID = -568509141630804558L;
 
@@ -76,11 +78,6 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 	}
 
 	@Override
-	public String[] getColumns() {
-		return TableColumnFactory.getTableColumn(Role.Admin);
-	}
-
-	@Override
 	public ImportState getImportState() {
 		return new AdminImportState();
 	}
@@ -89,4 +86,6 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 	public Collection<Admin> getData() {
 		return SmtServiceProvider.getInstance().getSmtUserService().findAllAdmins();
 	}
+
+
 }
