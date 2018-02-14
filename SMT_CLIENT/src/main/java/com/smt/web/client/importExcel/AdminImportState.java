@@ -7,6 +7,8 @@ import java.util.List;
 import com.smt.data.entity.Admin;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.TableColumnFactory;
+import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
+import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.smt.web.excelImportTable.SmtExcelContext;
 import com.vaadin.ui.Notification;
 
@@ -52,7 +54,7 @@ public class AdminImportState implements ImportState {
 
 	@Override
 	public String[] getImportTemplateColumns() {
-		return TableColumnFactory.getTableColumn(Role.Admin);
+		return TableColumnFactory.getTableColumn(TableName.AdminManagement,ColumnsType.TemplateColumns);
 	}
 
 }
