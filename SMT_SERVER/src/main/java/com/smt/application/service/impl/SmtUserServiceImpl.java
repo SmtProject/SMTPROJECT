@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.smt.application.service.SmtUserService;
 import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.SmtUser.SmtUserStatus;
 import com.smt.data.entity.Teacher;
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.QAdmin;
@@ -30,9 +31,9 @@ public class SmtUserServiceImpl implements SmtUserService {
 	@Transactional(readOnly = true)
 	@Override
 	public SmtUser login(String username, String password){
-		SmtUser result=adminRepository.findOne(QAdmin.admin.userName.eq(username).and(QAdmin.admin.password.eq(password)));
+		SmtUser result=adminRepository.findOne(QAdmin.admin.userName.eq(username).and(QAdmin.admin.password.eq(password)).and(QAdmin.admin.status.eq(SmtUserStatus.ACTIVE)));
 		if(result==null)
-			result=teacherRepository.findOne(QTeacher.teacher.userName.eq(username).and(QTeacher.teacher.password.eq(password)));
+			result=teacherRepository.findOne(QTeacher.teacher.userName.eq(username).and(QTeacher.teacher.password.eq(password)).and(QTeacher.teacher.status.eq(SmtUserStatus.ACTIVE)));
 		return result;
 	}
 	
