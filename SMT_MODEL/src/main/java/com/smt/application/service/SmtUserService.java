@@ -1,7 +1,6 @@
 package com.smt.application.service;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.ValidationException;
@@ -19,7 +18,7 @@ public interface SmtUserService extends Serializable{
 	
 	long getAdminsCount();
 
-	void addAllAdmins(Collection<Admin> users);
+	void saveAdmin(List<Admin> users) throws ValidationException;
 
 	List<Admin> findAllAdmins();
 

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import com.smt.web.client.adminView.FilteredGrid;
 import com.smt.web.client.importExcel.ImportState;
 import com.vaadin.addon.tableexport.DefaultTableHolder;
 import com.vaadin.addon.tableexport.ExcelExport;
@@ -216,9 +217,10 @@ public class SmtUploadComponent extends CustomComponent
 			private static final long serialVersionUID = 7842749587704454705L;
 
 			public void buttonClick(ClickEvent event) {
-				Grid grid = new Grid();
+				Grid grid = new FilteredGrid();
 				grid.setColumns((Object[])role.getImportTemplateColumns());
 				Table table = new Table("",grid.getContainerDataSource());
+				table.setVisibleColumns((Object[])role.getImportTemplateColumns());
 				ExcelExport excelExport = new ExcelExport(new DefaultTableHolder(table));
 				excelExport.excludeCollapsedColumns();
 				excelExport.setDisplayTotals(false);

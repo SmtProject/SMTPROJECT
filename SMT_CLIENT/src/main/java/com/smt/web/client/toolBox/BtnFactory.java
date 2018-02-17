@@ -26,7 +26,7 @@ public class BtnFactory {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				Table table = new Table("", grid.getContainerDataSource());
-				table.setVisibleColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
+				table.setVisibleColumns((Object[])TableColumnFactory.getTableColumn(tableName,columnsType));
 				ExcelExport excelExport = new ExcelExport(new DefaultTableHolder(table));
 				excelExport.excludeCollapsedColumns();
 				excelExport.setDisplayTotals(false);

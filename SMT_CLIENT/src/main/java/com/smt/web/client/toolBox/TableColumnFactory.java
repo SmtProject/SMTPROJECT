@@ -25,7 +25,7 @@ public class TableColumnFactory {
 		case TemplateColumns:
 			return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone"};
 		case NonEditableColumns:
-			return new String[]{	"createdBy","createdDate","updatedBy","updatedDate"};
+			return new String[]{"createdBy","createdDate","updatedBy","updatedDate"};
 		default:
 			return null;
 		}
