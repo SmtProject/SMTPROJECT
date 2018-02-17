@@ -8,9 +8,15 @@ import javax.xml.bind.ValidationException;
 
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Teacher;
 
 public interface SmtUserService extends Serializable{
-
+	//--------------------------------------Login----------------------------------------------------------------
+	
+	SmtUser login(String username,String password);
+	
+	//--------------------------------------Admin-API----------------------------------------------------------------
+	
 	long getAdminsCount();
 
 	void addAllAdmins(Collection<Admin> users);
@@ -19,5 +25,9 @@ public interface SmtUserService extends Serializable{
 
 	Admin saveAdmin(Admin admin) throws ValidationException;
 	
-	SmtUser login(String username,String password);
+	//--------------------------------------Techers-API----------------------------------------------------------------
+	
+	List<Teacher> findAllATeachers();
+	
+	Teacher saveTeacher(Teacher teacher) throws ValidationException;
 }

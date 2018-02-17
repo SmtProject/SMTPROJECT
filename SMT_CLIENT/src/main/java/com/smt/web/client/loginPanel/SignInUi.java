@@ -47,6 +47,7 @@ public class SignInUi extends VerticalLayout{
 		passwordTxt.setIcon(FontAwesome.LOCK);
 		passwordTxt.setRequired(true);
 		loginButton= new Button("Login");
+		loginButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		loginButton.setClickShortcut(KeyCode.ENTER);
 		initListeners();
 	}

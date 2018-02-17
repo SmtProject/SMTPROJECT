@@ -34,7 +34,9 @@ public class TableColumnFactory {
 		switch (columnsType) {
 		case TableColumns:
 		case ExportColumns:
+			return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone","status","description","createdBy","createdDate","updatedBy","updatedDate"};
 		case TemplateColumns:
+			return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone"};
 		case NonEditableColumns:
 			return new String[]{	};
 		default:

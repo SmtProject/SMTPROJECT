@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.smt.application.service.SmtUserService;
 import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Teacher;
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.QAdmin;
+import com.smt.data.entity.QTeacher;
 import com.smt.data.repository.AdminRepository;
+import com.smt.data.repository.TeacherRepository;
 
 @Service
 public class SmtUserServiceImpl implements SmtUserService {
@@ -20,6 +23,21 @@ public class SmtUserServiceImpl implements SmtUserService {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private AdminRepository adminRepository;
+	@Autowired
+	private TeacherRepository teacherRepository;
+	
+	//--------------------------------------Login-------------------------------------------------------------------
+
+	@Transactional(readOnly = true)
+	@Override
+	public SmtUser login(String username, String password){
+		SmtUser result=adminRepository.findOne(QAdmin.admin.userName.eq(username).and(QAdmin.admin.password.eq(password)));
+		if(result==null)
+			result=teacherRepository.findOne(QTeacher.teacher.userName.eq(username).and(QTeacher.teacher.password.eq(password)));
+		return result;
+	}
+	
+	//--------------------------------------Admin-API----------------------------------------------------------------
 
 	@Transactional
 	@Override
@@ -40,7 +58,7 @@ public class SmtUserServiceImpl implements SmtUserService {
 		if(adminToSave!=null) {
 			Admin serverSmtUser = adminRepository.findOne(QAdmin.admin.userName.equalsIgnoreCase(adminToSave.getUserName()));
 			if(serverSmtUser!=null && !serverSmtUser.getId().equals(adminToSave.getId())) {
-				throw new ValidationException("UserName Already Exists");
+				throw new ValidationException("Admin Already has Same User");
 			}
 		}else {
 			throw new ValidationException("Emty Admin Info");
@@ -86,11 +104,35 @@ public class SmtUserServiceImpl implements SmtUserService {
 	public long getAdminsCount() {
 		return adminRepository.count();
 	}
+	
+//--------------------------------------Techers-API----------------------------------------------------------------
+
 	@Transactional(readOnly = true)
 	@Override
-	public SmtUser login(String username, String password){
-		Admin result=adminRepository.findOne(QAdmin.admin.userName.eq(username).and(QAdmin.admin.password.eq(password)));
-		return result;
+	public List<Teacher> findAllATeachers() {
+		return teacherRepository.findAll();
+	}
+
+	@Override
+	public Teacher saveTeacher(Teacher teacher) throws ValidationException {
+		if(teacher!=null) {
+			_smtUserValidation(teacher);
+			_validateTeacherUnidnes(teacher);
+			return teacherRepository.save(teacher);
+		}else {
+			throw new ValidationException("Emty Teacher Info");
+		}
+
+	}
+	private void _validateTeacherUnidnes(Teacher teacherToSave) throws ValidationException{
+		if(teacherToSave!=null) {
+			Teacher serverSmtUser = teacherRepository.findOne(QTeacher.teacher.userName.equalsIgnoreCase(teacherToSave.getUserName()));
+			if(serverSmtUser!=null && !serverSmtUser.getId().equals(teacherToSave.getId())) {
+				throw new ValidationException("Teacher Already has Same User");
+			}
+		}else {
+			throw new ValidationException("Emty Teacher Info");
+		}
 	}
 
 }

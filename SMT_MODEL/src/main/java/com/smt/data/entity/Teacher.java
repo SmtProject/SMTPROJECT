@@ -14,7 +14,7 @@ public class Teacher extends SmtUser{
 	private static final long serialVersionUID = 6839881742888319448L;
 	protected String description;
 
-	protected Teacher() {
+	public Teacher() {
 		super();
 	}
 

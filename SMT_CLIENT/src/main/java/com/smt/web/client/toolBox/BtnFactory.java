@@ -5,12 +5,15 @@ import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.addon.tableexport.CsvExport;
 import com.vaadin.addon.tableexport.DefaultTableHolder;
 import com.vaadin.addon.tableexport.ExcelExport;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.themes.ValoTheme;
 
 
 public class BtnFactory {
@@ -44,6 +47,14 @@ public class BtnFactory {
 		});
 		exportCsv.setIcon(FontAwesome.FILE);
 		return export;
+	}
+	public static Button createSaveBtn() {
+		Button saveBtn=new Button("Save");
+		saveBtn.setIcon(FontAwesome.SAVE);
+		saveBtn.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		saveBtn.setClickShortcut(KeyCode.ENTER);
+		return saveBtn;
+		
 	}
 
 }

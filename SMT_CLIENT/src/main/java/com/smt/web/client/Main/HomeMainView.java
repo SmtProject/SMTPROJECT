@@ -3,6 +3,7 @@ package com.smt.web.client.Main;
 
 import com.smt.web.client.adminView.AdminManagementPanel;
 import com.smt.web.client.loginPanel.MainUi;
+import com.smt.web.client.teacherView.TeacherManagementPanel;
 import com.smt.web.client.userData.LoggedInDataPanel;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
@@ -77,7 +78,7 @@ public class HomeMainView extends VerticalLayout{
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				setContant(new VerticalLayout());
+				setContant(new TeacherManagementPanel());
 			}
 		});
 
