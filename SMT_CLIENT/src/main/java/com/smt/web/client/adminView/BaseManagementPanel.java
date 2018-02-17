@@ -94,6 +94,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 			@Override
 			public void postCommit(FieldGroup.CommitEvent commitEvent) throws FieldGroup.CommitException {
 				try {
+					validation(container.getItem(userGrid.getEditedItemId()).getBean());
 					onBtnSaveClicked(container.getItem(userGrid.getEditedItemId()).getBean());
 					Notification.show("Done");
 				} catch (Exception e) {

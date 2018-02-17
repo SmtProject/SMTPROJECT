@@ -21,11 +21,11 @@ public class TableColumnFactory {
 		switch (columnsType) {
 		case TableColumns:
 		case ExportColumns:
-			return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone","status","createdBy","createdDate","updatedBy","updatedDate"};
+			return new String[]{"firstName","middleName","lastName","userName","password","email","address","phone","role","status","createdBy","createdDate","updatedBy","updatedDate"};
 		case TemplateColumns:
-			return new String[]{"firstName","middleName","lastName","userName","email","password","address","phone"};
+			return new String[]{"firstName","middleName","lastName","userName","password","email","address","phone","role"};
 		case NonEditableColumns:
-			return new String[]{"createdBy","createdDate","updatedBy","updatedDate"};
+			return new String[]{	"createdBy","createdDate","updatedBy","updatedDate"};
 		default:
 			return null;
 		}

@@ -3,17 +3,15 @@ package com.smt.application.service.impl;
 import java.util.List;
 
 import javax.xml.bind.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.smt.application.service.SmtUserService;
+import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Teacher;
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.QAdmin;
 import com.smt.data.entity.QTeacher;
-import com.smt.data.entity.SmtUser;
-import com.smt.data.entity.Teacher;
 import com.smt.data.repository.AdminRepository;
 import com.smt.data.repository.TeacherRepository;
 
@@ -45,13 +43,13 @@ public class SmtUserServiceImpl implements SmtUserService {
 	public Admin saveAdmin(Admin admin) throws ValidationException{
 		if(admin!=null) {
 			if(admin.getRole()==null) {
-				throw new ValidationException("Empty Admin Role");
+				throw new ValidationException("Emty Admin Role");
 			}
 			_smtUserValidation(admin);
 			_validateAdminUnidnes(admin);
 			return adminRepository.save(admin);
 		}else {
-			throw new ValidationException("Empty Admin Info");
+			throw new ValidationException("Emty Admin Info");
 		}
 	}
 	
@@ -62,24 +60,24 @@ public class SmtUserServiceImpl implements SmtUserService {
 				throw new ValidationException("Admin Already has Same User");
 			}
 		}else {
-			throw new ValidationException("Empty Admin Info");
+			throw new ValidationException("Emty Admin Info");
 		}
 	}
 	private void _smtUserValidation(SmtUser user)throws ValidationException{
 		if(user.getFirstName()==null || user.getFirstName().isEmpty()) {
-			throw new ValidationException("Empty First Name");
+			throw new ValidationException("Emty First Name");
 		}
 		if(user.getMiddleName()==null || user.getMiddleName().isEmpty()) {
-			throw new ValidationException("Empty Middle Name");
+			throw new ValidationException("Emty Middle Name");
 		}
 		if(user.getLastName()==null || user.getLastName().isEmpty()) {
-			throw new ValidationException("Empty Last Name");
+			throw new ValidationException("Emty Last Name");
 		}
 		if(user.getPassword()==null || user.getPassword().isEmpty()) {
-			throw new ValidationException("Empty password");
+			throw new ValidationException("Emty password");
 		}
 		if(user.getStatus()==null ) {
-			throw new ValidationException("Empty Status");
+			throw new ValidationException("Emty Status");
 		}
 		if(user.getPassword()==null || user.getPassword().isEmpty() || user.getPassword().length()<6) {
 			throw new ValidationException("Password Should be At least 6 characters");
@@ -94,24 +92,35 @@ public class SmtUserServiceImpl implements SmtUserService {
 
 	@Transactional
 	@Override
-	public void saveAdmin(List<Admin> users) throws ValidationException {
-		String buffer = "";
-		int i = 0;
+	public void saveAdmin(List<Admin> users) throws ValidationException{
+		String errorBuffer="";
+		int line=0;
 		for (Admin admin : users) {
+			line++;
+			if(admin.getUserName()!=null && _validateSmtUserNameExists(admin.getUserName())) {
+				errorBuffer+="User Name "+admin.getUserName()+" Already Exists! at line number "+line+"\n";
+				continue;	
+			}
 			try {
 				saveAdmin(admin);
 			} catch (ValidationException e) {
-				buffer += e.getMessage() +" for row " + i++ +"\n";
+				errorBuffer+=e.getMessage()+" at line number "+line+"\n";
 			}
 		}
-		if (buffer.length() > 0)
-			throw new ValidationException(buffer);
+		if(errorBuffer.length()>0) {
+			throw new ValidationException(errorBuffer);
+		}
 	}
 
 	@Transactional(readOnly = true)
 	@Override
 	public long getAdminsCount() {
 		return adminRepository.count();
+	}
+	
+
+	public Admin _getAdminByUserName(String userName){
+		return adminRepository.findOne(QAdmin.admin.userName.eq(userName));
 	}
 	
 //--------------------------------------Techers-API----------------------------------------------------------------
@@ -142,6 +151,19 @@ public class SmtUserServiceImpl implements SmtUserService {
 		}else {
 			throw new ValidationException("Emty Teacher Info");
 		}
+	}
+
+	public Teacher _getTeaherByUserName(String userName){
+		return teacherRepository.findOne(QTeacher.teacher.userName.eq(userName));
+	}
+	
+	private boolean _validateSmtUserNameExists(String userName) {
+		if(_getAdminByUserName(userName)!=null)
+			return true;
+		if(_getTeaherByUserName(userName)!=null)
+			return true;
+		return false;
+
 	}
 
 }

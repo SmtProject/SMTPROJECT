@@ -38,7 +38,7 @@ public abstract class SmtUser implements Serializable{
 	}
 
 	public SmtUser(String firstName, String middleName, String lastName, String userName, String password,
-			String email, String address, String phone) {
+			String email, String address, String phone,SmtUserStatus status) {
 		this.firstName = firstName;
 		this.middleName = middleName;
 		LastName = lastName;
@@ -47,6 +47,7 @@ public abstract class SmtUser implements Serializable{
 		this.email = email;
 		this.address = address;
 		this.phone = phone;
+		this.status=status;
 	}
 
 	@Column (name = "ID")

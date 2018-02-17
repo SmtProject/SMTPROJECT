@@ -4,9 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.xml.bind.ValidationException;
-
+import com.smt.data.entity.SmtUser.SmtUserStatus;
 import com.smt.data.entity.Admin;
-import com.smt.data.entity.Admin.AdminRole;
 import com.smt.web.client.importExcel.AdminImportState;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.loginPanel.MainUi;
@@ -25,7 +24,7 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 
 	@Override
 	public void onAddUserBtnClicked() {
-		Admin user = new Admin("", "", "", "", "", "", "", "");
+		Admin user = new Admin("", "", "", "", "", "", "", "", null,SmtUserStatus.ACTIVE);
 		container.addItemAt(0, user);
 		userGrid.select(user);
 		userGrid.editItem(user);
@@ -34,8 +33,6 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 	@Override
 	public void onBtnSaveClicked(Admin smtUser) throws FieldGroup.CommitException {
 		if (smtUser != null) {
-			smtUser.setRole(AdminRole.Normal);
-			validation(smtUser);
 			smtUser.setFollowedAttribute(((MainUi) UI.getCurrent()).getSmtUser().getUserName(), new Date());
 			try {
 				Admin savedUser = SmtServiceProvider.getInstance().getSmtUserService().saveAdmin(smtUser);

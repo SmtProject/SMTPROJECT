@@ -39,6 +39,7 @@ public class BtnFactory {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				Table table = new Table("", grid.getContainerDataSource());
+				table.setVisibleColumns((Object[])TableColumnFactory.getTableColumn(tableName,columnsType));
 				CsvExport csvExport = new CsvExport(new DefaultTableHolder(table));
 				csvExport.excludeCollapsedColumns();
 				csvExport.setDisplayTotals(false);
