@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.xml.bind.ValidationException;
 
-import com.smt.data.entity.Admin;
-import com.smt.data.entity.Admin.AdminRole;
 import com.smt.data.entity.SmtUser.SmtUserStatus;
 import com.smt.data.entity.Teacher;
 import com.smt.web.client.loginPanel.MainUi;

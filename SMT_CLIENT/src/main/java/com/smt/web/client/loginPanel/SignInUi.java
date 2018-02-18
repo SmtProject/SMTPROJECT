@@ -79,6 +79,7 @@ public class SignInUi extends VerticalLayout{
 			if(smtUser == null)
 				Notification.show("Validation","incorrect UserName or Password",Notification.Type.ERROR_MESSAGE);
 			else {
+				((MainUi)UI.getCurrent()).setActions(smtUser.getSmtRole());
 				((MainUi)UI.getCurrent()).signIn(smtUser);
 			}
 		}else {

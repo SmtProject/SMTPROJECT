@@ -11,6 +11,7 @@ import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -105,6 +106,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 		});
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initListeners() {
 		addUserBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 7842749587704454705L;
@@ -113,6 +115,15 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 				onAddUserBtnClicked();
 			}
 		});
+		userGrid.addListener(new ItemClickEvent.ItemClickListener() {
+			private static final long serialVersionUID = 2068314108919135281L;
+			public void itemClick(ItemClickEvent event) {
+				onGridItemClickListener(event);
+			}
+		
+		});
 	}
-
+	public void onGridItemClickListener(ItemClickEvent event) {
+		
+	}
 }

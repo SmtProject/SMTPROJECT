@@ -19,4 +19,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name="service" ref="SmtImportServiceBean"></property>  
 </bean> 
 
+<bean class="org.springframework.remoting.rmi.RmiServiceExporter">  
+    <property name="serviceName" value="SmtActionService"></property>  
+    <property name="serviceInterface" value="com.smt.application.service.SmtActionService"></property>  
+    <property name="registryPort" value="1099"></property>  
+    <property name="service" ref="SmtActionServiceBean"></property>  
+</bean> 
+
 </beans>  

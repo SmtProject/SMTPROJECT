@@ -15,7 +15,7 @@ public class Admin extends SmtUser{
 	public enum AdminRole{SuperAdmin,Normal}
 	
 	protected AdminRole role;
-
+	
 	protected Admin() {
 		super();
 	}
@@ -32,6 +32,7 @@ public class Admin extends SmtUser{
 	public Integer getId() {
 		return id;
 	}
+	
 	@Column(name = "ADMINROLE")
 	public AdminRole getRole() {
 		return role;
