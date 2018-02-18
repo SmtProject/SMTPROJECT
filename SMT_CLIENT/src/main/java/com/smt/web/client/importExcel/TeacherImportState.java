@@ -10,6 +10,7 @@ import javax.xml.bind.ValidationException;
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.Admin.AdminRole;
 import com.smt.data.entity.SmtUser.SmtUserStatus;
+import com.smt.data.entity.Teacher;
 import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.RefreshGridController;
@@ -21,12 +22,13 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 
-public class AdminImportState implements ImportState {
+public class TeacherImportState implements ImportState {
 	
 	private RefreshGridController controller;
 	
-	public AdminImportState (RefreshGridController controller) {
+	public TeacherImportState(RefreshGridController controller) {
 		this.controller=controller;
+		
 	}
 
 	public void doAction(SmtExcelContext context) {
@@ -39,10 +41,10 @@ public class AdminImportState implements ImportState {
 			Notification.show("import column not matched with smt model",Notification.TYPE_ERROR_MESSAGE);
 			return;
 		}
-		List<Admin> adminList = new ArrayList<>();
-		Admin adminToImport;
+		List<Teacher> teacherList = new ArrayList<>();
+		Teacher teacherToImport;
 		for (List<Object> list : excelData) {
-			adminToImport=null;
+			teacherToImport=null;
 			String firstName = String.valueOf(list.get(0));
 			String middleName = String.valueOf(list.get(1));
 			String lastName = String.valueOf(list.get(2));
@@ -51,23 +53,21 @@ public class AdminImportState implements ImportState {
 			String email = String.valueOf(list.get(5));
 			String address = String.valueOf(list.get(6));
 			String phone = String.valueOf(list.get(7).toString());
-			AdminRole role =null;
-			try {
-				role = AdminRole.valueOf(list.get(8).toString());
-			}catch (Exception e) {}
+			String description = String.valueOf(list.get(8).toString());
+		
 			
-			adminToImport=new Admin(firstName, middleName, lastName, userName, password, email, address, phone,role,SmtUserStatus.ACTIVE);
-			adminToImport.setFollowedAttribute(((MainUi) UI.getCurrent()).getSmtUser().getUserName(), new Date());
-			adminList.add(adminToImport);
+			teacherToImport=new Teacher(firstName, middleName, lastName, userName, password, email, address, phone, description, SmtUserStatus.ACTIVE);
+			teacherToImport.setFollowedAttribute(((MainUi) UI.getCurrent()).getSmtUser().getUserName(), new Date());
+			teacherList.add(teacherToImport);
 		}
 		try {
-			SmtServiceProvider.getInstance().getSmtUserService().saveAdmin(adminList);
+			SmtServiceProvider.getInstance().getSmtUserService().saveTeachers(teacherList);
 		} catch (ValidationException e) {
-			Notification.show(e.getMessage(), Notification.TYPE_ERROR_MESSAGE);
+			Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
 		}
 		if(controller!=null)
 			controller.refreshGridData();
-		
+
 	}
 
 	private boolean matchHeader(List<String> excelHeader, String[] importTemplateColumns) {
@@ -76,7 +76,7 @@ public class AdminImportState implements ImportState {
 
 	@Override
 	public String[] getImportTemplateColumns() {
-		return TableColumnFactory.getTableColumn(TableName.AdminManagement,ColumnsType.TemplateColumns);
+		return TableColumnFactory.getTableColumn(TableName.TeacherManagement,ColumnsType.TemplateColumns);
 	}
 
 }

@@ -48,19 +48,19 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 	public void validation(Admin smtUser) throws FieldGroup.CommitException {
 		if (smtUser != null) {
 			if (smtUser.getFirstName() == null || smtUser.getFirstName().isEmpty()) {
-				throw new FieldGroup.CommitException("Emty First Name");
+				throw new FieldGroup.CommitException("Empty First Name");
 			}
 			if (smtUser.getMiddleName() == null || smtUser.getMiddleName().isEmpty()) {
-				throw new FieldGroup.CommitException("Emty Middle Name");
+				throw new FieldGroup.CommitException("Empty Middle Name");
 			}
 			if (smtUser.getLastName() == null || smtUser.getLastName().isEmpty()) {
-				throw new FieldGroup.CommitException("Emty Last Name");
+				throw new FieldGroup.CommitException("Empty Last Name");
 			}
 			if (smtUser.getPassword() == null || smtUser.getPassword().isEmpty()) {
-				throw new FieldGroup.CommitException("Emty password");
+				throw new FieldGroup.CommitException("Empty password");
 			}
 			if (smtUser.getStatus() == null) {
-				throw new FieldGroup.CommitException("Emty Status");
+				throw new FieldGroup.CommitException("Empty Status");
 			}
 			if (smtUser.getPassword() == null || smtUser.getPassword().isEmpty()
 					|| smtUser.getPassword().length() < 6) {
@@ -68,23 +68,30 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 			}
 
 			if (smtUser.getRole() == null) {
-				throw new FieldGroup.CommitException("Emty Admin Role");
+				throw new FieldGroup.CommitException("Empty Admin Role");
 			}
 
 		} else {
-			throw new FieldGroup.CommitException("Emty smtUser");
+			throw new FieldGroup.CommitException("Empty smtUser");
 		}
 
 	}
 
 	@Override
 	public ImportState getImportState() {
-		return new AdminImportState();
+		return new AdminImportState(this);
 	}
 
 	@Override
 	public Collection<Admin> getData() {
 		return SmtServiceProvider.getInstance().getSmtUserService().findAllAdmins();
+	}
+
+	@Override
+	public void refreshGridData() {
+		container.removeAllItems();
+		container.addAll(getData());
+		userGrid.refreshAllRows();
 	}
 
 

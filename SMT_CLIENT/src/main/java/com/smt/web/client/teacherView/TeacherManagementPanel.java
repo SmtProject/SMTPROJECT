@@ -4,9 +4,12 @@ import java.util.Collection;
 
 import com.smt.data.entity.Teacher;
 import com.smt.web.client.adminView.FilteredGrid;
+import com.smt.web.client.importExcel.ImportState;
+import com.smt.web.client.importExcel.TeacherImportState;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.BtnFactory;
 import com.smt.web.client.toolBox.GeneralItemController;
+import com.smt.web.client.toolBox.RefreshGridController;
 import com.smt.web.client.toolBox.TableColumnFactory;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
@@ -19,7 +22,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
-public class TeacherManagementPanel extends VerticalLayout implements GeneralItemController<Teacher>{
+public class TeacherManagementPanel extends VerticalLayout implements GeneralItemController<Teacher>,RefreshGridController{
 
 	private static final long serialVersionUID = 6217533686005281163L;
 
@@ -29,6 +32,7 @@ public class TeacherManagementPanel extends VerticalLayout implements GeneralIte
 	protected FilteredGrid teachersGrid;
 	protected BeanItemContainer <Teacher>container;
 	private Button addTeacherBtn;
+	private Button importExcelButton;
 
 	public TeacherManagementPanel() {
 		initComponents();
@@ -41,10 +45,11 @@ public class TeacherManagementPanel extends VerticalLayout implements GeneralIte
 		teachersGrid = new FilteredGrid();
 		addTeacherBtn = new Button("Add New");
 		addTeacherBtn.setIcon(FontAwesome.USER_PLUS);
+		importExcelButton = BtnFactory.createImportBtn(new TeacherImportState(this));
 	}
 	private void initLayout() {
-		HorizontalLayout btnsLayout = new HorizontalLayout(addTeacherBtn);
-		btnsLayout.addComponent(BtnFactory.ExportGridBtn(teachersGrid,tableName,ColumnsType.ExportColumns));
+		HorizontalLayout btnsLayout = new HorizontalLayout();
+		btnsLayout.addComponents(addTeacherBtn,BtnFactory.ExportGridBtn(teachersGrid,tableName,ColumnsType.ExportColumns),importExcelButton);
 		btnsLayout.setSpacing(true);
 		addComponents(teachersGrid, btnsLayout);
 		teachersGrid.setSizeFull();
@@ -92,6 +97,13 @@ public class TeacherManagementPanel extends VerticalLayout implements GeneralIte
 	@Override
 	public void onItemUpdatedriggered(Teacher teacher) {
 		teachersGrid.refreshAllRows(); 
+	}
+
+	@Override
+	public void refreshGridData() {
+		container.removeAllItems();
+		container.addAll(getData());
+		teachersGrid.refreshAllRows();
 	}
 	
 }

@@ -5,10 +5,10 @@ import java.util.Collection;
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.toolBox.BtnFactory;
+import com.smt.web.client.toolBox.RefreshGridController;
 import com.smt.web.client.toolBox.TableColumnFactory;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
-import com.smt.web.excelImportTable.ExcelImportTableWindow;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
@@ -16,10 +16,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLayout {
+public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLayout implements RefreshGridController {
 	
 	private static final long serialVersionUID = 8856843837941346930L;
 	
@@ -46,7 +45,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 		userGrid = new FilteredGrid();
 		addUserBtn = new Button("Add New");
 		addUserBtn.setIcon(FontAwesome.USER_PLUS);
-		importExcelButton = new Button("Import Excel");
+		importExcelButton = BtnFactory.createImportBtn(getImportState());
 		initListeners();
 	}
 
@@ -114,17 +113,6 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 				onAddUserBtnClicked();
 			}
 		});
-
-		importExcelButton.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7842749587704454705L;
-
-			public void buttonClick(ClickEvent event) {
-				ExcelImportTableWindow excelimporttableApplication = new ExcelImportTableWindow(getImportState());
-				UI.getCurrent().addWindow(excelimporttableApplication);
-				excelimporttableApplication.center();
-			}
-		});
-
 	}
 
 }

@@ -29,4 +29,6 @@ public interface SmtUserService extends Serializable{
 	List<Teacher> findAllATeachers();
 	
 	Teacher saveTeacher(Teacher teacher) throws ValidationException;
+	
+	void saveTeachers(List<Teacher> teachers) throws ValidationException;
 }

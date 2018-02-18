@@ -44,13 +44,13 @@ public class SmtUserServiceImpl implements SmtUserService {
 	public Admin saveAdmin(Admin admin) throws ValidationException{
 		if(admin!=null) {
 			if(admin.getRole()==null) {
-				throw new ValidationException("Emty Admin Role");
+				throw new ValidationException("Empty Admin Role");
 			}
 			_smtUserValidation(admin);
 			_validateAdminUnidnes(admin);
 			return adminRepository.save(admin);
 		}else {
-			throw new ValidationException("Emty Admin Info");
+			throw new ValidationException("Empty Admin Info");
 		}
 	}
 	
@@ -61,24 +61,24 @@ public class SmtUserServiceImpl implements SmtUserService {
 				throw new ValidationException("Admin Already has Same User");
 			}
 		}else {
-			throw new ValidationException("Emty Admin Info");
+			throw new ValidationException("Empty Admin Info");
 		}
 	}
 	private void _smtUserValidation(SmtUser user)throws ValidationException{
 		if(user.getFirstName()==null || user.getFirstName().isEmpty()) {
-			throw new ValidationException("Emty First Name");
+			throw new ValidationException("Empty First Name");
 		}
 		if(user.getMiddleName()==null || user.getMiddleName().isEmpty()) {
-			throw new ValidationException("Emty Middle Name");
+			throw new ValidationException("Empty Middle Name");
 		}
 		if(user.getLastName()==null || user.getLastName().isEmpty()) {
-			throw new ValidationException("Emty Last Name");
+			throw new ValidationException("Empty Last Name");
 		}
 		if(user.getPassword()==null || user.getPassword().isEmpty()) {
-			throw new ValidationException("Emty password");
+			throw new ValidationException("Empty password");
 		}
 		if(user.getStatus()==null ) {
-			throw new ValidationException("Emty Status");
+			throw new ValidationException("Empty Status");
 		}
 		if(user.getPassword()==null || user.getPassword().isEmpty() || user.getPassword().length()<6) {
 			throw new ValidationException("Password Should be At least 6 characters");
@@ -139,9 +139,30 @@ public class SmtUserServiceImpl implements SmtUserService {
 			_validateTeacherUnidnes(teacher);
 			return teacherRepository.save(teacher);
 		}else {
-			throw new ValidationException("Emty Teacher Info");
+			throw new ValidationException("Empty Teacher Info");
 		}
 
+	}
+	@Transactional
+	@Override
+	public void saveTeachers(List<Teacher> teachers) throws ValidationException{
+		String errorBuffer="";
+		int line=0;
+		for (Teacher teacher : teachers) {
+			line++;
+			if(teacher.getUserName()!=null && _validateSmtUserNameExists(teacher.getUserName())) {
+				errorBuffer+="User Name "+teacher.getUserName()+" Already Exists! at line number "+line+"\n";
+				continue;	
+			}
+			try {
+				saveTeacher(teacher);
+			} catch (ValidationException e) {
+				errorBuffer+=e.getMessage()+" at line number "+line+"\n";
+			}
+		}
+		if(errorBuffer.length()>0) {
+			throw new ValidationException(errorBuffer);
+		}
 	}
 	private void _validateTeacherUnidnes(Teacher teacherToSave) throws ValidationException{
 		if(teacherToSave!=null) {
@@ -150,7 +171,7 @@ public class SmtUserServiceImpl implements SmtUserService {
 				throw new ValidationException("Teacher Already has Same User");
 			}
 		}else {
-			throw new ValidationException("Emty Teacher Info");
+			throw new ValidationException("Empty Teacher Info");
 		}
 	}
 
