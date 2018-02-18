@@ -110,19 +110,19 @@ public class TeacherDataManagementWindow extends Window {
 	public void validation() throws ValidationException{
 		if (teacher != null) {
 			if (teacher.getFirstName() == null || teacher.getFirstName().isEmpty()) {
-				throw new ValidationException("Emty First Name");
+				throw new ValidationException("Empty First Name");
 			}
 			if (teacher.getMiddleName() == null || teacher.getMiddleName().isEmpty()) {
-				throw new ValidationException("Emty Middle Name");
+				throw new ValidationException("Empty Middle Name");
 			}
 			if (teacher.getLastName() == null || teacher.getLastName().isEmpty()) {
-				throw new ValidationException("Emty Last Name");
+				throw new ValidationException("Empty Last Name");
 			}
 			if (teacher.getPassword() == null || teacher.getPassword().isEmpty()) {
-				throw new ValidationException("Emty password");
+				throw new ValidationException("Empty password");
 			}
 			if (teacher.getStatus() == null) {
-				throw new ValidationException("Emty Status");
+				throw new ValidationException("Empty Status");
 			}
 			if (teacher.getPassword() == null || teacher.getPassword().isEmpty()
 					|| teacher.getPassword().length() < 6) {
