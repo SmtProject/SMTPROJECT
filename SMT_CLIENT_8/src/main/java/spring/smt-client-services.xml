@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<bean id="SmtUserServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/SmtUserService"></property>
+		<property name="serviceInterface" value="com.smt.application.service.SmtUserService"></property>
+	</bean>
+
+	<bean id="SmtImportServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/SmtImportService"></property>
+		<property name="serviceInterface" value="com.smt.application.service.SmtImportService"></property>
+	</bean>
+	
+	<bean id="SmtActionServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/SmtActionService"></property>
+		<property name="serviceInterface" value="com.smt.application.service.SmtActionService"></property>
+	</bean>
+
+
+
+
+
+</beans>
