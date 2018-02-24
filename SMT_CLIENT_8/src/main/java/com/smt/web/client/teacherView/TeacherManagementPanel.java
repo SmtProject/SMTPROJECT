@@ -10,8 +10,6 @@ import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.GeneralItemController;
 import com.smt.web.client.toolBox.RefreshGridController;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.UI;
 
 public class TeacherManagementPanel extends BaseManagementPanel<Teacher> implements GeneralItemController<Teacher>,RefreshGridController{
@@ -35,44 +33,43 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher> impleme
 
 	@Override
 	public void onItemAddedTriggered(Teacher teacher) {
-		container.addBean(teacher);
-		userGrid.refreshAllRows(); 
+//		container.addBean(teacher);
+//		userGrid.refreshAllRows(); 
 	}
 
 	@Override
 	public void onItemUpdatedriggered(Teacher teacher) {
-		userGrid.refreshAllRows(); 
+//		userGrid.refreshAllRows(); 
 	}
 
 	@Override
 	public void refreshGridData() {
-		container.removeAllItems();
-		container.addAll(getData());
-		userGrid.refreshAllRows();
+//		container.removeAllItems();
+//		container.addAll(getData());
+//		userGrid.refreshAllRows();
 	}
 
-	@Override
-	public void onBtnSaveClicked(Teacher smtUser) throws CommitException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void validation(Teacher smtUser) throws CommitException {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void onBtnSaveClicked(Teacher smtUser) throws CommitException {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void validation(Teacher smtUser) throws CommitException {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public ImportState getImportState() {
 		return new TeacherImportState(this);
 	}
 	
-	@Override
-	public void onGridItemClickListener(ItemClickEvent event) {
-		if (event.isDoubleClick()) {
-			UI.getCurrent().addWindow(new TeacherDataManagementWindow(container.getItem(event.getItemId()).getBean(),TeacherManagementPanel.this));
-		}
-	}
+//	public void onGridItemClickListener(ItemClickEvent event) {
+//		if (event.isDoubleClick()) {
+//			UI.getCurrent().addWindow(new TeacherDataManagementWindow(container.getItem(event.getItemId()).getBean(),TeacherManagementPanel.this));
+//		}
+//	}
 	
 }

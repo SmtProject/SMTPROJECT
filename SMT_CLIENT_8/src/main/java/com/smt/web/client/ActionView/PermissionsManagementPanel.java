@@ -1,22 +1,13 @@
 package com.smt.web.client.ActionView;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import com.smt.data.entity.Action;
 import com.smt.web.client.service.SmtServiceProvider;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Window;
 
 import smt.model.tools.ActionEnum;
@@ -26,7 +17,7 @@ public class PermissionsManagementPanel extends Window {
 
 	private static final long serialVersionUID = 1L;
 	private Role role;
-	private OptionGroup optionGroup;
+//	private OptionGroup optionGroup;
 	private Button savePermissionBtn;
 	private Map<ActionEnum, Boolean> actionsToSaveMap = new HashMap<>();
 
@@ -40,6 +31,7 @@ public class PermissionsManagementPanel extends Window {
 	}
 
 	private void initComponent() {
+		/*
 		optionGroup = new OptionGroup("", Arrays.asList(ActionEnum.values()));
 		optionGroup.setMultiSelect(true);
 		savePermissionBtn = new Button("save");
@@ -47,11 +39,12 @@ public class PermissionsManagementPanel extends Window {
 		List<ActionEnum> collect = actions.stream().map(e -> e.getName()).collect(Collectors.toList());
 		for (ActionEnum action : collect)
 			optionGroup.select(action);
+	*/
 	}
 
 	private void initLayout() {
 		FormLayout mainLayout = new FormLayout();
-		mainLayout.addComponent(optionGroup);
+//		mainLayout.addComponent(optionGroup);
 		mainLayout.addComponent(savePermissionBtn);
 		setContent(mainLayout);
 		mainLayout.addStyleName("mypanelcontent");
@@ -69,10 +62,10 @@ public class PermissionsManagementPanel extends Window {
 				close();
 			}
 		});
-		optionGroup.addValueChangeListener(valueChangeEvent);
+//		optionGroup.addValueChangeListener(valueChangeEvent);
 
 	}
-
+	/*
 	ValueChangeListener valueChangeEvent = new ValueChangeListener() {
 
 		private static final long serialVersionUID = 1L;
@@ -89,5 +82,5 @@ public class PermissionsManagementPanel extends Window {
 			}
 		}
 	};
-
+*/
 }

@@ -38,14 +38,14 @@ public class SignInUi extends VerticalLayout{
 		userNameTxt.setWidth("300px");
 		userNameTxt.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 		userNameTxt.setIcon(FontAwesome.USER);
-		userNameTxt.setRequired(true);
-		userNameTxt.setInputPrompt("Your username");
+//		userNameTxt.setRequired(true);
+//		userNameTxt.setInputPrompt("Your username");
 
 		passwordTxt = new PasswordField("Password:");
 		passwordTxt.setWidth("300px");
 		passwordTxt.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 		passwordTxt.setIcon(FontAwesome.LOCK);
-		passwordTxt.setRequired(true);
+//		passwordTxt.setRequired(true);
 		loginButton= new Button("Login");
 		loginButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		loginButton.setClickShortcut(KeyCode.ENTER);

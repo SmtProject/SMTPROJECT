@@ -1,9 +1,9 @@
 package com.smt.web.excelImportTable;
 
 import com.smt.web.client.importExcel.ImportState;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -25,14 +25,14 @@ public class ExcelImportTableWindow extends Window {
 
 		GridLayout gridLayout = new GridLayout(2, 1);
 		
-		Table table = new Table();
-		table.setHeight("500px");
-		table.setWidth("600px");
+		Grid<String> grid = new Grid<>();
+		grid.setHeight("500px");
+		grid.setWidth("600px");
 		
-		gridLayout.addComponent(table);
+		gridLayout.addComponent(grid);
 		layout.addComponent(gridLayout);
 		
-		SmtExcelImportTable smtExcelImportTable = new SmtExcelImportTable(table,state);
+		SmtExcelImportTable smtExcelImportTable = new SmtExcelImportTable(grid,state);
 		layout.addComponent(smtExcelImportTable);
 		
 

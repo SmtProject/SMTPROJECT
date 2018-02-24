@@ -16,7 +16,6 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.themes.Reindeer;
 
 import smt.model.tools.ActionEnum;
 import smt.model.tools.Role;
@@ -30,7 +29,7 @@ public class MainUi extends UI{
 
 	@Override
 	protected void init(VaadinRequest request) {
-		setStyleName(Reindeer.LAYOUT_BLUE);
+//		setStyleName(Reindeer.LAYOUT_BLUE);
 		setContent(new SignInUi());
 	}
 

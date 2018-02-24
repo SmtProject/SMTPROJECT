@@ -9,14 +9,10 @@ import com.smt.web.client.toolBox.RefreshGridController;
 import com.smt.web.client.toolBox.TableColumnFactory;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLayout implements RefreshGridController {
@@ -24,14 +20,14 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 	private static final long serialVersionUID = 8856843837941346930L;
 	
 	protected FilteredGrid userGrid;
-	protected BeanItemContainer<T> container;
+//	protected BeanItemContainer<T> container;
 	private Button addUserBtn;
 	private Button importExcelButton;
 	protected TableName tableName;
 
-	public abstract void onBtnSaveClicked(T smtUser) throws FieldGroup.CommitException;
+//	public abstract void onBtnSaveClicked(T smtUser) throws FieldGroup.CommitException;
 
-	public abstract void validation(T smtUser) throws FieldGroup.CommitException;
+//	public abstract void validation(T smtUser) throws FieldGroup.CommitException;
 
 	public abstract ImportState getImportState();
 	
@@ -65,11 +61,11 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 
 	@SuppressWarnings("deprecation")
 	private void initData() {
-		container = new BeanItemContainer<>(getData());
-		userGrid.setBeanContainerDataSource(container);
-		userGrid.setColumns((Object[])getColumns());
+//		container = new BeanItemContainer<>(getData());
+//		userGrid.setBeanContainerDataSource(container);
+//		userGrid.setColumns((Object[])getColumns());
 		userGrid.setNonEditableColumns(getNonEditbaleColumns());
-		modifyGrid();
+//		modifyGrid();
 
 	}
 	public String[] getColumns() {
@@ -80,7 +76,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 	}
 
 	public abstract void onAddUserBtnClicked();
-
+/*
 	private void modifyGrid() {
 		userGrid.setEditorEnabled(true);
 		userGrid.getEditorFieldGroup().addCommitHandler(new FieldGroup.CommitHandler() {
@@ -104,7 +100,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 			}
 
 		});
-	}
+	} */
 
 	@SuppressWarnings("deprecation")
 	private void initListeners() {
@@ -115,15 +111,15 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 				onAddUserBtnClicked();
 			}
 		});
-		userGrid.addListener(new ItemClickEvent.ItemClickListener() {
-			private static final long serialVersionUID = 2068314108919135281L;
-			public void itemClick(ItemClickEvent event) {
-				onGridItemClickListener(event);
-			}
-		
-		});
-	}
-	public void onGridItemClickListener(ItemClickEvent event) {
-		
+//		userGrid.addListener(new ItemClickEvent.ItemClickListener() {
+//			private static final long serialVersionUID = 2068314108919135281L;
+//			public void itemClick(ItemClickEvent event) {
+//				onGridItemClickListener(event);
+//			}
+//		
+//		});
+//	}
+//	public void onGridItemClickListener(ItemClickEvent event) {
+//		
 	}
 }

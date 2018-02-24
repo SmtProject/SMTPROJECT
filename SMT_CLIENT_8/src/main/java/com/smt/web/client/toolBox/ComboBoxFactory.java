@@ -9,7 +9,7 @@ public class ComboBoxFactory {
 	
 	public static ComboBox getStatusCombobox() {
 		ComboBox statusCbx=new ComboBox("Status", new ArrayList<>(Arrays.asList(SmtUserStatus.values())));
-		statusCbx.setNullSelectionAllowed(false);
+//		statusCbx.setNullSelectionAllowed(false);
 		return statusCbx;
 	}
 	

@@ -1,12 +1,7 @@
 package com.smt.web.client.ActionView;
 
 import com.smt.web.client.adminView.FilteredGrid;
-import com.vaadin.data.Item;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.renderers.ButtonRenderer;
-
-import smt.model.tools.Role;
 
 public class ActionManagementPanel extends VerticalLayout {
 
@@ -20,6 +15,7 @@ public class ActionManagementPanel extends VerticalLayout {
 	}
 
 	private void initComponents() {
+		/*
 		userGrid = new FilteredGrid();
 		userGrid.addColumn("Role name", String.class);
 		userGrid.addColumn("permissions", String.class);
@@ -34,7 +30,7 @@ public class ActionManagementPanel extends VerticalLayout {
 			permissionsManagementPanel.center();
 			
 		}));
-
+		 */
 	}
 
 	private void intiLayout() {
