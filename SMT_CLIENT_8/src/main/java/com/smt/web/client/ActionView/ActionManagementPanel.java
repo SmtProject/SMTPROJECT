@@ -1,13 +1,17 @@
 package com.smt.web.client.ActionView;
 
-import com.smt.web.client.adminView.FilteredGrid;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.ButtonRenderer;
+
+import smt.model.tools.Role;
 
 public class ActionManagementPanel extends VerticalLayout {
 
 	private static final long serialVersionUID = 8856843837941346930L;
 
-	private FilteredGrid userGrid;
+	private Grid<Role>userGrid;
 
 	public ActionManagementPanel() {
 		initComponents();
@@ -15,22 +19,16 @@ public class ActionManagementPanel extends VerticalLayout {
 	}
 
 	private void initComponents() {
-		/*
-		userGrid = new FilteredGrid();
-		userGrid.addColumn("Role name", String.class);
-		userGrid.addColumn("permissions", String.class);
-		for (Role role : Role.values())
-			userGrid.addRow(role.toString(), "View Permissions");
+		userGrid=new Grid<Role>();
+		userGrid.setItems(Role.values());
+		userGrid.addColumn(Role::getName).setCaption("Name");
+		userGrid.addColumn(person -> "Permission",
+				new ButtonRenderer<Role>(clickEvent -> {
+					PermissionsManagementPanel permissionsManagementPanel = new PermissionsManagementPanel(clickEvent.getItem());
+					UI.getCurrent().addWindow(permissionsManagementPanel);
+					permissionsManagementPanel.center();
+				}));
 
-		userGrid.getColumn("permissions").setRenderer(new ButtonRenderer(event -> {
-			Item item = userGrid.getContainerDataSource().getItem(event.getItemId());
-			Object value = item.getItemProperty("Role name").getValue();
-			PermissionsManagementPanel permissionsManagementPanel = new PermissionsManagementPanel(Role.valueOf(value.toString()));
-			UI.getCurrent().addWindow(permissionsManagementPanel);
-			permissionsManagementPanel.center();
-			
-		}));
-		 */
 	}
 
 	private void intiLayout() {

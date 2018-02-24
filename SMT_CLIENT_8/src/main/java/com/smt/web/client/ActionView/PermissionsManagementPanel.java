@@ -1,11 +1,19 @@
 package com.smt.web.client.ActionView;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.smt.data.entity.Action;
 import com.smt.web.client.service.SmtServiceProvider;
+import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CheckBoxGroup;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
@@ -17,7 +25,7 @@ public class PermissionsManagementPanel extends Window {
 
 	private static final long serialVersionUID = 1L;
 	private Role role;
-//	private OptionGroup optionGroup;
+	private CheckBoxGroup<ActionEnum> optionGroup;
 	private Button savePermissionBtn;
 	private Map<ActionEnum, Boolean> actionsToSaveMap = new HashMap<>();
 
@@ -31,20 +39,19 @@ public class PermissionsManagementPanel extends Window {
 	}
 
 	private void initComponent() {
-		/*
-		optionGroup = new OptionGroup("", Arrays.asList(ActionEnum.values()));
-		optionGroup.setMultiSelect(true);
+		
+		optionGroup = new CheckBoxGroup<ActionEnum>("", Arrays.asList(ActionEnum.values()));
 		savePermissionBtn = new Button("save");
 		List<Action> actions = SmtServiceProvider.getInstance().getSmtActionService().findActionByRole(role);
 		List<ActionEnum> collect = actions.stream().map(e -> e.getName()).collect(Collectors.toList());
 		for (ActionEnum action : collect)
 			optionGroup.select(action);
-	*/
+	
 	}
 
 	private void initLayout() {
 		FormLayout mainLayout = new FormLayout();
-//		mainLayout.addComponent(optionGroup);
+		mainLayout.addComponent(optionGroup);
 		mainLayout.addComponent(savePermissionBtn);
 		setContent(mainLayout);
 		mainLayout.addStyleName("mypanelcontent");
@@ -62,25 +69,22 @@ public class PermissionsManagementPanel extends Window {
 				close();
 			}
 		});
-//		optionGroup.addValueChangeListener(valueChangeEvent);
+	optionGroup.addValueChangeListener(valueChangeEvent);
 
 	}
-	/*
-	ValueChangeListener valueChangeEvent = new ValueChangeListener() {
-
-		private static final long serialVersionUID = 1L;
-
+	
+	ValueChangeListener<Set<ActionEnum>> valueChangeEvent = new ValueChangeListener<Set<ActionEnum>>() {	
+		private static final long serialVersionUID = 6303816593980105137L;
 		@Override
-		public void valueChange(ValueChangeEvent event) {
-			Property<?> property = event.getProperty();
-			@SuppressWarnings("unchecked")
-			Set<String> selectedValues = (Set<String>)property.getValue();
-			for(Object val : selectedValues){
-				ActionEnum action = ActionEnum.valueOf(val.toString());
-				boolean selected = optionGroup.isSelected(val);
-				actionsToSaveMap.put(action, selected);
+		public void valueChange(ValueChangeEvent<Set<ActionEnum>> selectedValues) {
+			for ( ActionEnum action :ActionEnum.values() ) {
+				if(selectedValues.getValue().contains(action)) {
+					actionsToSaveMap.put(action, true);
+				}else {
+					actionsToSaveMap.put(action, false);
+				}
 			}
 		}
 	};
-*/
+
 }
