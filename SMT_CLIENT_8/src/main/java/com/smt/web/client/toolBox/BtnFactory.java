@@ -80,7 +80,7 @@ public class BtnFactory {
 		return importExcelButton;
 	}
 	@SuppressWarnings("unchecked")
-	private static SmtExportToExcel<SmtUser> customizeExportExcelUtility(ExportType exportType,Grid<?> grid) {
+	public static SmtExportToExcel<SmtUser> customizeExportExcelUtility(ExportType exportType,Grid<?> grid) {
 
 		String[] array = new String[grid.getColumns().size()];
 		for (int i = 0; i < grid.getColumns().size(); i++) {

@@ -79,4 +79,9 @@ public class AdminImportState implements ImportState {
 		return TableColumnFactory.getTableColumn(TableName.AdminManagement,ColumnsType.TemplateColumns);
 	}
 
+	@Override
+	public Class<?> getGridClass() {
+		return Admin.class;
+	}
+
 }

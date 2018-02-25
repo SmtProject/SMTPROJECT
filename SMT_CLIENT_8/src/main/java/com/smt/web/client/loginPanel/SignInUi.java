@@ -3,6 +3,7 @@ package com.smt.web.client.loginPanel;
 import java.io.File;
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.service.SmtServiceProvider;
+import com.smt.web.client.toolBox.ProgressWindow;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
@@ -12,6 +13,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -75,7 +77,10 @@ public class SignInUi extends VerticalLayout{
 	}
 	public void onLoginButtonClick() {
 		if(!userNameTxt.isEmpty() && !passwordTxt.isEmpty()) {
+			ProgressWindow progressbar= new ProgressWindow();
+			progressbar.show();
 			SmtUser smtUser = SmtServiceProvider.getInstance().getSmtUserService().login(userNameTxt.getValue(), passwordTxt.getValue());
+			progressbar.close();
 			if(smtUser == null)
 				Notification.show("Validation","incorrect UserName or Password",Notification.Type.ERROR_MESSAGE);
 			else {

@@ -77,4 +77,9 @@ public class TeacherImportState implements ImportState {
 		return TableColumnFactory.getTableColumn(TableName.TeacherManagement,ColumnsType.TemplateColumns);
 	}
 
+	@Override
+	public Class<?> getGridClass() {
+		return Teacher.class;
+	}
+
 }

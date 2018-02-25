@@ -7,4 +7,6 @@ public interface ImportState {
 	public void doAction(SmtExcelContext context);
 	
 	public String [] getImportTemplateColumns();
+	
+	public Class<?> getGridClass();
 }
