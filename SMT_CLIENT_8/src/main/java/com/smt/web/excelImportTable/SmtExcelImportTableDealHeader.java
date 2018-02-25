@@ -2,11 +2,14 @@ package com.smt.web.excelImportTable;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.vaadin.data.ValueProvider;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
 
@@ -82,18 +85,19 @@ public class SmtExcelImportTableDealHeader implements Serializable {
 					}
 				}
 
-				for (int headerNum = 0; headerNum < header.size(); headerNum++) {
-					table.addColumn(header.get(headerNum));
-				}
 			}
-			for (int headerNum = 0; headerNum < header.size(); headerNum++) {
-				table.addColumn(header.get(headerNum));
-			}
+			List<String> stringList = new ArrayList<>();
 			for (int i = 0; i < data.size(); i++) {
 				List<Object> lo = data.get(i);
-				List<String> stringList = lo.stream().filter(e->e!=null).map(e->String.valueOf(e)).collect(Collectors.toList());
-				table.setItems(stringList);
-				
+				stringList.addAll(lo.stream().filter(e->e!=null).map(e->String.valueOf(e)).collect(Collectors.toList()));
+		
+			}
+			table.setItems(stringList);
+			for(String st : header)
+			{
+				table.addColumn(row->{
+					return stringList.get(0);
+				}).setCaption(st).setWidth(200);
 			}
 		} else {
 			throw new NullPointerException("Table is null! Please checked.");

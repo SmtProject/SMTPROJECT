@@ -1,13 +1,23 @@
 package com.smt.web.client.toolBox;
 
 
-import org.apache.poi.ss.formula.functions.T;
+import java.util.Arrays;
 
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.smt.web.excelImportTable.ExcelImportTableWindow;
+import com.smt.web.excelexportTable.ExportType;
+import com.smt.web.excelexportTable.SmtComponentHeaderConfiguration;
+import com.smt.web.excelexportTable.SmtComponentHeaderConfigurationBuilder;
+import com.smt.web.excelexportTable.SmtExportExcelComponentConfiguration;
+import com.smt.web.excelexportTable.SmtExportExcelComponentConfigurationBuilder;
+import com.smt.web.excelexportTable.SmtExportExcelConfiguration;
+import com.smt.web.excelexportTable.SmtExportExcelConfigurationBuilder;
+import com.smt.web.excelexportTable.SmtExportExcelSheetConfiguration;
+import com.smt.web.excelexportTable.SmtExportExcelSheetConfigurationBuilder;
+import com.smt.web.excelexportTable.SmtExportToExcel;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
@@ -29,11 +39,9 @@ public class BtnFactory {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				userGrid.setColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
-//				ExcelExport excelExport = new ExcelExport(new DefaultTableHolder(grid));
-//				excelExport.excludeCollapsedColumns();
-//				excelExport.setDisplayTotals(false);
-//				excelExport.export();
+				SmtExportToExcel<SmtUser> exportToExcelUtility = customizeExportExcelUtility(ExportType.XLSX, userGrid);
+				exportToExcelUtility.export();
+
 			}
 		});
 		exportExcel.setIcon(VaadinIcons.FILE);
@@ -41,11 +49,8 @@ public class BtnFactory {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				userGrid.setColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
-//				CsvExport csvExport = new CsvExport(new DefaultTableHolder(table));
-//				csvExport.excludeCollapsedColumns();
-//				csvExport.setDisplayTotals(false);
-//				csvExport.export();
+				SmtExportToExcel<SmtUser> exportToExcelUtility = customizeExportExcelUtility(ExportType.CSV, userGrid);
+				exportToExcelUtility.export();
 			}
 		});
 		exportCsv.setIcon(VaadinIcons.FILE);
@@ -73,6 +78,41 @@ public class BtnFactory {
 		});
 
 		return importExcelButton;
+	}
+	@SuppressWarnings("unchecked")
+	private static SmtExportToExcel<SmtUser> customizeExportExcelUtility(ExportType exportType,Grid<?> grid) {
+
+		String[] array = new String[grid.getColumns().size()];
+		for (int i = 0; i < grid.getColumns().size(); i++) {
+			array[i] = grid.getColumns().get(i).getCaption();
+		}
+		
+		SmtComponentHeaderConfiguration build = new SmtComponentHeaderConfigurationBuilder().withAutoFilter(true)
+			.withColumnKeys(array)
+			.build();
+		SmtExportExcelComponentConfiguration<SmtUser> componentConfig1 = new SmtExportExcelComponentConfigurationBuilder()
+			.withGrid(grid)
+			.withVisibleProperties(array)
+			.withHeaderConfigs(Arrays.asList(build))
+			.withIntegerFormattingProperties(Arrays.asList("counter"))
+			.withFloatFormattingProperties(Arrays.asList("totalCosts", "differenceToMin"))
+			.withBooleanFormattingProperties(Arrays.asList("active"))
+			.build();
+
+		
+		/* Configuring Sheets */
+		SmtExportExcelSheetConfiguration<SmtUser> sheetConfig1 = new SmtExportExcelSheetConfigurationBuilder()
+			.withComponentConfigs(Arrays.asList(componentConfig1))
+			.withIsHeaderSectionRequired(Boolean.TRUE)
+			.build();
+
+
+		/* Configuring Excel */
+		SmtExportExcelConfiguration<SmtUser> config1 = new SmtExportExcelConfigurationBuilder()
+			.withSheetConfigs(Arrays.asList(sheetConfig1))
+			.build();
+
+		return new SmtExportToExcel<SmtUser>(exportType, config1);
 	}
 
 }
