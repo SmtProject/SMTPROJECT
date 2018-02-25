@@ -8,6 +8,7 @@ import com.smt.web.client.importExcel.AdminImportState;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
+import com.vaadin.server.SerializablePredicate;
 
 public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 
@@ -21,7 +22,7 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 	public void onAddUserBtnClicked() {
 		Admin user = new Admin("", "", "", "", "", "", "", "", null,SmtUserStatus.ACTIVE);
 //		container.addItemAt(0, user);
-		userGrid.select(user);
+//		userGrid.select(user);
 //		userGrid.editItem(user);
 	}
 
@@ -87,6 +88,12 @@ public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 //		container.removeAllItems();
 //		container.addAll(getData());
 //		userGrid.refreshAllRows();
+	}
+
+	@Override
+	public void initGrid() {
+		userGrid=new FilteredGrid<Admin>(tableName,Admin.class);
+		
 	}
 
 

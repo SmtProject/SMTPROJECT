@@ -1,6 +1,8 @@
 package com.smt.web.client.toolBox;
 
 
+import org.apache.poi.ss.formula.functions.T;
+
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
@@ -20,14 +22,14 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class BtnFactory {
 	
-	public static MenuBar ExportGridBtn(Grid<SmtUser> grid,TableName tableName,ColumnsType columnsType) {
+	public static MenuBar ExportGridBtn(Grid<?> userGrid,TableName tableName,ColumnsType columnsType) {
 		MenuBar	export = new MenuBar();
 		MenuItem exportmenu=export.addItem("Export",VaadinIcons.FILE,null);		
 		MenuItem exportExcel=exportmenu.addItem("Export Excel", new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				grid.setColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
+				userGrid.setColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
 //				ExcelExport excelExport = new ExcelExport(new DefaultTableHolder(grid));
 //				excelExport.excludeCollapsedColumns();
 //				excelExport.setDisplayTotals(false);
@@ -39,7 +41,7 @@ public class BtnFactory {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				grid.setColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
+				userGrid.setColumns(TableColumnFactory.getTableColumn(tableName,columnsType));
 //				CsvExport csvExport = new CsvExport(new DefaultTableHolder(table));
 //				csvExport.excludeCollapsedColumns();
 //				csvExport.setDisplayTotals(false);

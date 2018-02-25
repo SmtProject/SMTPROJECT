@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.smt.data.entity.Teacher;
 import com.smt.web.client.adminView.BaseManagementPanel;
+import com.smt.web.client.adminView.FilteredGrid;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.importExcel.TeacherImportState;
 import com.smt.web.client.service.SmtServiceProvider;
@@ -18,6 +19,7 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher> impleme
 
 	public TeacherManagementPanel() {
 		super(tableName);
+		
 	}
 
 	private static final long serialVersionUID = 6217533686005281163L;
@@ -64,6 +66,12 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher> impleme
 	@Override
 	public ImportState getImportState() {
 		return new TeacherImportState(this);
+	}
+
+	@Override
+	public void initGrid() {
+		userGrid=new FilteredGrid<Teacher>(tableName,Teacher.class);
+		
 	}
 	
 //	public void onGridItemClickListener(ItemClickEvent event) {

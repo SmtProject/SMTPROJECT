@@ -12,6 +12,7 @@ import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -19,7 +20,7 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 	
 	private static final long serialVersionUID = 8856843837941346930L;
 	
-	protected FilteredGrid userGrid;
+	protected Grid<T> userGrid;
 //	protected BeanItemContainer<T> container;
 	private Button addUserBtn;
 	private Button importExcelButton;
@@ -35,16 +36,18 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 		this.tableName=tableName;
 		initComponents();
 		intiLayout();
-		initData();
 	}
 
 	private void initComponents() {
-		userGrid = new FilteredGrid();
+		initGrid();
+		userGrid.setItems(getData());
 		addUserBtn = new Button("Add New");
 		addUserBtn.setIcon(FontAwesome.USER_PLUS);
 		importExcelButton = BtnFactory.createImportBtn(getImportState());
 		initListeners();
 	}
+
+	public abstract void initGrid();
 
 	private void intiLayout() {
 		HorizontalLayout btnsLayout = new HorizontalLayout(addUserBtn);
@@ -59,15 +62,6 @@ public abstract class BaseManagementPanel<T extends SmtUser> extends VerticalLay
 
 	public abstract Collection<T> getData();
 
-	@SuppressWarnings("deprecation")
-	private void initData() {
-//		container = new BeanItemContainer<>(getData());
-//		userGrid.setBeanContainerDataSource(container);
-//		userGrid.setColumns((Object[])getColumns());
-		userGrid.setNonEditableColumns(getNonEditbaleColumns());
-//		modifyGrid();
-
-	}
 	public String[] getColumns() {
 		return TableColumnFactory.getTableColumn(tableName,ColumnsType.TableColumns);
 	}
