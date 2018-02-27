@@ -3,13 +3,11 @@ package com.smt.web.excelImportTable;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.vaadin.data.ValueProvider;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
 
@@ -20,15 +18,16 @@ import com.vaadin.ui.Notification;
 public class SmtExcelImportTableDealHeader implements Serializable {
 
 	private static final long serialVersionUID = 4654359687485672593L;
-	private Grid<String> table;
+	private Grid<Map<String,String>> table;
 	private SmtExcelImportTableCore core;
 	private List<String> headerTable;
+	private int index=0;
 
-	public SmtExcelImportTableDealHeader(File file, Grid<String> table) {
+	public SmtExcelImportTableDealHeader(File file, Grid<Map<String,String>> table) {
 		this(file, table, 0, 1, 2);
 	}
 
-	public SmtExcelImportTableDealHeader(File file, Grid<String> table, int titleLineNum, int headerLineNum, int dataLineNum) {
+	public SmtExcelImportTableDealHeader(File file, Grid<Map<String,String>> table, int titleLineNum, int headerLineNum, int dataLineNum) {
 		this.table = table;
 		String[] headerTableInfo = table.getDefaultHeaderRow().getComponents().toArray(new String[0]);
 
@@ -63,7 +62,7 @@ public class SmtExcelImportTableDealHeader implements Serializable {
 	}
 
 	// set data to Table
-	private void addDataToTable(Grid<String> table, List<String> header, List<List<Object>> data) {
+	private void addDataToTable(Grid<Map<String,String>> table, List<String> header, List<List<Object>> data) {
 		if (table != null) {
 			if (header != null) {
 
@@ -86,19 +85,23 @@ public class SmtExcelImportTableDealHeader implements Serializable {
 				}
 
 			}
-			List<String> stringList = new ArrayList<>();
-			for (int i = 0; i < data.size(); i++) {
-				List<Object> lo = data.get(i);
-				stringList.addAll(lo.stream().filter(e->e!=null).map(e->String.valueOf(e)).collect(Collectors.toList()));
-		
+			
+			List<Map<String,String>> stringList = new ArrayList<Map<String,String>>();
+			for (int i = 0; i< header.size() && i<data.size() ; i++) {
+				Map<String,String>dataByColumnName=new HashMap<String,String>();
+				for (int k = 0; k < data.get(i).size(); k++) {
+					dataByColumnName.put(header.get(k),data.get(i).get(k).toString());
+				}
+				stringList.add(dataByColumnName);
 			}
+
+			table.removeAllColumns();
+		        for (String column : header) {
+		            table.addColumn(row -> row.get(column)).setCaption(column);
+		        }
+	
+
 			table.setItems(stringList);
-			for(String st : header)
-			{
-				table.addColumn(row->{
-					return stringList.get(0);
-				}).setCaption(st).setWidth(200);
-			}
 		} else {
 			throw new NullPointerException("Table is null! Please checked.");
 		}

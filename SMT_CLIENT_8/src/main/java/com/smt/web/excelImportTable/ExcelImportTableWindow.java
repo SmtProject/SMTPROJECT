@@ -1,5 +1,7 @@
 package com.smt.web.excelImportTable;
 
+import java.util.Map;
+
 import com.smt.web.client.importExcel.ImportState;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.GridLayout;
@@ -25,7 +27,7 @@ public class ExcelImportTableWindow extends Window {
 
 		GridLayout gridLayout = new GridLayout(2, 1);
 		
-		Grid<String> grid = new Grid<>();
+		Grid<Map<String,String>> grid = new Grid<Map<String,String>>();
 		grid.setHeight("500px");
 		grid.setWidth("600px");
 		

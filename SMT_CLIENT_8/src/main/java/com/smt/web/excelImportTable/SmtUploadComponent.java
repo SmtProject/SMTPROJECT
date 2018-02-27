@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.importExcel.ImportState;
@@ -25,7 +26,6 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
@@ -60,11 +60,11 @@ implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver, But
 	private int dataLineNum = 1;
 
 	/** Export to data table */
-	private Grid<String> grid;
+	private Grid<Map<String,String>> grid;
 	private SmtExcelImportTableDealHeader dealHeader;
 	private ImportState role;
 
-	public SmtUploadComponent(Grid<String> table, ImportState state) {
+	public SmtUploadComponent(Grid<Map<String,String>> table, ImportState state) {
 		this.role = state;
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
@@ -219,7 +219,7 @@ implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver, But
 				Grid importGrid=new Grid (role.getGridClass());
 				importGrid.setItems(new ArrayList<>());
 				importGrid.setColumns(role.getImportTemplateColumns());
-				SmtExportToExcel<SmtUser> exportToExcelUtility = BtnFactory.customizeExportExcelUtility(ExportType.XLSX, importGrid);
+				SmtExportToExcel<SmtUser> exportToExcelUtility = BtnFactory.customizeExportExcelUtility(ExportType.XLS, importGrid);
 				exportToExcelUtility.export();
 
 			}

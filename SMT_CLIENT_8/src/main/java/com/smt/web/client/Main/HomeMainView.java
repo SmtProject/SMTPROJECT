@@ -6,7 +6,7 @@ import com.smt.web.client.adminView.AdminManagementPanel;
 import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.teacherView.TeacherManagementPanel;
 import com.smt.web.client.userData.LoggedInDataPanel;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.MenuBar;
@@ -54,7 +54,7 @@ public class HomeMainView extends VerticalLayout{
 	}
 	
 	private void addViewActionsMenu() {
-		viewActions = mainMenuBar.addItem("view actions", FontAwesome.SIGN_OUT, null);
+		viewActions = mainMenuBar.addItem("view actions", VaadinIcons.SIGN_OUT, null);
 		viewActions.setCommand(new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
 
@@ -68,7 +68,7 @@ public class HomeMainView extends VerticalLayout{
 	
 	private void addSignOutMenu() {
 		if(mainUi.hasAccess(ActionEnum.SIGN_OUT)){
-		MenuItem siginOut=mainMenuBar.addItem(ActionEnum.SIGN_OUT.getName(), FontAwesome.SIGN_OUT,null);
+		MenuItem siginOut=mainMenuBar.addItem(ActionEnum.SIGN_OUT.getName(), VaadinIcons.SIGN_OUT,null);
 		siginOut.setCommand(new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
@@ -81,8 +81,8 @@ public class HomeMainView extends VerticalLayout{
 	private void smtAdminsMenu() {
 		if(mainUi.hasAccess(ActionEnum.SHOW_ADMIN_MANAGEMENT_PANEL)){
 		if(smtUseManagement==null)
-			smtUseManagement=mainMenuBar.addItem(ActionEnum.SHOW_ADMIN_MANAGEMENT_PANEL.getName(),  FontAwesome.USER_PLUS,null);
-		MenuItem adminUsers=smtUseManagement.addItem("Admins", FontAwesome.USERS,null);
+			smtUseManagement=mainMenuBar.addItem(ActionEnum.SHOW_ADMIN_MANAGEMENT_PANEL.getName(),  VaadinIcons.USER,null);
+		MenuItem adminUsers=smtUseManagement.addItem("Admins", VaadinIcons.USERS,null);
 		adminUsers.setCommand(new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
@@ -95,7 +95,7 @@ public class HomeMainView extends VerticalLayout{
 	private void smtTeachersMenu() {
 		if(mainUi.hasAccess(ActionEnum.SHOW_TEACHERS_MANAGEMENT_PANEL)){
 		if(teachersUsers==null)
-			teachersUsers = smtUseManagement.addItem(ActionEnum.SHOW_TEACHERS_MANAGEMENT_PANEL.getName(), FontAwesome.USERS,null);
+			teachersUsers = smtUseManagement.addItem(ActionEnum.SHOW_TEACHERS_MANAGEMENT_PANEL.getName(), VaadinIcons.USER,null);
 		
 		teachersUsers.setCommand(new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
