@@ -87,7 +87,7 @@ public class SmtExcelImportTableDealHeader implements Serializable {
 			}
 			
 			List<Map<String,String>> stringList = new ArrayList<Map<String,String>>();
-			for (int i = 0; i< header.size() && i<data.size() ; i++) {
+			for (int i = 0; i<data.size() ; i++) {
 				Map<String,String>dataByColumnName=new HashMap<String,String>();
 				for (int k = 0; k < data.get(i).size(); k++) {
 					dataByColumnName.put(header.get(k),data.get(i).get(k).toString());

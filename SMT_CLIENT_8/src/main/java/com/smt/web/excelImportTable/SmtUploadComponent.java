@@ -82,7 +82,7 @@ implements Upload.SucceededListener, Upload.FailedListener, Upload.Receiver, But
 
 		btnSaveFile.setEnabled(false);
 		btnSaveFile.setDisableOnClick(true);
-		//		btnSaveFile.addListener((Button.ClickListener) this);
+		btnSaveFile.addClickListener((Button.ClickListener) this);
 
 		btnDownloadTemplate.setCaption("download template");
 		btnDownloadTemplate.setStyleName(Button.DESIGN_ATTR_PLAIN_TEXT);

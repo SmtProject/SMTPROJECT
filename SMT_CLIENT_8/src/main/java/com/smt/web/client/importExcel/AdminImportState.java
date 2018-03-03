@@ -21,7 +21,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 
-public class AdminImportState implements ImportState {
+public class AdminImportState extends AbstarctImportState{
 	
 	private RefreshGridController controller;
 	
@@ -70,9 +70,7 @@ public class AdminImportState implements ImportState {
 		
 	}
 
-	private boolean matchHeader(List<String> excelHeader, String[] importTemplateColumns) {
-		return excelHeader.equals(Arrays.asList(importTemplateColumns));
-	}
+
 
 	@Override
 	public String[] getImportTemplateColumns() {

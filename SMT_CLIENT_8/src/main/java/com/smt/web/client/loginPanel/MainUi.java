@@ -9,6 +9,7 @@ import com.smt.data.entity.Action;
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.Main.HomeMainView;
 import com.smt.web.client.service.SmtServiceProvider;
+import com.smt.web.client.toolBox.ProgressWindow;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -41,7 +42,10 @@ public class MainUi extends UI{
 	public void signIn(SmtUser smtUser) {
 		if(smtUser!=null) {
 			setSmtUser(smtUser);
-		changeView(new HomeMainView());
+			ProgressWindow progressbar= new ProgressWindow();
+			progressbar.show();
+			changeView(new HomeMainView());
+			progressbar.close();
 		}
 	}
 	public void signOut() {

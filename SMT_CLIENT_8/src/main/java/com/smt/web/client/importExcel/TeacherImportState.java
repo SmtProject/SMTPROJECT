@@ -11,6 +11,7 @@ import com.smt.data.entity.SmtUser.SmtUserStatus;
 import com.smt.data.entity.Teacher;
 import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.service.SmtServiceProvider;
+import com.smt.web.client.toolBox.ProgressWindow;
 import com.smt.web.client.toolBox.RefreshGridController;
 import com.smt.web.client.toolBox.TableColumnFactory;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
@@ -20,7 +21,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 
-public class TeacherImportState implements ImportState {
+public class TeacherImportState extends AbstarctImportState {
 	
 	private RefreshGridController controller;
 	
@@ -59,7 +60,10 @@ public class TeacherImportState implements ImportState {
 			teacherList.add(teacherToImport);
 		}
 		try {
+			ProgressWindow progressWindow=new ProgressWindow();
+			progressWindow.show();
 			SmtServiceProvider.getInstance().getSmtUserService().saveTeachers(teacherList);
+			progressWindow.close();
 		} catch (ValidationException e) {
 			Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
 		}
@@ -67,11 +71,7 @@ public class TeacherImportState implements ImportState {
 			controller.refreshGridData();
 
 	}
-
-	private boolean matchHeader(List<String> excelHeader, String[] importTemplateColumns) {
-		return excelHeader.equals(Arrays.asList(importTemplateColumns));
-	}
-
+	
 	@Override
 	public String[] getImportTemplateColumns() {
 		return TableColumnFactory.getTableColumn(TableName.TeacherManagement,ColumnsType.TemplateColumns);

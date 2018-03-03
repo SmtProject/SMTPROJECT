@@ -16,7 +16,7 @@ public class Admin extends SmtUser{
 	
 	protected AdminRole role;
 	
-	protected Admin() {
+	public Admin() {
 		super();
 	}
 

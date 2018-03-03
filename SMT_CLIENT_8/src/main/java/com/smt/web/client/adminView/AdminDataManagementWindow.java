@@ -1,11 +1,14 @@
-package com.smt.web.client.teacherView;
+package com.smt.web.client.adminView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.xml.bind.ValidationException;
 
+import com.smt.data.entity.Admin;
 import com.smt.data.entity.SmtUser.SmtUserStatus;
-import com.smt.data.entity.Teacher;
+import com.smt.data.entity.Admin.AdminRole;
 import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.BtnFactory;
@@ -15,16 +18,15 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 
-public class TeacherDataManagementWindow extends Window {
+public class AdminDataManagementWindow extends Window {
 	private static final long serialVersionUID = -3330511576427585604L;
 
-	private Teacher teacher;
+	private Admin admin;
 
 	private TextField firstNameTxt;
 	private TextField middleNameTxt;
@@ -35,15 +37,15 @@ public class TeacherDataManagementWindow extends Window {
 	private TextField addressTxt;
 	private TextField phoneTxt;
 	private ComboBox<SmtUserStatus>  statusCbx;
-	private TextArea  descriptiontxt;
+	private ComboBox<AdminRole>  adminRoleCbx;
 
 	private Button saveBtn;
-	private GeneralItemController<Teacher>controller;
+	private GeneralItemController<Admin>controller;
 
 
-	public TeacherDataManagementWindow(Teacher teacher ,GeneralItemController<Teacher>controller) {
-		super("Teacher Management");
-		this.teacher=teacher;
+	public AdminDataManagementWindow(Admin admin ,GeneralItemController<Admin>controller) {
+		super("Admin Management");
+		this.admin=admin;
 		this.controller=controller;
 		initCommponents();
 		initLayout();
@@ -61,8 +63,7 @@ public class TeacherDataManagementWindow extends Window {
 		addressTxt=new TextField("Address");
 		phoneTxt=new TextField("Phone Number");
 		statusCbx=ComboBoxFactory.getStatusCombobox(); 
-
-		descriptiontxt=new TextArea("Description");
+		adminRoleCbx=new ComboBox<Admin.AdminRole>( "AdminRole",new ArrayList<>(Arrays.asList(AdminRole.values())));
 		saveBtn=BtnFactory.createSaveBtn();
 		initListeners();
 	}
@@ -79,7 +80,7 @@ public class TeacherDataManagementWindow extends Window {
 		mainLayout.addComponent(addressTxt);
 		mainLayout.addComponent(phoneTxt);
 		mainLayout.addComponent(statusCbx);
-		mainLayout.addComponent(descriptiontxt);
+		mainLayout.addComponent(adminRoleCbx);
 		mainLayout.addComponent(saveBtn);
 		mainLayout.setSizeUndefined();
 		mainLayout.setMargin(true);
@@ -88,44 +89,47 @@ public class TeacherDataManagementWindow extends Window {
 		try {
 			commit(); 
 			validation();
-			Teacher savedTecher=	SmtServiceProvider.getInstance().getSmtUserService().saveTeacher(teacher);
+			Admin savedAdmin=	SmtServiceProvider.getInstance().getSmtUserService().saveAdmin(admin);
 			if(controller!=null) {
-				if(teacher.getId()==null) {
-					controller.onItemAddedTriggered(savedTecher);
+				if(admin.getId()==null) {
+					controller.onItemAddedTriggered(savedAdmin);
 				}else {
-					controller.onItemUpdatedriggered(savedTecher);
+					controller.onItemUpdatedriggered(savedAdmin);
 				}
 				this.close();
 			}
-			teacher=savedTecher;
+			admin=savedAdmin;
 
 		} catch (ValidationException e) {
-			if(teacher.getId()==null)
-				teacher=null;
+			if(admin.getId()==null)
+				admin=null;
 			Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
 		}
 
 	}
 	
 	public void validation() throws ValidationException{
-		if (teacher != null) {
-			if (teacher.getFirstName() == null || teacher.getFirstName().isEmpty()) {
+		if (admin != null) {
+			if (admin.getFirstName() == null || admin.getFirstName().isEmpty()) {
 				throw new ValidationException("Empty First Name");
 			}
-			if (teacher.getMiddleName() == null || teacher.getMiddleName().isEmpty()) {
+			if (admin.getMiddleName() == null || admin.getMiddleName().isEmpty()) {
 				throw new ValidationException("Empty Middle Name");
 			}
-			if (teacher.getLastName() == null || teacher.getLastName().isEmpty()) {
+			if (admin.getLastName() == null || admin.getLastName().isEmpty()) {
 				throw new ValidationException("Empty Last Name");
 			}
-			if (teacher.getPassword() == null || teacher.getPassword().isEmpty()) {
+			if (admin.getPassword() == null || admin.getPassword().isEmpty()) {
 				throw new ValidationException("Empty password");
 			}
-			if (teacher.getStatus() == null) {
+			if (admin.getStatus() == null) {
 				throw new ValidationException("Empty Status");
 			}
-			if (teacher.getPassword() == null || teacher.getPassword().isEmpty()
-					|| teacher.getPassword().length() < 6) {
+			if (admin.getRole()== null) {
+				throw new ValidationException("Empty Admin Role");
+			}
+			if (admin.getPassword() == null || admin.getPassword().isEmpty()
+					|| admin.getPassword().length() < 6) {
 				throw new ValidationException("Password Should be At least 6 characters");
 			}
 		}else {
@@ -134,34 +138,34 @@ public class TeacherDataManagementWindow extends Window {
 		}
 
 	private void initData() {
-		if(teacher!=null) {
-			firstNameTxt.setValue(teacher.getFirstName());
-			middleNameTxt.setValue(teacher.getMiddleName());
-			lastNameTxt.setValue(teacher.getLastName());
-			userNameTxt.setValue(teacher.getUserName());
-			emailTxt.setValue(teacher.getEmail());
-			passwordTxt.setValue(teacher.getPassword());
-			addressTxt.setValue(teacher.getAddress());
-			phoneTxt.setValue(teacher.getPhone());
-			statusCbx.setValue(teacher.getStatus()); 
-			descriptiontxt.setValue(teacher.getDescription());
+		if(admin!=null) {
+			firstNameTxt.setValue(admin.getFirstName());
+			middleNameTxt.setValue(admin.getMiddleName());
+			lastNameTxt.setValue(admin.getLastName());
+			userNameTxt.setValue(admin.getUserName());
+			emailTxt.setValue(admin.getEmail());
+			passwordTxt.setValue(admin.getPassword());
+			addressTxt.setValue(admin.getAddress());
+			phoneTxt.setValue(admin.getPhone());
+			statusCbx.setValue(admin.getStatus()); 
+			adminRoleCbx.setValue(admin.getRole());
 		
 		}
 	}
 	private void commit() {
-		if(teacher==null) 
-			teacher=new Teacher();
-		teacher.setFirstName(firstNameTxt.getValue());
-		teacher.setMiddleName(middleNameTxt.getValue());
-		teacher.setLastName(lastNameTxt.getValue());
-		teacher.setUserName(userNameTxt.getValue());
-		teacher.setPassword(passwordTxt.getValue());
-		teacher.setAddress(addressTxt.getValue());
-		teacher.setPhone(phoneTxt.getValue());
-		teacher.setEmail(emailTxt.getValue());
-		teacher.setDescription(descriptiontxt.getValue());
-		teacher.setStatus(statusCbx.getValue());
-		teacher.setFollowedAttribute(((MainUi) UI.getCurrent()).getSmtUser().getUserName(), new Date());
+		if(admin==null) 
+			admin=new Admin();
+		admin.setFirstName(firstNameTxt.getValue());
+		admin.setMiddleName(middleNameTxt.getValue());
+		admin.setLastName(lastNameTxt.getValue());
+		admin.setUserName(userNameTxt.getValue());
+		admin.setPassword(passwordTxt.getValue());
+		admin.setAddress(addressTxt.getValue());
+		admin.setPhone(phoneTxt.getValue());
+		admin.setEmail(emailTxt.getValue());
+		admin.setRole(adminRoleCbx.getValue());
+		admin.setStatus(statusCbx.getValue());
+		admin.setFollowedAttribute(((MainUi) UI.getCurrent()).getSmtUser().getUserName(), new Date());
 
 	}
 	private void initListeners() {
