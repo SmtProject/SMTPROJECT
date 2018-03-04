@@ -1,71 +1,76 @@
 package com.smt.web.client.adminView;
 
-
-import java.util.Collection;
-
-import org.apache.poi.ss.formula.functions.T;
-
-import com.smt.data.entity.SmtUser;
 import com.smt.web.client.toolBox.TableColumnFactory;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
+import com.vaadin.data.ValueProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Grid.Column;
 import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class FilteredGrid <T>extends Grid<T>{
+public class FilteredGrid<T> extends Grid<T> {
 
 	private static final long serialVersionUID = 1L;
-//	private BeanItemContainer<?> container;
-	
+
 	private TableName tableName;
 
-	public FilteredGrid(TableName tableName,Class<T>areg) {
+	public FilteredGrid(TableName tableName, Class<T> areg) {
 		super(areg);
-		this.tableName=tableName;
+		this.tableName = tableName;
 		initColumns();
 		initFilter();
 	}
 
 	private void initColumns() {
-		this.setColumns(columns());	
+		this.setColumns(columns());
 	}
 
 	private void initFilter() {
-//		HeaderRow filterRow = this.appendHeaderRow();
-//		for (String column:columns()) {
-//			HeaderCell cell = filterRow.getCell(column);
-//			TextField filterField =getColumnFilterField();
-//			filterField.addValueChangeListener(e-> {
-//			
-//			});
-//			cell.setComponent(filterField);
-//		}
+		HeaderRow filterRow = this.appendHeaderRow();
+		for (Column<T, ?> column : this.getColumns()) {
+			HeaderCell cell = filterRow.getCell(column);
+			TextField filterField = createFilterTextField(column);
+			cell.setComponent(filterField);
+		}
 	}
 
 	private String[] columns() {
-		return TableColumnFactory.getTableColumn(tableName,ColumnsType.TableColumns);
+		return TableColumnFactory.getTableColumn(tableName, ColumnsType.TableColumns);
 	}
 
-	public void setNonEditableColumns(String [] columns) {
+	public void setNonEditableColumns(String[] columns) {
 		for (String string : columns) {
 			getColumn(string).setEditable(false);
 		}
 	}
-	public void setHiddenColumns(String [] columns) {
+
+	public void setHiddenColumns(String[] columns) {
 		for (String string : columns) {
 			getColumn(string).setHidden(true);
 		}
 	}
-	 private TextField getColumnFilterField() {
-	        TextField filter = new TextField();
-	        filter.setWidth("100%");
-	        filter.setCaption("Filter");
-	        filter.addStyleName(ValoTheme.TEXTFIELD_TINY);
-	        return filter;
-	    }
+
+	@SuppressWarnings("unchecked")
+	private TextField createFilterTextField(final Column<T, ?> column) {
+		final TextField tfFilter = new TextField();
+		tfFilter.setCaption("Filter");
+		tfFilter.addStyleName(ValoTheme.TEXTFIELD_TINY);
+		tfFilter.setWidth(100, Unit.PERCENTAGE);
+		tfFilter.addValueChangeListener(event -> {
+			ListDataProvider<T> dataProvider = (ListDataProvider<T>) this.getDataProvider();
+			final ValueProvider<T, String> valueProvider = (ValueProvider<T, String>) column.getValueProvider();
+			dataProvider.clearFilters();
+			if (event == null || event.getValue() == null || event.getValue().isEmpty()) {
+				return;
+			}
+			dataProvider.addFilter(valueProvider, columnFilter -> {
+			return columnFilter.toLowerCase().contains(event.getValue().toLowerCase());
+			});
+			dataProvider.refreshAll();
+		});
+		return tfFilter;
+	}
 }

@@ -8,7 +8,6 @@ import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.importExcel.TeacherImportState;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.BaseManagementPanel;
-import com.smt.web.client.toolBox.GeneralItemController;
 import com.smt.web.client.toolBox.RefreshGridController;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.ui.UI;
