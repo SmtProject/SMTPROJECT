@@ -7,6 +7,7 @@ import javax.xml.bind.ValidationException;
 
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Student;
 import com.smt.data.entity.Teacher;
 
 public interface SmtUserService extends Serializable{
@@ -26,9 +27,16 @@ public interface SmtUserService extends Serializable{
 	
 	//--------------------------------------Techers-API----------------------------------------------------------------
 	
-	List<Teacher> findAllATeachers();
+	List<Teacher> findAllTeachers();
 	
 	Teacher saveTeacher(Teacher teacher) throws ValidationException;
 	
 	void saveTeachers(List<Teacher> teachers) throws ValidationException;
+	//--------------------------------------Students-API----------------------------------------------------------------
+	List<Student> findAllStudents();
+	
+	Student saveStudent(Student student) throws ValidationException;
+	
+	void saveStudents(List<Student> students) throws ValidationException;
+	
 }

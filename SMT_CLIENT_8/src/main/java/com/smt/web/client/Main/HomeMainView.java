@@ -4,6 +4,7 @@ package com.smt.web.client.Main;
 import com.smt.web.client.ActionView.ActionManagementPanel;
 import com.smt.web.client.adminView.AdminManagementPanel;
 import com.smt.web.client.loginPanel.MainUi;
+import com.smt.web.client.studentsView.StudentsManagementPanel;
 import com.smt.web.client.teacherView.TeacherManagementPanel;
 import com.smt.web.client.userData.LoggedInDataPanel;
 import com.vaadin.icons.VaadinIcons;
@@ -24,8 +25,7 @@ public class HomeMainView extends VerticalLayout{
 	private MenuBar mainMenuBar;
 	private Layout content;
 	private MenuItem smtUseManagement;
-	private MenuItem teachersUsers;
-	private MenuItem viewActions;
+	
 
 	private MainUi mainUi = (MainUi)UI.getCurrent();
 
@@ -40,6 +40,7 @@ public class HomeMainView extends VerticalLayout{
 		
 		smtAdminsMenu();
 		smtTeachersMenu();
+		smtStudentsMenu();
 		addViewActionsMenu();
 		addSignOutMenu();
 	}
@@ -54,16 +55,17 @@ public class HomeMainView extends VerticalLayout{
 	}
 	
 	private void addViewActionsMenu() {
-		viewActions = mainMenuBar.addItem("view actions", VaadinIcons.SIGN_OUT, null);
-		viewActions.setCommand(new Command() {
-			private static final long serialVersionUID = -6491765760561550525L;
+		if(mainUi.isUserSuperAdmin()) {
+			MenuItem	viewActions = mainMenuBar.addItem("view actions", VaadinIcons.WRENCH, null);
+			viewActions.setCommand(new Command() {
+				private static final long serialVersionUID = -6491765760561550525L;
 
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				setContant(new ActionManagementPanel());
-			}
-		});
-
+				@Override
+				public void menuSelected(MenuItem selectedItem) {
+					setContant(new ActionManagementPanel());
+				}
+			});
+		}
 	}
 	
 	private void addSignOutMenu() {
@@ -81,8 +83,8 @@ public class HomeMainView extends VerticalLayout{
 	private void smtAdminsMenu() {
 		if(mainUi.hasAccess(ActionEnum.SHOW_ADMIN_MANAGEMENT_PANEL)){
 		if(smtUseManagement==null)
-			smtUseManagement=mainMenuBar.addItem(ActionEnum.SHOW_ADMIN_MANAGEMENT_PANEL.getName(),  VaadinIcons.USER,null);
-		MenuItem adminUsers=smtUseManagement.addItem("Admins", VaadinIcons.USERS,null);
+			smtUseManagement=mainMenuBar.addItem("SMT USERS",  VaadinIcons.GROUP,null);
+		MenuItem adminUsers=smtUseManagement.addItem(ActionEnum.SHOW_ADMIN_MANAGEMENT_PANEL.getName(), VaadinIcons.SPECIALIST,null);
 		adminUsers.setCommand(new Command() {
 			private static final long serialVersionUID = -6491765760561550525L;
 			@Override
@@ -94,16 +96,30 @@ public class HomeMainView extends VerticalLayout{
 }
 	private void smtTeachersMenu() {
 		if(mainUi.hasAccess(ActionEnum.SHOW_TEACHERS_MANAGEMENT_PANEL)){
-		if(teachersUsers==null)
-			teachersUsers = smtUseManagement.addItem(ActionEnum.SHOW_TEACHERS_MANAGEMENT_PANEL.getName(), VaadinIcons.USER,null);
-		
-		teachersUsers.setCommand(new Command() {
-			private static final long serialVersionUID = -6491765760561550525L;
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				setContant(new TeacherManagementPanel());
-			}
-		});
+			if(smtUseManagement==null)
+				smtUseManagement=mainMenuBar.addItem("SMT USERS",  VaadinIcons.GROUP,null);
+			MenuItem teachersUsers = smtUseManagement.addItem(ActionEnum.SHOW_TEACHERS_MANAGEMENT_PANEL.getName(), VaadinIcons.USER,null);
+			teachersUsers.setCommand(new Command() {
+				private static final long serialVersionUID = -6491765760561550525L;
+				@Override
+				public void menuSelected(MenuItem selectedItem) {
+					setContant(new TeacherManagementPanel());
+				}
+			});
+		}
+	}
+	private void smtStudentsMenu() {
+		if(mainUi.hasAccess(ActionEnum.SHOW_STUDENTS_MANAGEMENT_PANEL)){
+			if(smtUseManagement==null)
+				smtUseManagement=mainMenuBar.addItem("SMT USERS",  VaadinIcons.GROUP,null);
+			MenuItem studentsUsers = smtUseManagement.addItem(ActionEnum.SHOW_STUDENTS_MANAGEMENT_PANEL.getName(), VaadinIcons.MALE,null);
+			studentsUsers.setCommand(new Command() {
+				private static final long serialVersionUID = -6491765760561550525L;
+				@Override
+				public void menuSelected(MenuItem selectedItem) {
+					setContant(new StudentsManagementPanel());
+				}
+			});
 		}
 	}
 	private void setContant(Layout layout) {

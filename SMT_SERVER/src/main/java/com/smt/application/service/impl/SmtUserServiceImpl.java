@@ -9,11 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.smt.application.service.SmtUserService;
 import com.smt.data.entity.SmtUser;
 import com.smt.data.entity.SmtUser.SmtUserStatus;
+import com.smt.data.entity.Student;
 import com.smt.data.entity.Teacher;
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.QAdmin;
+import com.smt.data.entity.QStudent;
 import com.smt.data.entity.QTeacher;
 import com.smt.data.repository.AdminRepository;
+import com.smt.data.repository.StudentRepository;
 import com.smt.data.repository.TeacherRepository;
 
 @Service
@@ -25,6 +28,8 @@ public class SmtUserServiceImpl implements SmtUserService {
 	private AdminRepository adminRepository;
 	@Autowired
 	private TeacherRepository teacherRepository;
+	@Autowired
+	private StudentRepository studentRepository;
 	
 	//--------------------------------------Login-------------------------------------------------------------------
 
@@ -34,6 +39,8 @@ public class SmtUserServiceImpl implements SmtUserService {
 		SmtUser result=adminRepository.findOne(QAdmin.admin.userName.eq(username).and(QAdmin.admin.password.eq(password)).and(QAdmin.admin.status.eq(SmtUserStatus.ACTIVE)));
 		if(result==null)
 			result=teacherRepository.findOne(QTeacher.teacher.userName.eq(username).and(QTeacher.teacher.password.eq(password)).and(QTeacher.teacher.status.eq(SmtUserStatus.ACTIVE)));
+		if(result==null)
+			result=studentRepository.findOne(QStudent.student.userName.eq(username).and(QStudent.student.password.eq(password)).and(QStudent.student.status.eq(SmtUserStatus.ACTIVE)));
 		return result;
 	}
 	
@@ -47,14 +54,14 @@ public class SmtUserServiceImpl implements SmtUserService {
 				throw new ValidationException("Empty Admin Role");
 			}
 			_smtUserValidation(admin);
-			_validateAdminUnidnes(admin);
+			_validateSmtUserUniqueness(admin);
 			return adminRepository.save(admin);
 		}else {
 			throw new ValidationException("Empty Admin Info");
 		}
 	}
 	
-	private void _validateAdminUnidnes(Admin adminToSave) throws ValidationException{
+	private void _validateAdminUniqueness(SmtUser adminToSave) throws ValidationException{
 		if(adminToSave!=null) {
 			Admin serverSmtUser = adminRepository.findOne(QAdmin.admin.userName.equalsIgnoreCase(adminToSave.getUserName()));
 			if(serverSmtUser!=null && !serverSmtUser.getId().equals(adminToSave.getId())) {
@@ -128,7 +135,7 @@ public class SmtUserServiceImpl implements SmtUserService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<Teacher> findAllATeachers() {
+	public List<Teacher> findAllTeachers() {
 		return teacherRepository.findAll();
 	}
 
@@ -136,7 +143,7 @@ public class SmtUserServiceImpl implements SmtUserService {
 	public Teacher saveTeacher(Teacher teacher) throws ValidationException {
 		if(teacher!=null) {
 			_smtUserValidation(teacher);
-			_validateTeacherUnidnes(teacher);
+			_validateSmtUserUniqueness(teacher);
 			return teacherRepository.save(teacher);
 		}else {
 			throw new ValidationException("Empty Teacher Info");
@@ -164,7 +171,7 @@ public class SmtUserServiceImpl implements SmtUserService {
 			throw new ValidationException(errorBuffer);
 		}
 	}
-	private void _validateTeacherUnidnes(Teacher teacherToSave) throws ValidationException{
+	private void _validateTeacherUniqueness(SmtUser teacherToSave) throws ValidationException{
 		if(teacherToSave!=null) {
 			Teacher serverSmtUser = teacherRepository.findOne(QTeacher.teacher.userName.equalsIgnoreCase(teacherToSave.getUserName()));
 			if(serverSmtUser!=null && !serverSmtUser.getId().equals(teacherToSave.getId())) {
@@ -179,13 +186,75 @@ public class SmtUserServiceImpl implements SmtUserService {
 		return teacherRepository.findOne(QTeacher.teacher.userName.eq(userName));
 	}
 	
+	//--------------------------------------Students Api-------------------------------------------------------------------
+	
+	@Override
+	public List<Student> findAllStudents() {
+		return studentRepository.findAll();
+	}
+
+	@Override
+	public Student saveStudent(Student student) throws ValidationException {
+		if(student!=null) {
+			_smtUserValidation(student);
+			_validateSmtUserUniqueness(student);
+			return studentRepository.save(student);
+		}else {
+			throw new ValidationException("Empty Student Info");
+		}
+	}
+
+	@Override
+	public void saveStudents(List<Student> students) throws ValidationException {
+		String errorBuffer="";
+		int line=0;
+		for (Student student : students) {
+			line++;
+			if(student.getUserName()!=null && _validateSmtUserNameExists(student.getUserName())) {
+				errorBuffer+="User Name "+student.getUserName()+" Already Exists! at line number "+line+"\n";
+				continue;	
+			}
+			try {
+				saveStudent(student);
+			} catch (ValidationException e) {
+				errorBuffer+=e.getMessage()+" at line number "+line+"\n";
+			}
+		}
+		if(errorBuffer.length()>0) {
+			throw new ValidationException(errorBuffer);
+		}
+		
+	}
+	private Student _getStudentByUserName(String userName){
+		return studentRepository.findOne(QStudent.student.userName.eq(userName));
+	}
+	private void _validateStudentsUniqueness(SmtUser studentToSave) throws ValidationException{
+		if(studentToSave!=null) {
+			Student serverSmtUser = studentRepository.findOne(QStudent.student.userName.equalsIgnoreCase(studentToSave.getUserName()));
+			if(serverSmtUser!=null && !serverSmtUser.getId().equals(studentToSave.getId())) {
+				throw new ValidationException("Student Already has Same User");
+			}
+		}else {
+			throw new ValidationException("Empty Student Info");
+		}
+	}
+	//--------------------------------------smtUser Api-------------------------------------------------------------------
+
 	private boolean _validateSmtUserNameExists(String userName) {
 		if(_getAdminByUserName(userName)!=null)
 			return true;
 		if(_getTeaherByUserName(userName)!=null)
 			return true;
+		if(_getStudentByUserName(userName)!=null)
+			return true;
 		return false;
 
+	}
+	
+	private void _validateSmtUserUniqueness(SmtUser smtUser) throws ValidationException{
+		_validateAdminUniqueness(smtUser);
+		_validateTeacherUniqueness(smtUser);
+		_validateStudentsUniqueness(smtUser);
 	}
 
 }

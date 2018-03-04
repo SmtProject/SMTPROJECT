@@ -30,7 +30,7 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher> impleme
 	}
 	
 	public Collection<Teacher> getData() {
-		return SmtServiceProvider.getInstance().getSmtUserService().findAllATeachers();
+		return SmtServiceProvider.getInstance().getSmtUserService().findAllTeachers();
 	}
 
 	@Override

@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 
 import com.smt.data.entity.Action;
+import com.smt.data.entity.Admin;
 import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Admin.AdminRole;
 import com.smt.web.client.Main.HomeMainView;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.ProgressWindow;
@@ -78,4 +80,13 @@ public class MainUi extends UI{
 		private static final long serialVersionUID = 1L;
 
 	}
+public boolean isUserSuperAdmin() {
+	if(!(smtUser instanceof Admin))
+		return false;
+	Admin admin =(Admin)smtUser;
+	if(AdminRole.SuperAdmin.equals(admin.getRole()))
+		return true;
+	return false;
+
+}
 }

@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.smt.data.entity.SmtUser;
-import com.smt.data.entity.Teacher;
 import com.smt.web.client.importExcel.ImportState;
 import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.components.grid.ItemClickListener;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class BaseManagementPanel<T> extends VerticalLayout implements RefreshGridController,GeneralItemController<T> {
@@ -26,10 +25,7 @@ public abstract class BaseManagementPanel<T> extends VerticalLayout implements R
 	private Button addUserBtn;
 	private Button importExcelButton;
 	protected TableName tableName;
-
-//	public abstract void onBtnSaveClicked(T smtUser) throws FieldGroup.CommitException;
-
-//	public abstract void validation(T smtUser) throws FieldGroup.CommitException;
+	protected Label titleLbl;
 
 	public abstract ImportState getImportState();
 	
@@ -37,11 +33,14 @@ public abstract class BaseManagementPanel<T> extends VerticalLayout implements R
 		this.tableName=tableName;
 		initComponents();
 		intiLayout();
+		this.setMargin(false);
+		this.setSpacing(false);
 	}
 
 	private void initComponents() {
 		initGrid();
 		data=new ArrayList<>(getData());
+		titleLbl=new Label(tableName.toString());
 		userGrid.setItems(data);
 		addUserBtn = new Button("Add New");
 		addUserBtn.setIcon(FontAwesome.USER_PLUS);
@@ -56,9 +55,9 @@ public abstract class BaseManagementPanel<T> extends VerticalLayout implements R
 		btnsLayout.addComponent(BtnFactory.ExportGridBtn(userGrid,tableName,ColumnsType.ExportColumns));
 		btnsLayout.setSpacing(true);
 		btnsLayout.addComponent(importExcelButton);
-		addComponents(userGrid, btnsLayout);
+		addComponents(titleLbl,userGrid, btnsLayout);
+		setComponentAlignment(titleLbl,Alignment.MIDDLE_CENTER);
 		userGrid.setSizeFull();
-		setMargin(true);
 		setSizeFull();
 	}
 

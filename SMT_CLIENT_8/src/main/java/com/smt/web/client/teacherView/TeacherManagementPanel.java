@@ -12,7 +12,7 @@ import com.smt.web.client.toolBox.RefreshGridController;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.ui.UI;
 
-public class TeacherManagementPanel extends BaseManagementPanel<Teacher> implements RefreshGridController{
+public class TeacherManagementPanel extends BaseManagementPanel<Teacher>{
 	private static final long serialVersionUID = 6217533686005281163L;
 	private final static TableName tableName=TableName.TeacherManagement;
 
@@ -26,7 +26,7 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher> impleme
 	}
 	
 	public Collection<Teacher> getData() {
-		return SmtServiceProvider.getInstance().getSmtUserService().findAllATeachers();
+		return SmtServiceProvider.getInstance().getSmtUserService().findAllTeachers();
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.smt.web.client.toolBox.TableColumnFactory.ColumnsType;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
 import com.vaadin.data.ValueProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.components.grid.HeaderCell;
@@ -57,6 +58,7 @@ public class FilteredGrid<T> extends Grid<T> {
 	private TextField createFilterTextField(final Column<T, ?> column) {
 		final TextField tfFilter = new TextField();
 		tfFilter.setCaption("Filter");
+		tfFilter.setValueChangeMode(ValueChangeMode.LAZY);
 		tfFilter.addStyleName(ValoTheme.TEXTFIELD_TINY);
 		tfFilter.setWidth(100, Unit.PERCENTAGE);
 		tfFilter.addValueChangeListener(event -> {
