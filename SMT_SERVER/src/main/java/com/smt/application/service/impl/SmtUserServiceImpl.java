@@ -1,23 +1,33 @@
 package com.smt.application.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.mysema.query.types.expr.BooleanExpression;
 import com.smt.application.service.SmtUserService;
-import com.smt.data.entity.SmtUser;
-import com.smt.data.entity.SmtUser.SmtUserStatus;
-import com.smt.data.entity.Student;
-import com.smt.data.entity.Teacher;
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.QAdmin;
 import com.smt.data.entity.QStudent;
 import com.smt.data.entity.QTeacher;
+import com.smt.data.entity.QTeachingGrades;
+import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.SmtUser.SmtUserStatus;
+import com.smt.data.entity.Student;
+import com.smt.data.entity.Teacher;
+import com.smt.data.entity.TeachingGrades;
 import com.smt.data.repository.AdminRepository;
 import com.smt.data.repository.StudentRepository;
 import com.smt.data.repository.TeacherRepository;
+import com.smt.data.repository.TeachingGradesRepository;
+
+import smt.model.tools.GradesEnum;
 
 @Service
 public class SmtUserServiceImpl implements SmtUserService {
@@ -30,6 +40,8 @@ public class SmtUserServiceImpl implements SmtUserService {
 	private TeacherRepository teacherRepository;
 	@Autowired
 	private StudentRepository studentRepository;
+	@Autowired
+	private TeachingGradesRepository teachingGradesRepository;
 	
 	//--------------------------------------Login-------------------------------------------------------------------
 
@@ -257,4 +269,34 @@ public class SmtUserServiceImpl implements SmtUserService {
 		_validateStudentsUniqueness(smtUser);
 	}
 
+	@Override
+	public void saveTeachingGrades(Integer teacherId,Map<GradesEnum,Boolean>gradesToSave)throws ValidationException {
+		gradesToSave.forEach((key,value)->{
+			BooleanExpression byTeacherBe = QTeachingGrades.teachingGrades.teacherId.eq(teacherId).and(QTeachingGrades.teachingGrades.grade.eq(key));
+			TeachingGrades findOne = teachingGradesRepository.findOne(byTeacherBe);
+			if(!value){
+				if(findOne!=null)
+					teachingGradesRepository.delete(findOne);
+			}
+			else{
+				if(findOne == null){
+					TeachingGrades teachingGrades = new TeachingGrades(teacherId, key);
+					teachingGradesRepository.save(teachingGrades);
+			}
+				}
+				
+		});
+	}
+
+	@Override
+	public List<GradesEnum> findTeachingGradesByTeacher(Integer teacherId) {
+		BooleanExpression be = QTeachingGrades.teachingGrades.teacherId.eq(teacherId);
+		Iterable<TeachingGrades> findAll = teachingGradesRepository.findAll(be);
+		List<GradesEnum> grades = new ArrayList<>();
+		for(TeachingGrades teachingGrades : findAll){
+			grades.add(teachingGrades.getGrade());
+		}
+		return grades;
+		
+	}
 }
