@@ -20,7 +20,7 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher>{
 	private final static TableName tableName=TableName.TeacherManagement;
 
 	public TeacherManagementPanel() {
-		super(tableName);
+		super(tableName,true,true);
 		
 	}
 	

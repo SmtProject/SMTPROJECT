@@ -3,8 +3,9 @@ package com.smt.web.client.service;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.smt.application.service.LoginService;
 import com.smt.application.service.SmtActionService;
-import com.smt.application.service.SmtImportService;
+import com.smt.application.service.YearService;
 import com.smt.application.service.SmtUserService;
 
 public class SmtServiceProvider {
@@ -14,11 +15,14 @@ public class SmtServiceProvider {
 	public SmtUserService getSmtUserService() {
 		return (SmtUserService) context.getBean("SmtUserServiceBean");
 	}
-	public SmtImportService getSmtImportService(){
-		return (SmtImportService)context.getBean("SmtImportServiceBean");
+	public YearService getSmtYearService(){
+		return (YearService)context.getBean("SmtYearServiceBean");
 	}
 	public SmtActionService getSmtActionService(){
 		return (SmtActionService)context.getBean("SmtActionServiceBean");
+	}
+	public LoginService getLoginService(){
+		return (LoginService)context.getBean("SmtLoginServiceBean");
 	}
 	public static SmtServiceProvider getInstance() {
 		if (instance == null)

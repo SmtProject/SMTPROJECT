@@ -1,24 +1,34 @@
 package smt.model.tools;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Followed {
-	protected Integer id;
-	protected Integer createdBy;
-	protected Date createdDate;
-	protected Integer updatedBy;
-	protected Date updateDate;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
+
+import com.smt.data.entity.SmtUser.SmtUserStatus;
+
+@MappedSuperclass
+public class Followed implements Serializable{
 	
-	public void setFollowedAttribute(Integer userId,Date nowDate) {
-		if(createdBy==null && createdDate==nowDate) {
-			this.createdBy=userId;
-			this.createdDate=nowDate;
-		}else {
-			this.updatedBy=userId;
-			this.updateDate=nowDate;
-		}
+	public enum FollowedStatus{ACTIVE,INACTIVE}
+
+	private static final long serialVersionUID = 3398492809036819501L;
+
+	protected Integer id;
+	protected String createdBy;
+	protected Date createdDate;
+	protected String updatedBy;
+	protected Date updatedDate;
+	protected FollowedStatus status;
+	
+	public Followed() {
+		
 	}
 	
+	@Column (name = "ID")
 	public Integer getId() {
 		return id;
 	}
@@ -27,7 +37,15 @@ public class Followed {
 		this.id = id;
 	}
 
+	@Column(name = "CREATEDBY")
+	public String getCreatedBy() {
+		return createdBy;
+	}
 
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	@Column(name = "CREATEDATE")
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -35,30 +53,40 @@ public class Followed {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public Integer getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(Integer createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Integer getUpdatedBy() {
+	@Column(name = "UPDATEDBY")
+	public String getUpdatedBy() {
 		return updatedBy;
 	}
 
-	public void setUpdatedBy(Integer updatedBy) {
+	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	
+	@Column(name = "UPDATEDATE")
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
 
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+	
+	@Column(name = "STATUS")
+	@Enumerated(EnumType.STRING) 
+	public FollowedStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(FollowedStatus status) {
+		this.status = status;
+	}
+
+	public void setFollowedAttribute(String userName,Date nowDate) {
+		if(createdBy==null && createdDate==null) {
+			this.createdBy=userName;
+			this.createdDate=nowDate;
+		}else {
+			this.updatedBy=userName;
+			this.updatedDate=nowDate;
+		}
+	}
 }

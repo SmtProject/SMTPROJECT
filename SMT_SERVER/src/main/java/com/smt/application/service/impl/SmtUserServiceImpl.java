@@ -61,7 +61,7 @@ public class SmtUserServiceImpl implements SmtUserService {
 	@Transactional
 	@Override
 	public Admin saveAdmin(Admin admin) throws ValidationException{
-		if(admin!=null) {
+		if(admin!=null) { 
 			if(admin.getRole()==null) {
 				throw new ValidationException("Empty Admin Role");
 			}

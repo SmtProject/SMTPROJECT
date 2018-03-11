@@ -2,6 +2,7 @@ package com.smt.web.client.Main;
 
 
 import com.smt.web.client.ActionView.ActionManagementPanel;
+import com.smt.web.client.Change.year.YearTablePanel;
 import com.smt.web.client.adminView.AdminManagementPanel;
 import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.studentsView.StudentsManagementPanel;
@@ -25,6 +26,7 @@ public class HomeMainView extends VerticalLayout{
 	private MenuBar mainMenuBar;
 	private Layout content;
 	private MenuItem smtUseManagement;
+	private MenuItem settingsManagement;
 	
 
 	private MainUi mainUi = (MainUi)UI.getCurrent();
@@ -42,6 +44,7 @@ public class HomeMainView extends VerticalLayout{
 		smtTeachersMenu();
 		smtStudentsMenu();
 		addViewActionsMenu();
+		smtYearManagementMenu();
 		addSignOutMenu();
 	}
 	
@@ -118,6 +121,20 @@ public class HomeMainView extends VerticalLayout{
 				@Override
 				public void menuSelected(MenuItem selectedItem) {
 					setContant(new StudentsManagementPanel());
+				}
+			});
+		}
+	}
+	private void smtYearManagementMenu() {
+		if(mainUi.isUserSuperAdmin()){
+			if(settingsManagement==null)
+				settingsManagement=mainMenuBar.addItem("Settings USERS",  VaadinIcons.SCREWDRIVER,null);
+			MenuItem studentsUsers = settingsManagement.addItem("School Year", VaadinIcons.CALENDAR,null);
+			studentsUsers.setCommand(new Command() {
+				private static final long serialVersionUID = -6491765760561550525L;
+				@Override
+				public void menuSelected(MenuItem selectedItem) {
+					setContant(new YearTablePanel());
 				}
 			});
 		}

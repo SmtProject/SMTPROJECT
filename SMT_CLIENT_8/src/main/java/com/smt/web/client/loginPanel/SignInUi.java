@@ -1,6 +1,9 @@
 package com.smt.web.client.loginPanel;
 
 import java.io.File;
+
+import javax.xml.bind.ValidationException;
+
 import com.smt.data.entity.SmtUser;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.ProgressWindow;
@@ -19,6 +22,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
+
+import smt.model.tools.LoggedInInfo;
 
 public class SignInUi extends VerticalLayout{
 
@@ -79,13 +84,20 @@ public class SignInUi extends VerticalLayout{
 		if(!userNameTxt.isEmpty() && !passwordTxt.isEmpty()) {
 			ProgressWindow progressbar= new ProgressWindow();
 			progressbar.show();
-			SmtUser smtUser = SmtServiceProvider.getInstance().getSmtUserService().login(userNameTxt.getValue(), passwordTxt.getValue());
+			LoggedInInfo loggedInInfo;
+			try {
+				loggedInInfo = SmtServiceProvider.getInstance().getLoginService().getLoggedInInfo(userNameTxt.getValue(), passwordTxt.getValue());
+			} catch (ValidationException e) {
+				loggedInInfo=null;
+			}
 			progressbar.close();
-			if(smtUser == null)
+			if(loggedInInfo== null)
 				Notification.show("Validation","incorrect UserName or Password",Notification.Type.ERROR_MESSAGE);
 			else {
-				((MainUi)UI.getCurrent()).setActions(smtUser.getSmtRole());
-				((MainUi)UI.getCurrent()).signIn(smtUser);
+				((MainUi)UI.getCurrent()).setActions(loggedInInfo.getActions());
+				((MainUi)UI.getCurrent()).setYear(loggedInInfo.getSelectedYear());
+				((MainUi)UI.getCurrent()).signIn(loggedInInfo.getUser());
+				
 			}
 		}else {
 			Notification.show("Validation","UserName and Password should be field",Notification.Type.ERROR_MESSAGE);

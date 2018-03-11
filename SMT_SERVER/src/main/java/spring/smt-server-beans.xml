@@ -6,8 +6,17 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
   
 <bean id="SmtUserServiceBean" class="com.smt.application.service.impl.SmtUserServiceImpl"></bean> 
 
-<bean id="SmtImportServiceBean" class="com.smt.application.service.impl.SmtImportServiceImpl"></bean> 
+<bean id="SmtYearServiceBean" class="com.smt.application.service.impl.YearServiceImpl"></bean> 
  
 <bean id="SmtActionServiceBean" class="com.smt.application.service.impl.SmtActionServiceImpl" init-method="init"></bean> 
+
+<bean id="SmtLoginServiceBean" class="com.smt.application.service.impl.LoginServiceImpl" >
+<property name="smtActionService" ref="SmtActionServiceBean" />
+<property name="smtUserService" ref="SmtUserServiceBean" />
+<property name="yearService" ref="SmtYearServiceBean" />
+</bean> 
+
+
+
  
 </beans>  

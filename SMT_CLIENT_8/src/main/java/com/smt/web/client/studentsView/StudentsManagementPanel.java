@@ -13,7 +13,7 @@ import com.vaadin.ui.UI;
 
 public class StudentsManagementPanel extends  BaseManagementPanel<Student>{
 	public StudentsManagementPanel() {
-		super(TableName.StudentsManagement);
+		super(TableName.StudentsManagement,true,true);
 	}
 
 	private static final long serialVersionUID = -4234381369066216276L;

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import com.smt.data.entity.Action;
 import com.smt.data.entity.Admin;
 import com.smt.data.entity.SmtUser;
+import com.smt.data.entity.Year;
 import com.smt.data.entity.Admin.AdminRole;
 import com.smt.web.client.Main.HomeMainView;
 import com.smt.web.client.service.SmtServiceProvider;
@@ -27,8 +28,9 @@ import smt.model.tools.Role;
 public class MainUi extends UI{
 	private static final long serialVersionUID = -4125237708871024800L;
 	
-	public SmtUser smtUser;
+	private SmtUser smtUser;
 	private List<Action> actions;
+	private Year year;
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -65,9 +67,20 @@ public class MainUi extends UI{
 	public List<Action> getActions() {
 		return actions;
 	}
-	public void setActions(Role role) {
-		this.actions = SmtServiceProvider.getInstance().getSmtActionService().findActionByRole(role);
+	public void setActions(List<Action> actions) {
+		this.actions =actions;
 	}
+	
+	public Year getYear() {
+		return year;
+	}
+
+
+	public void setYear(Year year) {
+		this.year = year;
+	}
+
+
 	public boolean hasAccess(ActionEnum actionName)
 	{
 		List<ActionEnum> actionNames = actions.stream().map(e->e.getName()).collect(Collectors.toList());

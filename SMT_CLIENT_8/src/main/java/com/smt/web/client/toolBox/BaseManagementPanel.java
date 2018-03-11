@@ -26,10 +26,12 @@ public abstract class BaseManagementPanel<T> extends VerticalLayout implements R
 	private Button importExcelButton;
 	protected TableName tableName;
 	protected Label titleLbl;
+	protected boolean withExport ;
+	protected boolean withImport ;
 
 	public abstract ImportState getImportState();
 	
-	public BaseManagementPanel(TableName tableName) {
+	public BaseManagementPanel(TableName tableName,boolean withExport ,boolean withImport) {
 		this.tableName=tableName;
 		initComponents();
 		intiLayout();
@@ -52,8 +54,10 @@ public abstract class BaseManagementPanel<T> extends VerticalLayout implements R
 
 	private void intiLayout() {
 		HorizontalLayout btnsLayout = new HorizontalLayout(addUserBtn);
+		if(withImport)
 		btnsLayout.addComponent(BtnFactory.ExportGridBtn(userGrid,tableName,ColumnsType.ExportColumns));
 		btnsLayout.setSpacing(true);
+		if(withExport)
 		btnsLayout.addComponent(importExcelButton);
 		addComponents(titleLbl,userGrid, btnsLayout);
 		setComponentAlignment(titleLbl,Alignment.MIDDLE_CENTER);

@@ -13,10 +13,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 </bean> 
  
  <bean class="org.springframework.remoting.rmi.RmiServiceExporter">  
-    <property name="serviceName" value="SmtImportService"></property>  
-    <property name="serviceInterface" value="com.smt.application.service.SmtImportService"></property>  
+    <property name="serviceName" value="SmtYearService"></property>  
+    <property name="serviceInterface" value="com.smt.application.service.YearService"></property>  
     <property name="registryPort" value="1099"></property>  
-    <property name="service" ref="SmtImportServiceBean"></property>  
+    <property name="service" ref="SmtYearServiceBean"></property>  
 </bean> 
 
 <bean class="org.springframework.remoting.rmi.RmiServiceExporter">  
@@ -25,5 +25,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name="registryPort" value="1099"></property>  
     <property name="service" ref="SmtActionServiceBean"></property>  
 </bean> 
+
+<bean class="org.springframework.remoting.rmi.RmiServiceExporter">  
+    <property name="serviceName" value="SmtLoginService"></property>  
+    <property name="serviceInterface" value="com.smt.application.service.LoginService"></property>  
+    <property name="registryPort" value="1099"></property>  
+    <property name="service" ref="SmtLoginServiceBean"></property>  
+</bean>
 
 </beans>  

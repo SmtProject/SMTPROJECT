@@ -12,12 +12,17 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="SmtImportServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
 		<property name="serviceUrl" value="rmi://localhost:1099/SmtImportService"></property>
-		<property name="serviceInterface" value="com.smt.application.service.SmtImportService"></property>
+		<property name="serviceInterface" value="com.smt.application.service.SmtYearService"></property>
 	</bean>
 	
 	<bean id="SmtActionServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
 		<property name="serviceUrl" value="rmi://localhost:1099/SmtActionService"></property>
 		<property name="serviceInterface" value="com.smt.application.service.SmtActionService"></property>
+	</bean>
+	
+	<bean id="SmtLoginServiceBean" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/SmtLoginService"></property>
+		<property name="serviceInterface" value="com.smt.application.service.LoginService"></property>
 	</bean>
 
 

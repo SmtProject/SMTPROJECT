@@ -13,7 +13,7 @@ import com.vaadin.ui.UI;
 public class AdminManagementPanel extends BaseManagementPanel<Admin> {
 
 	public AdminManagementPanel() {
-		super(TableName.AdminManagement);
+		super(TableName.AdminManagement,true,true);
 	}
 
 	private static final long serialVersionUID = -568509141630804558L;
