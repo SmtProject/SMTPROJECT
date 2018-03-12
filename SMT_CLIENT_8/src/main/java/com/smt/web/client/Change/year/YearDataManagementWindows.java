@@ -38,6 +38,7 @@ public class YearDataManagementWindows extends Window{
 	public YearDataManagementWindows(Year year,GeneralItemController<Year>controller) {
 		super("Years Management");
 		this.controller=controller;
+		this.year=year;
 		initCommponents();
 		initLayout();
 		initData();

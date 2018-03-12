@@ -27,6 +27,7 @@ public class ChangeYearWindows extends Window{
 		initComponents();
 		initLayout();
 		setResizable(false);
+		center();
 	}
 
 	private void initComponents() {
@@ -34,6 +35,7 @@ public class ChangeYearWindows extends Window{
 		ProgressWindow progress=new ProgressWindow();
 		progress.show();
 		yearsCbx.setItems(SmtServiceProvider.getInstance().getSmtYearService().getYears());
+		yearsCbx.setItemCaptionGenerator(Year::getName);
 		progress.close();
 		applyBtn=new Button("Apply");
 		initListeners();
@@ -47,6 +49,7 @@ public class ChangeYearWindows extends Window{
 				if(loggedInDataPanel!=null && yearsCbx.getValue()!=null) {
 					((MainUi)UI.getCurrent()).setYear(yearsCbx.getValue());
 					loggedInDataPanel.refreshYear();
+					close();
 				}
 			}
 		});		
@@ -57,5 +60,8 @@ public class ChangeYearWindows extends Window{
 		setContent(mainLayout);
 		mainLayout.addComponent(yearsCbx);
 		mainLayout.addComponent(applyBtn);
+		mainLayout.setSizeUndefined();
+		mainLayout.setMargin(true);
+		mainLayout.setSpacing(true);
 	}
 }
