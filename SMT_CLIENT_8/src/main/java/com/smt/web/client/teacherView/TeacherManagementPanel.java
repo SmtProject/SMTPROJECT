@@ -55,14 +55,6 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher>{
 			      });
 			      return button;
 			});
-			
-			
-//		userGrid.addColumn(person -> "Teaching",
-//				new ButtonRenderer<Teacher>(clickEvent -> {
-//					TeachingGradesManagementPanel permissionsManagementPanel = new TeachingGradesManagementPanel(clickEvent.getItem());
-//					UI.getCurrent().addWindow(permissionsManagementPanel);
-//					permissionsManagementPanel.center();
-//				})).setCaption("Teaching");
 
 	}
 
