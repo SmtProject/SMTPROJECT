@@ -1,5 +1,6 @@
 package com.smt.web.client.studentsView;
 
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.xml.bind.ValidationException;
@@ -14,7 +15,7 @@ import com.smt.web.client.toolBox.ComboBoxFactory;
 import com.smt.web.client.toolBox.GeneralItemController;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.DateTimeField;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
@@ -37,7 +38,7 @@ public class StudentsDataManagementWindow extends Window {
 	private TextField addressTxt;
 	private TextField phoneTxt;
 	private ComboBox<SmtUserStatus>  statusCbx;
-	private DateTimeField dateOfBirth;
+	private DateField dateOfBirth;
 	private TextArea  descriptiontxt;
 
 	private Button saveBtn;
@@ -64,7 +65,7 @@ public class StudentsDataManagementWindow extends Window {
 		addressTxt=new TextField("Address");
 		phoneTxt=new TextField("Phone Number");
 		statusCbx=ComboBoxFactory.getStatusCombobox(); 
-		dateOfBirth=new DateTimeField("Date Of Birth");
+		dateOfBirth=new DateField("Date Of Birth");
 		descriptiontxt=new TextArea("Description");
 		saveBtn=BtnFactory.createSaveBtn();
 		initListeners();
@@ -148,7 +149,8 @@ public class StudentsDataManagementWindow extends Window {
 			addressTxt.setValue(student.getAddress());
 			phoneTxt.setValue(student.getPhone());
 			statusCbx.setValue(student.getStatus()); 
-			dateOfBirth.setData(student.getDateOfBirth());
+			if(student.getDateOfBirth()!=null)
+			dateOfBirth.setValue(student.getDateOfBirth().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 			descriptiontxt.setValue(student.getDescription());
 		
 		}
@@ -164,7 +166,7 @@ public class StudentsDataManagementWindow extends Window {
 		student.setAddress(addressTxt.getValue());
 		student.setPhone(phoneTxt.getValue());
 		student.setEmail(emailTxt.getValue());
-		//student.setDateOfBirth(new Date( dateOfBirth.get);
+		student.setDateOfBirth(Date.from(dateOfBirth.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		student.setDescription(descriptiontxt.getValue());
 		student.setStatus(statusCbx.getValue());
 		student.setFollowedAttribute(((MainUi) UI.getCurrent()).getSmtUser().getUserName(), new Date());

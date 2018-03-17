@@ -128,7 +128,7 @@ public class HomeMainView extends VerticalLayout{
 	private void smtYearManagementMenu() {
 		if(mainUi.isUserSuperAdmin()){
 			if(settingsManagement==null)
-				settingsManagement=mainMenuBar.addItem("Settings USERS",  VaadinIcons.SCREWDRIVER,null);
+				settingsManagement=mainMenuBar.addItem("Settings",  VaadinIcons.SCREWDRIVER,null);
 			MenuItem studentsUsers = settingsManagement.addItem("School Year", VaadinIcons.CALENDAR,null);
 			studentsUsers.setCommand(new Command() {
 				private static final long serialVersionUID = -6491765760561550525L;

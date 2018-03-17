@@ -10,8 +10,10 @@ import com.smt.web.client.loginPanel.MainUi;
 import com.smt.web.client.service.SmtServiceProvider;
 import com.smt.web.client.toolBox.BaseManagementPanel;
 import com.smt.web.client.toolBox.TableColumnFactory.TableName;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.themes.ValoTheme;
 
 import smt.model.tools.Role;
 
@@ -42,12 +44,25 @@ public class TeacherManagementPanel extends BaseManagementPanel<Teacher>{
 		userGrid=new FilteredGrid<Teacher>(tableName,Teacher.class);	
 		MainUi current = (MainUi)UI.getCurrent();
 		if(current.getSmtUser().getSmtRole().equals(Role.Admin))
-		userGrid.addColumn(person -> "View Teaching grades",
-				new ButtonRenderer<Teacher>(clickEvent -> {
-					TeachingGradesManagementPanel permissionsManagementPanel = new TeachingGradesManagementPanel(clickEvent.getItem());
-					UI.getCurrent().addWindow(permissionsManagementPanel);
-					permissionsManagementPanel.center();
-				})).setCaption("Teaching grades");
+			userGrid.addComponentColumn(teacher -> {
+			      Button button = new Button("Can Teach");
+			      button.setIcon(VaadinIcons.BOOK);
+			      button.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+			      button.addClickListener(click ->{
+			    	  TeachingGradesManagementPanel permissionsManagementPanel = new TeachingGradesManagementPanel(teacher);
+			    	  UI.getCurrent().addWindow(permissionsManagementPanel);
+			    	  permissionsManagementPanel.center();
+			      });
+			      return button;
+			});
+			
+			
+//		userGrid.addColumn(person -> "Teaching",
+//				new ButtonRenderer<Teacher>(clickEvent -> {
+//					TeachingGradesManagementPanel permissionsManagementPanel = new TeachingGradesManagementPanel(clickEvent.getItem());
+//					UI.getCurrent().addWindow(permissionsManagementPanel);
+//					permissionsManagementPanel.center();
+//				})).setCaption("Teaching");
 
 	}
 
