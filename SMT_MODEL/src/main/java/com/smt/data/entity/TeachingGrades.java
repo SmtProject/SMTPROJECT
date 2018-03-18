@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import smt.model.tools.ClassesEnum;
 import smt.model.tools.GradesEnum;
 
 @Entity
@@ -21,15 +22,17 @@ public class TeachingGrades implements Serializable{
 	private Integer id;
 	private Integer teacherId;
 	private GradesEnum grade;
+	private ClassesEnum teachingClass;
 	
 	public TeachingGrades() {
 	}
 
-	public TeachingGrades(Integer teacherId, GradesEnum grade) {
+	public TeachingGrades(Integer teacherId, GradesEnum grade, ClassesEnum teachingClass) {
 		this.teacherId = teacherId;
 		this.grade = grade;
+		this.teachingClass = teachingClass;
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Integer getId() {
@@ -57,6 +60,15 @@ public class TeachingGrades implements Serializable{
 
 	public void setGrade(GradesEnum grade) {
 		this.grade = grade;
+	}
+
+	@Column(name = "TEACHING_CLASS")
+	@Enumerated(EnumType.STRING) 
+	public ClassesEnum getTeachingClass() {
+		return teachingClass;
+	}
+	public void setTeachingClass(ClassesEnum teachingClass) {
+		this.teachingClass = teachingClass;
 	}
 
 }

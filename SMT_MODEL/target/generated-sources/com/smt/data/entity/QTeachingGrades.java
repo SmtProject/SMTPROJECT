@@ -25,6 +25,8 @@ public class QTeachingGrades extends EntityPathBase<TeachingGrades> {
 
     public final NumberPath<Integer> teacherId = createNumber("teacherId", Integer.class);
 
+    public final EnumPath<smt.model.tools.ClassesEnum> teachingClass = createEnum("teachingClass", smt.model.tools.ClassesEnum.class);
+
     public QTeachingGrades(String variable) {
         super(TeachingGrades.class, forVariable(variable));
     }

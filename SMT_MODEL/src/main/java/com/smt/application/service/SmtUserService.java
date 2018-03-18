@@ -2,7 +2,6 @@ package com.smt.application.service;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.ValidationException;
 
@@ -10,8 +9,7 @@ import com.smt.data.entity.Admin;
 import com.smt.data.entity.SmtUser;
 import com.smt.data.entity.Student;
 import com.smt.data.entity.Teacher;
-
-import smt.model.tools.GradesEnum;
+import com.smt.data.entity.TeachingGrades;
 
 public interface SmtUserService extends Serializable{
 	//--------------------------------------Login----------------------------------------------------------------
@@ -36,9 +34,11 @@ public interface SmtUserService extends Serializable{
 	
 	void saveTeachers(List<Teacher> teachers) throws ValidationException;
 	
-	void saveTeachingGrades(Integer teacherId, Map<GradesEnum, Boolean> gradesToSaveMap)throws ValidationException;
-	
-	List<GradesEnum> findTeachingGradesByTeacher(Integer teacherId);
+	void saveTeachingGrades(Integer teacherId, List<TeachingGrades> gradesToSaveList)throws ValidationException;
+
+	void saveTeachingGrades(Integer teacherId, TeachingGrades grade)throws ValidationException;
+
+	List<TeachingGrades> findTeachingGradesByTeacher(Integer teacherId);
 	
 	//--------------------------------------Students-API----------------------------------------------------------------
 	List<Student> findAllStudents();

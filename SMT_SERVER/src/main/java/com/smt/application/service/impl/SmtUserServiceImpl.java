@@ -1,8 +1,6 @@
 package com.smt.application.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.ValidationException;
 
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.smt.application.service.SmtUserService;
 import com.smt.data.entity.Admin;
@@ -26,8 +25,6 @@ import com.smt.data.repository.AdminRepository;
 import com.smt.data.repository.StudentRepository;
 import com.smt.data.repository.TeacherRepository;
 import com.smt.data.repository.TeachingGradesRepository;
-
-import smt.model.tools.GradesEnum;
 
 @Service
 public class SmtUserServiceImpl implements SmtUserService {
@@ -270,33 +267,20 @@ public class SmtUserServiceImpl implements SmtUserService {
 	}
 
 	@Override
-	public void saveTeachingGrades(Integer teacherId,Map<GradesEnum,Boolean>gradesToSave)throws ValidationException {
-		gradesToSave.forEach((key,value)->{
-			BooleanExpression byTeacherBe = QTeachingGrades.teachingGrades.teacherId.eq(teacherId).and(QTeachingGrades.teachingGrades.grade.eq(key));
-			TeachingGrades findOne = teachingGradesRepository.findOne(byTeacherBe);
-			if(!value){
-				if(findOne!=null)
-					teachingGradesRepository.delete(findOne);
-			}
-			else{
-				if(findOne == null){
-					TeachingGrades teachingGrades = new TeachingGrades(teacherId, key);
-					teachingGradesRepository.save(teachingGrades);
-			}
-				}
-				
-		});
+	public void saveTeachingGrades(Integer teacherId,List<TeachingGrades>gradesToSave)throws ValidationException {
+		gradesToSave.forEach(e -> teachingGradesRepository.save(e));
 	}
 
 	@Override
-	public List<GradesEnum> findTeachingGradesByTeacher(Integer teacherId) {
+	public List<TeachingGrades> findTeachingGradesByTeacher(Integer teacherId) {
 		BooleanExpression be = QTeachingGrades.teachingGrades.teacherId.eq(teacherId);
 		Iterable<TeachingGrades> findAll = teachingGradesRepository.findAll(be);
-		List<GradesEnum> grades = new ArrayList<>();
-		for(TeachingGrades teachingGrades : findAll){
-			grades.add(teachingGrades.getGrade());
-		}
-		return grades;
+		return Lists.newArrayList(findAll);
 		
+	}
+
+	@Override
+	public void saveTeachingGrades(Integer teacherId, TeachingGrades grade) throws ValidationException {
+		teachingGradesRepository.save(grade);
 	}
 }
