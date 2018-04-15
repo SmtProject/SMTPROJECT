@@ -29,7 +29,9 @@ public class Payment extends Followed {
 	private Date endDate;
 	private String description;
 	private String paymentStatus;
-
+	
+	public Payment() {
+	}
 	public Payment(Student student, String name, Integer paymentAmount, Integer paymentDiscount, Integer splitNumber,
 			Integer payedAmount, Date startDate, Date endDate, String description, String paymentStatus) {
 		this.student = student;
@@ -54,7 +56,7 @@ public class Payment extends Followed {
 		Id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="STUDENT_ID")
 	public Student getStudent() {
 		return student;
