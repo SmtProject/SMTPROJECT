@@ -1,8 +1,7 @@
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="/WEB-INF/tlds/AppTagHandler.tld" prefix="printPaymentGrid"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,21 +11,8 @@
 <link href="assets/css/custom.css" rel="stylesheet" />
 </head>
 <body>
-	<div class="container">
-		<label> Student Form </label>
-		<form action="addStudent" method="GET">
-			<div class="form-group">
-				<label>First Name:</label> <input type="text" class="form-control"
-					name="firstName">
-			</div>
-			<div class="form-group">
-				<label>Last Name:</label> <input type="text" class="form-control"
-					name="lastName">
-			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
-		</form>
-	</div>
 
+<printPaymentGrid:printPaymentGrid/>
 
 </body>
 </html>
