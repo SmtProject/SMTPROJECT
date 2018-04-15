@@ -53,4 +53,6 @@ public interface SmtUserService extends Serializable{
 	Payment saveStudentPayment(Payment payment) throws ValidationException;
 	
 	void saveStudentsPayment(List<Payment> studentsPayment) throws ValidationException;
+	
+	public Payment findPaymentById(Integer id);
 }
