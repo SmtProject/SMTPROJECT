@@ -1,17 +1,17 @@
 package com.smt.servlet.client.taghandler;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import com.example.model.Student;
+import com.smt.data.entity.Payment;
+import com.smt.servlet.client.service.SmtServiceProvider;
+
 
 public class PrintStudentPaymentGridTagHandler extends SimpleTagSupport {
 
-	private ArrayList<Student> studentList;
 
 	@Override
 	public void doTag() throws JspException, IOException {
@@ -21,16 +21,14 @@ public class PrintStudentPaymentGridTagHandler extends SimpleTagSupport {
 		out.print("<table class=\"table table-striped\">");
 		out.print("<thead>");
 		out.print("<tr>");
-		out.print("<th>Firstname</th>");
-		out.print("<th>LastName</th>");
+		out.print("<th>Name</th>");
 		out.print("</tr>");
 
 		out.print("<tbody>");
 
-		for (Student student : studentList) {
+		for (Payment student : SmtServiceProvider.getInstance().getSmtUserService().findAllStudentsPayment()) {
 			out.print("<tr>");
-			out.print("<td>" + student.getFirstName() + "</td>");
-			out.print("<td>" + student.getLastName() + "</td>");
+			out.print("<td>" + student.getName() + "</td>");
 			out.print("</tr>");
 
 		}
@@ -43,12 +41,5 @@ public class PrintStudentPaymentGridTagHandler extends SimpleTagSupport {
 
 	}
 
-	public ArrayList<Student> getStudentList() {
-		return studentList;
-	}
-
-	public void setStudentList(ArrayList<Student> studentList) {
-		this.studentList = studentList;
-	}
 
 }
