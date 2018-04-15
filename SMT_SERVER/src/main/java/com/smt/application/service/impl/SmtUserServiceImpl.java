@@ -304,5 +304,12 @@ public class SmtUserServiceImpl implements SmtUserService {
 	public void saveTeachingGrades(Integer teacherId, TeachingGrades grade) throws ValidationException {
 		teachingGradesRepository.save(grade);
 	}
+
+	@Override
+	public Payment findPaymentById(Integer id) {
+		if(id == null)
+			return null;
+		return paymentRepository.findOne(id);
+	}
 	
 }
