@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.smt.application.service.SmtUserService;
 import com.smt.data.entity.Admin;
+import com.smt.data.entity.Payment;
 import com.smt.data.entity.QAdmin;
 import com.smt.data.entity.QStudent;
 import com.smt.data.entity.QTeacher;
@@ -22,6 +23,7 @@ import com.smt.data.entity.Student;
 import com.smt.data.entity.Teacher;
 import com.smt.data.entity.TeachingGrades;
 import com.smt.data.repository.AdminRepository;
+import com.smt.data.repository.PaymentRepository;
 import com.smt.data.repository.StudentRepository;
 import com.smt.data.repository.TeacherRepository;
 import com.smt.data.repository.TeachingGradesRepository;
@@ -39,6 +41,8 @@ public class SmtUserServiceImpl implements SmtUserService {
 	private StudentRepository studentRepository;
 	@Autowired
 	private TeachingGradesRepository teachingGradesRepository;
+	@Autowired
+	private PaymentRepository paymentRepository;
 	
 	//--------------------------------------Login-------------------------------------------------------------------
 
@@ -247,6 +251,23 @@ public class SmtUserServiceImpl implements SmtUserService {
 			throw new ValidationException("Empty Student Info");
 		}
 	}
+
+	@Override
+	public List<Payment> findAllStudentsPayment() {
+		return paymentRepository.findAll();
+	}
+
+	@Override
+	public Payment saveStudentPayment(Payment payment) throws ValidationException {
+		return paymentRepository.save(payment);
+	}
+
+	@Override
+	public void saveStudentsPayment(List<Payment> studentsPayment) throws ValidationException {
+		paymentRepository.save(studentsPayment);
+
+	}
+	
 	//--------------------------------------smtUser Api-------------------------------------------------------------------
 
 	private boolean _validateSmtUserNameExists(String userName) {
@@ -283,4 +304,5 @@ public class SmtUserServiceImpl implements SmtUserService {
 	public void saveTeachingGrades(Integer teacherId, TeachingGrades grade) throws ValidationException {
 		teachingGradesRepository.save(grade);
 	}
+	
 }
