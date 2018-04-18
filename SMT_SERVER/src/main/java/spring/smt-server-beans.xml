@@ -10,6 +10,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
 <bean id="SmtActionServiceBean" class="com.smt.application.service.impl.SmtActionServiceImpl" init-method="init"></bean> 
 
+<bean id="SmtPaymentServiceBean" class="com.smt.application.service.impl.SmtPaymentServiceImpl"></bean> 
+
 <bean id="SmtLoginServiceBean" class="com.smt.application.service.impl.LoginServiceImpl" >
 <property name="smtActionService" ref="SmtActionServiceBean" />
 <property name="smtUserService" ref="SmtUserServiceBean" />

@@ -32,5 +32,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name="registryPort" value="1099"></property>  
     <property name="service" ref="SmtLoginServiceBean"></property>  
 </bean>
+<bean class="org.springframework.remoting.rmi.RmiServiceExporter">  
+    <property name="serviceName" value="SmtPaymentService"></property>  
+    <property name="serviceInterface" value="com.smt.application.service.SmtPaymentService"></property>  
+    <property name="registryPort" value="1099"></property>  
+    <property name="service" ref="SmtPaymentServiceBean"></property>  
+</bean>
 
 </beans>  
