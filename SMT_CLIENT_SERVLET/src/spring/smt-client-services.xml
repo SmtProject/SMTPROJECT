@@ -24,6 +24,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 		<property name="serviceUrl" value="rmi://localhost:1099/SmtLoginService"></property>
 		<property name="serviceInterface" value="com.smt.application.service.LoginService"></property>
 	</bean>
+	<bean id="SmtPaymentService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1099/SmtPaymentService"></property>
+		<property name="serviceInterface" value="com.smt.application.service.SmtPaymentService"></property>
+	</bean>
 
 
 

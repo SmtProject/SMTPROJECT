@@ -9,7 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import com.smt.data.entity.Payment;
 
 
-public class PrintPaymentDetailsGridTagHandler extends SimpleTagSupport {
+public class StudentPaymentDetailsGridTagHandler extends SimpleTagSupport {
 
 	private Payment payment;
 	
@@ -33,7 +33,7 @@ public class PrintPaymentDetailsGridTagHandler extends SimpleTagSupport {
 		out.print("<tbody>");
 		Integer splitNumber = payment.getSplitNumber();
 		int payed=0;
-		for (int i = 0 ;i<splitNumber;i++) {
+		for (int i = 1 ;i<splitNumber;i++) {
 			out.print("<tr>");
 			out.print("<td>" + payment.getName() + "</td>");
 			out.print("<td>" + payment.getStudent().getFirstName() + "</td>");
@@ -41,13 +41,13 @@ public class PrintPaymentDetailsGridTagHandler extends SimpleTagSupport {
 			out.print("<td>" + amount + "</td>");
 			payed += amount;
 			Integer payedAmount = payment.getPayedAmount()==null ?0 : payment.getPayedAmount();
-			if(payedAmount<=payed){
+			if(payedAmount<payed){
 				out.print("<td>" + "unpayed" + "</td>");
 			}else
 			out.print("<td>" + "payed" + "</td>");
 
 			String paymentId = " "+payment.getId()+"  "; 
-			if(payedAmount<=payed)
+			if(payedAmount<payed)
 			out.print("<td> <button data-type="+paymentId + "id =\"print-payment\" type=\"button\" class=\"btn btn-success\"  >print</button> "
 					+ "<button data-type="+paymentId + "id =\"pay-payment\" type=\"button\" class=\"btn btn-danger\" >pay</button></td>");
 			else

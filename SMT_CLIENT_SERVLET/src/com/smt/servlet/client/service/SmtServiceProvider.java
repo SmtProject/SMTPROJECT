@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.smt.application.service.LoginService;
 import com.smt.application.service.SmtActionService;
+import com.smt.application.service.SmtPaymentService;
 import com.smt.application.service.SmtUserService;
 import com.smt.application.service.YearService;
 
@@ -24,6 +25,10 @@ public class SmtServiceProvider {
 	public LoginService getLoginService(){
 		return (LoginService)context.getBean("SmtLoginServiceBean");
 	}
+	public SmtPaymentService getSmtPaymentService(){
+		return (SmtPaymentService)context.getBean("SmtPaymentService");
+	}
+	
 	public static SmtServiceProvider getInstance() {
 		if (instance == null)
 			return new SmtServiceProvider();

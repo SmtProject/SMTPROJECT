@@ -9,14 +9,20 @@
 
 	<tag>
 		<name> printPaymentGrid</name>
-		<tag-class>com.smt.servlet.client.taghandler.PrintStudentPaymentGridTagHandler</tag-class>
+		<tag-class>com.smt.servlet.client.taghandler.StudentPaymentGridTagHandler</tag-class>
+		<body-content>empty</body-content>
+
+	</tag>
+	<tag>
+		<name> printStudentGrid</name>
+		<tag-class>com.smt.servlet.client.taghandler.MainPageTagHandler</tag-class>
 		<body-content>empty</body-content>
 
 	</tag>
 
 	<tag>
 		<name> printPaymentDetailsGrid</name>
-		<tag-class>com.smt.servlet.client.taghandler.PrintPaymentDetailsGridTagHandler</tag-class>
+		<tag-class>com.smt.servlet.client.taghandler.StudentPaymentDetailsGridTagHandler</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>payment</name>

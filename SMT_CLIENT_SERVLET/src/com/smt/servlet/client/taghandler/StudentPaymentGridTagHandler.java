@@ -11,7 +11,7 @@ import com.smt.data.entity.Payment;
 import com.smt.servlet.client.service.SmtServiceProvider;
 
 
-public class PrintStudentPaymentGridTagHandler extends SimpleTagSupport {
+public class StudentPaymentGridTagHandler extends SimpleTagSupport {
 
 
 	@Override
@@ -34,7 +34,7 @@ public class PrintStudentPaymentGridTagHandler extends SimpleTagSupport {
 
 		out.print("<tbody>");
 
-		List<Payment> studentsPayment = SmtServiceProvider.getInstance().getSmtUserService().findAllStudentsPayment();
+		List<Payment> studentsPayment = SmtServiceProvider.getInstance().getSmtPaymentService().findAllStudentsPayment();
 		for (Payment payment : studentsPayment) {
 			out.print("<tr>");
 			out.print("<td>" + payment.getName() + "</td>");

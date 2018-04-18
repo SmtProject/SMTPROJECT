@@ -1,6 +1,7 @@
 package com.smt.servlet.client.controller;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,28 +12,25 @@ import javax.xml.bind.ValidationException;
 
 import com.smt.application.service.SmtPaymentService;
 import com.smt.data.entity.Payment;
+import com.smt.data.entity.Student;
 import com.smt.servlet.client.service.SmtServiceProvider;
 
-@WebServlet("/pay")
-public class PayActionController extends HttpServlet {
+@WebServlet("/generatePayment")
+public class GeneratePaymentController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String id = req.getParameter("payment");
+		String id = req.getParameter("student");
 		SmtPaymentService smtUserService = SmtServiceProvider.getInstance().getSmtPaymentService();
-		Payment payment = smtUserService.findPaymentById(Integer.parseInt(id));
-		
-		int amount = payment.getPaymentAmount()/5;
-		Integer payedAmount = payment.getPayedAmount() == null ? 0 : payment.getPayedAmount();
-		payment.setPayedAmount(payedAmount+amount);
+		Student student = SmtServiceProvider.getInstance().getSmtUserService().findStudentById(Integer.parseInt(id));
+		Payment payment = new Payment(student, "invoice 2017-2018", 2000, 0, 5, 0, new Date(), new Date(), "", "");
 		try {
 			smtUserService.saveStudentPayment(payment);
-		} catch (ValidationException e) {
-			e.printStackTrace();
+		} catch (ValidationException e1) {
+			e1.printStackTrace();
 		}
-		req.setAttribute("payment", req.getParameter("payment"));
-		req.getRequestDispatcher("/view/StudentPaymentDetailsGrid.jsp").forward(req, resp);
+		req.getRequestDispatcher("/view/StudentPaymentGrid.jsp").forward(req, resp);
 	}
 }
