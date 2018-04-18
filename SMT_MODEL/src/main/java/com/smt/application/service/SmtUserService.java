@@ -6,7 +6,6 @@ import java.util.List;
 import javax.xml.bind.ValidationException;
 
 import com.smt.data.entity.Admin;
-import com.smt.data.entity.Payment;
 import com.smt.data.entity.SmtUser;
 import com.smt.data.entity.Student;
 import com.smt.data.entity.Teacher;
@@ -48,11 +47,6 @@ public interface SmtUserService extends Serializable{
 	
 	void saveStudents(List<Student> students) throws ValidationException;
 
-	List<Payment> findAllStudentsPayment();
-	
-	Payment saveStudentPayment(Payment payment) throws ValidationException;
-	
-	void saveStudentsPayment(List<Payment> studentsPayment) throws ValidationException;
-	
-	public Payment findPaymentById(Integer id);
+	Student findStudentById(Integer id);
+
 }
