@@ -23,9 +23,11 @@ public class GeneratePaymentController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("student");
+		Integer nbofbills=Integer.parseInt(req.getParameter("nbOFBills").trim());
+		Integer amount=Integer.parseInt(req.getParameter("amount").trim());
 		SmtPaymentService smtUserService = SmtServiceProvider.getInstance().getSmtPaymentService();
-		Student student = SmtServiceProvider.getInstance().getSmtUserService().findStudentById(Integer.parseInt(id));
-		Payment payment = new Payment(student, "invoice 2017-2018", 2000, 0, 5, 0, new Date(), new Date(), "", "");
+		Student student = SmtServiceProvider.getInstance().getSmtUserService().findStudentById(Integer.parseInt(id.trim()));
+		Payment payment = new Payment(student, student.getFormatedName()+" invoice 2017-2018", amount, 0, nbofbills, 0, new Date(), new Date(), "", "");
 		try {
 			smtUserService.saveStudentPayment(payment);
 		} catch (ValidationException e1) {

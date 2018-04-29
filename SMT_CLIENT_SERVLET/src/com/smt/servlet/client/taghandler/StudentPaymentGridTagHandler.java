@@ -29,7 +29,7 @@ public class StudentPaymentGridTagHandler extends SimpleTagSupport {
 		out.print("<th>Payement Discount</th>");
 		out.print("<th>Split Number</th>");
 		out.print("<th>Manage</th>");
-		
+
 		out.print("</tr>");
 
 		out.print("<tbody>");
@@ -45,10 +45,16 @@ public class StudentPaymentGridTagHandler extends SimpleTagSupport {
 			out.print("<td>" + payedAmount + "</td>");
 			out.print("<td>" + payementDiscount + "</td>");
 			out.print("<td>" + payment.getSplitNumber() + "</td>");
-			String paymentId = " "+payment.getId()+"  "; 
-			out.print("<td> <button data-type="+paymentId + "id =\"view-payment\" type=\"button\" class=\"btn btn-success\" >view</button> "
-					+ "<button data-type="+paymentId + "id =\"edit-payment\" type=\"button\" class=\"btn btn-danger\" >edit</button></td>");
+			out.print("<form method='GET' action='financeDetails' >");
+			out.print(" <input type='hidden' value='"+payment.getId()+"' name='payment'>");
 			
+			out.print("<td>"); 
+			out.print("<input type='submit' value='View' class=\"btn btn-danger\">");
+			out.print("</td>");
+
+			out.print("</form>");
+
+
 			out.print("</tr>");
 
 		}

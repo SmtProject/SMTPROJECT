@@ -11,6 +11,7 @@ import javax.xml.bind.ValidationException;
 
 import com.smt.application.service.SmtPaymentService;
 import com.smt.data.entity.Payment;
+import com.smt.data.entity.PaymentDetail;
 import com.smt.servlet.client.service.SmtServiceProvider;
 
 @WebServlet("/pay")
@@ -20,19 +21,29 @@ public class PayActionController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String id = req.getParameter("payment");
+		Integer id =Integer.parseInt(req.getParameter("paymentDetail"));
 		SmtPaymentService smtUserService = SmtServiceProvider.getInstance().getSmtPaymentService();
-		Payment payment = smtUserService.findPaymentById(Integer.parseInt(id));
+		PaymentDetail paymentDetails;
+		try {
+			paymentDetails = SmtServiceProvider.getInstance().getSmtPaymentService().findPaymentDetailsById(id);
+		} catch (ValidationException e1) {
+			return;
+		}
+		paymentDetails.setPayed(true);
+		Payment payment=SmtServiceProvider.getInstance().getSmtPaymentService().findPaymentById(paymentDetails.getPaymentId());
+		int paymentAmount=0;
+		if(payment.getPayedAmount()!=null) {
+			paymentAmount+=payment.getPayedAmount();
+		}
+		paymentAmount+=paymentDetails.getAmount();
 		
-		int amount = payment.getPaymentAmount()/5;
-		Integer payedAmount = payment.getPayedAmount() == null ? 0 : payment.getPayedAmount();
-		payment.setPayedAmount(payedAmount+amount);
+		payment.setPayedAmount(paymentAmount);
 		try {
 			smtUserService.saveStudentPayment(payment);
+			smtUserService.updatePaymentDetail(paymentDetails);
 		} catch (ValidationException e) {
 			e.printStackTrace();
 		}
-		req.setAttribute("payment", req.getParameter("payment"));
-		req.getRequestDispatcher("/view/StudentPaymentDetailsGrid.jsp").forward(req, resp);
+			req.getRequestDispatcher("/view/MainPage.jsp").forward(req, resp);
 	}
 }
