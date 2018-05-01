@@ -10,11 +10,15 @@ import javax.persistence.Table;
 import smt.model.tools.Followed;
 
 
+
 @Entity
 @Table(name = "PAYMENT_DETAILS")
 public class PaymentDetail extends Followed{
 
-	private static final long serialVersionUID = -3124188959638817517L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer paymentId;
 	private Integer number;
 	private Integer amount;
