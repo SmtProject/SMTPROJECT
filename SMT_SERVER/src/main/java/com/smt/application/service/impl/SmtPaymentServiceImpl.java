@@ -57,7 +57,7 @@ public class SmtPaymentServiceImpl implements SmtPaymentService{
 	@Override
 	public List<PaymentDetail> getPaymentDeatails(Integer paymentId) throws ValidationException {
 		if(paymentId==null) 
-			throw new ValidationException("empty paymentId");
+			throw new ValidationException("empty payment Id");
 		return  Lists.newArrayList(paymentDetailRepository.findAll(QPaymentDetail.paymentDetail.paymentId.eq(paymentId)));
 	}
 
