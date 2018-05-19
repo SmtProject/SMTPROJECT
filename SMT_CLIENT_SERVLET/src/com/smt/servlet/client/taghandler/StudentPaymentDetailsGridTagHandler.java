@@ -57,7 +57,7 @@ public class StudentPaymentDetailsGridTagHandler extends SimpleTagSupport {
 			}else
 				out.print("<td>" + "payed" + "</td>");
 
-			String paymentId = " "+payment.getId()+"  "; 
+			String paymentId = " "+paymentDetail.getId()+"  "; 
 			if(!paymentDetail.getPayed()) {
 				out.print("<form method='GET' action='pay'>");
 				out.print("<input type='hidden' value='"+paymentDetail.getId()+"' name='paymentDetail'>");
