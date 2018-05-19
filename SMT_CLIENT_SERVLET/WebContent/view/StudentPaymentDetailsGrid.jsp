@@ -17,6 +17,12 @@
 			window.location = "pay"+"?payment="+type;	
 			});
 	});
+	$(document).on("click", "#print-payment", function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+		$.get("financeDetails", function(responseText) { // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+			var type=$("#print-payment").attr("data-type");
+			window.location = "print"+"?payment="+type;	
+			});
+	});
 </script>
 <title>Payment Details</title>
 <link href="assets/css/bootstrap.css" rel="stylesheet" />
@@ -31,5 +37,6 @@
   Payment payment =	SmtServiceProvider.getInstance().getSmtPaymentService().findPaymentById(id);
   
   %>
+  
 <printPaymentGrid:printPaymentDetailsGrid payment="<%=payment%>"/>
 </html>
