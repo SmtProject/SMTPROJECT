@@ -6,11 +6,9 @@ import javax.xml.bind.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Lists;
 import com.smt.application.service.SmtPaymentService;
 import com.smt.data.entity.Payment;
 import com.smt.data.entity.PaymentDetail;
-import com.smt.data.entity.QPaymentDetail;
 import com.smt.data.repository.PaymentDetailRepository;
 import com.smt.data.repository.PaymentRepository;
 
@@ -52,13 +50,6 @@ public class SmtPaymentServiceImpl implements SmtPaymentService{
 		if(id == null)
 			return null;
 		return paymentRepository.findOne(id);
-	}
-
-	@Override
-	public List<PaymentDetail> getPaymentDeatails(Integer paymentId) throws ValidationException {
-		if(paymentId==null) 
-			throw new ValidationException("empty payment Id");
-		return  Lists.newArrayList(paymentDetailRepository.findAll(QPaymentDetail.paymentDetail.paymentId.eq(paymentId)));
 	}
 
 	@Override

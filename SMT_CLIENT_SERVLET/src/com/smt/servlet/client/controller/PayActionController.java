@@ -1,6 +1,7 @@
 package com.smt.servlet.client.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +31,12 @@ public class PayActionController extends HttpServlet {
 			return;
 		}
 		paymentDetails.setPayed(true);
-		Payment payment=SmtServiceProvider.getInstance().getSmtPaymentService().findPaymentById(paymentDetails.getPaymentId());
+		Payment payment;
+		try {
+			payment = SmtServiceProvider.getInstance().getSmtPaymentService().findPaymentById(paymentDetails.getPaymentId());
+		} catch (ValidationException e1) {
+			return;
+		}
 		int paymentAmount=0;
 		if(payment.getPayedAmount()!=null) {
 			paymentAmount+=payment.getPayedAmount();

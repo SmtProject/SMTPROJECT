@@ -1,11 +1,13 @@
 package com.smt.servlet.client.taghandler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+import javax.xml.bind.ValidationException;
 
 import com.smt.data.entity.Payment;
 import com.smt.servlet.client.service.SmtServiceProvider;
@@ -34,7 +36,12 @@ public class StudentPaymentGridTagHandler extends SimpleTagSupport {
 
 		out.print("<tbody>");
 
-		List<Payment> studentsPayment = SmtServiceProvider.getInstance().getSmtPaymentService().findAllStudentsPayment();
+		List<Payment> studentsPayment;
+		try {
+			studentsPayment = SmtServiceProvider.getInstance().getSmtPaymentService().findAllStudentsPayment();
+		} catch (ValidationException e) {
+			studentsPayment=new ArrayList<>();
+		}
 		for (Payment payment : studentsPayment) {
 			out.print("<tr>");
 			out.print("<td>" + payment.getName() + "</td>");

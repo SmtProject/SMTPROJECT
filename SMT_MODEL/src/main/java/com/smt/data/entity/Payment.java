@@ -1,6 +1,7 @@
 package com.smt.data.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import smt.model.tools.Followed;
@@ -29,6 +31,7 @@ public class Payment extends Followed {
 	private Date endDate;
 	private String description;
 	private String paymentStatus;
+	private List<PaymentDetail>paymentDetails;
 	
 	public Payment() {
 	}
@@ -146,5 +149,16 @@ public class Payment extends Followed {
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
+	
+	@OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="PAYMENT_ID")
+	public List<PaymentDetail> getPaymentDetails() {
+		return paymentDetails;
+	}
+	public void setPaymentDetails(List<PaymentDetail> paymentDetails) {
+		this.paymentDetails = paymentDetails;
+	}
+	
+	
 
 }

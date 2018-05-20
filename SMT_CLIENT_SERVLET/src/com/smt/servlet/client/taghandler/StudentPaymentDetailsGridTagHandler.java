@@ -24,7 +24,7 @@ public class StudentPaymentDetailsGridTagHandler extends SimpleTagSupport {
 			return;
 		List<PaymentDetail>paymentDetails=null;
 		try {
-			paymentDetails=SmtServiceProvider.getInstance().getSmtPaymentService().getPaymentDeatails(payment.getId());
+			paymentDetails=SmtServiceProvider.getInstance().getSmtPaymentService().findPaymentById(payment.getId()).getPaymentDetails();
 		} catch (ValidationException e) {
 			paymentDetails=new ArrayList<PaymentDetail>();
 		}
