@@ -19,5 +19,7 @@ public interface SmtPaymentService {
 	
 	public PaymentDetail findPaymentDetailsById(Integer id) throws ValidationException;
 	
+	public void transfereAmmount(Integer paymentDetailsFromId,Integer paymentDetailsToId,Integer amount) throws ValidationException;
+	
 	public PaymentDetail updatePaymentDetail(PaymentDetail paymentDetail)throws ValidationException;
 }

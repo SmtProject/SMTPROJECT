@@ -38,6 +38,10 @@ public class StudentPaymentDetailsGridTagHandler extends SimpleTagSupport {
 		out.print("<th>Number</th>");
 		out.print("<th>Payment Amount</th>");
 		out.print("<th>Status</th>");
+		out.print("<th>transfere Amount</th>");
+		out.print("<th>transfere to Number</th>");
+		out.print("<th>transfere</th>");
+		
 		out.print("<th>Manage</th>");
 
 		out.print("</tr>");
@@ -59,6 +63,32 @@ public class StudentPaymentDetailsGridTagHandler extends SimpleTagSupport {
 
 			String paymentId = " "+paymentDetail.getId()+"  "; 
 			if(!paymentDetail.getPayed()) {
+				
+				out.print("<form method='GET' action='transfere'>");
+				out.print("<input type='hidden' value='"+paymentDetail.getId()+"' name='paymentDetailfrom'>");
+			
+				out.print("<td>");
+				out.print("<input type=\"number\" name=\"amount\" min=\0\" max=\""+paymentDetail.getAmount()+"\" required>");
+				out.print("</td>");
+				
+				out.print("<td>"); 
+				out.print("<select name='paymentDetailto' required > ");
+				for (PaymentDetail paymentDetail2 : paymentDetails) {
+					if(paymentDetail2.getId()!=paymentDetail.getId() && paymentDetail2.getPayed()==false)
+						out.print("<option value='"+paymentDetail2.getId()+"'>"+paymentDetail2.getNumber()+"</option>");
+				}
+				
+				out.print("</select>");
+				out.print("</td>");
+				
+				
+				out.print("<td>"); 
+				out.print("<input type='submit' value='transfere' class=\"btn btn-success\">");
+				out.print("</td>");
+				
+				out.print("</form>");
+				
+				
 				out.print("<form method='GET' action='pay'>");
 				out.print("<input type='hidden' value='"+paymentDetail.getId()+"' name='paymentDetail'>");
 				out.print("<td>"); 
@@ -67,10 +97,17 @@ public class StudentPaymentDetailsGridTagHandler extends SimpleTagSupport {
 				out.print("</td>");
 				out.print("</form>");
 			}
-			else
+			else {
+				out.print("<td>"); 
+				out.print("<input type=\"number\" name=\"amount\"  disabled>");
+				out.print("</td>");
+				out.print("<td>"); 
+				out.print("<select> </select>");
+				out.print("</td>");
+
 				out.print("<td> <button data-type="+paymentId + "id =\"print-payment\" type=\"button\" class=\"btn btn-success\" disabled>print</button> "
 						+ "<button data-type="+paymentId + "id =\"pay-payment\" type=\"button\" class=\"btn btn-danger\" disabled>pay</button></td>");
-
+			}
 			out.print("</tr>");
 
 		}

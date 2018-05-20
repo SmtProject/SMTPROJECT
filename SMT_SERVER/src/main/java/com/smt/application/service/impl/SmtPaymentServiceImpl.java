@@ -65,4 +65,22 @@ public class SmtPaymentServiceImpl implements SmtPaymentService{
 			throw new ValidationException("empty payment Detail by id");
 		return paymentDetailRepository.findOne(id);
 	}
+
+	@Override
+	public void transfereAmmount(Integer paymentDetailsFromId, Integer paymentDetailsToId, Integer amount)throws ValidationException {
+		if(paymentDetailsFromId==null) 
+			throw new ValidationException("empty paymentDetailsFromId");
+		if(paymentDetailsToId==null) 
+			throw new ValidationException("empty paymentDetailsToId");
+		if(amount==null) 
+			throw new ValidationException("empty amount");
+		PaymentDetail paymentDetailfrom= findPaymentDetailsById(paymentDetailsFromId);
+		if(amount>paymentDetailfrom.getAmount())
+			throw new ValidationException("paymentDetailfrom has not enough amount");
+		PaymentDetail paymentDetailTo=findPaymentDetailsById(paymentDetailsToId);
+		paymentDetailfrom.setAmount(paymentDetailfrom.getAmount()-amount);
+		paymentDetailTo.setAmount(paymentDetailTo.getAmount()+amount);
+		paymentDetailRepository.save(paymentDetailfrom);
+		paymentDetailRepository.save(paymentDetailTo);
+	}
 }
