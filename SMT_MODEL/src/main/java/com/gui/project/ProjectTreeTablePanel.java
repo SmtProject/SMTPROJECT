@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,7 +25,6 @@ import com.model.entity.Project;
 import com.model.entity.ProjectEntity;
 import com.model.exception.CustomException;
 import com.script.generator.ProjectBuilder;
-import com.script.generator.ProjectScriptGenerator;
 
 public class ProjectTreeTablePanel extends JPanel implements RefreshListener{
 
@@ -61,9 +59,9 @@ public class ProjectTreeTablePanel extends JPanel implements RefreshListener{
 			splitPane.setRightComponent(new ProjectEntityManagementPanel(projectEntity,this));
 		}
 	}
-	protected void onAttributeSelected(Attribute attribute) {
+	protected void onAttributeSelected(Attribute attribute, List<ProjectEntity> list, ProjectEntity projectEntity) {
 		if(attribute!=null) {
-			splitPane.setRightComponent(new AttributeManagementPanel(attribute,this));
+			splitPane.setRightComponent(new AttributeManagementPanel(attribute,this,list,projectEntity));
 		}
 	}
 
@@ -196,7 +194,10 @@ public class ProjectTreeTablePanel extends JPanel implements RefreshListener{
 				}
 				else if(selectedObject instanceof Attribute) {
 					Attribute attribute=(Attribute)selectedObject;
-					onAttributeSelected(attribute);
+					Object[] path = e.getPath().getPath();
+					Project project=(Project)path[path.length-3];
+					ProjectEntity ProjectEntity=(ProjectEntity)path[path.length-2];
+					onAttributeSelected(attribute,project.getProjectEntitys(),ProjectEntity);
 				}
 
 			}
