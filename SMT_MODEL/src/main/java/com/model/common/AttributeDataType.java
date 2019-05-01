@@ -1,7 +1,7 @@
 package com.model.common;
 
 public enum AttributeDataType {
-STRING,DATE,INTEGER,DOUBLE,BOOLEAN,ONE_TO_ONE,ONE_TO_MANY;
+STRING,DATE,INTEGER,DOUBLE,BOOLEAN;
 	
 	
 	public String dataBaseName() {
@@ -20,10 +20,7 @@ STRING,DATE,INTEGER,DOUBLE,BOOLEAN,ONE_TO_ONE,ONE_TO_MANY;
 			return "";
 		}
 	}
-	
-	public boolean isObject() {
-		return this.equals(ONE_TO_ONE) || this.equals(ONE_TO_MANY) ;
-	}
+
 	
 	@Override
 	public String toString() {
@@ -38,10 +35,6 @@ STRING,DATE,INTEGER,DOUBLE,BOOLEAN,ONE_TO_ONE,ONE_TO_MANY;
 			return "Double";
 		case BOOLEAN:
 			return "Boolean";
-		case ONE_TO_ONE:
-			return "Has One";
-		case ONE_TO_MANY:
-			return "Has Many";
 		default:
 			return "";
 		}

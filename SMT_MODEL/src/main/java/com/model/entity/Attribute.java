@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.model.common.AttributeDataType;
 import com.model.common.Followed;
 
@@ -29,7 +31,6 @@ public class Attribute extends Followed implements Serializable {
 	private Boolean isMandatory;
 	private Boolean isUnique;
 	private Integer entity;
-	private String refProjectName;
 
 	public Attribute() {
 		super();
@@ -61,6 +62,11 @@ public class Attribute extends Followed implements Serializable {
 
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
+	}
+	
+	@Transient
+	public String getFormatedEntityName(){
+		return StringUtils.capitalize(getEntityName().toLowerCase());
 	}
 
 	@Column(name = "ENTITY_TYPE")
@@ -98,31 +104,6 @@ public class Attribute extends Followed implements Serializable {
 
 	public void setEntity(Integer entity) {
 		this.entity = entity;
-	}
-	@Column(name = "REF_PROJECT_NAME")
-	public String getRefProjectName() {
-		return refProjectName;
-	}
-
-	public void setRefProjectName(String refProjectName) {
-		this.refProjectName = refProjectName;
-	}
-	@Transient
-	public ProjectEntity getReferenceProjectEntity(List<ProjectEntity>projectEnties) {
-		if(projectEnties!=null && refProjectName!=null) {
-			for (ProjectEntity projectEntity : projectEnties) {
-				if(refProjectName.equals(projectEntity.getEntityName()))
-					return projectEntity;
-			}
-		}
-		return null;
-	}
-	@Transient
-	public void setReferenceProjectEntity(ProjectEntity referenceProjectEntity) {
-		if(referenceProjectEntity==null)
-			refProjectName=null;
-		else
-			refProjectName=referenceProjectEntity.getEntityName();
 	}
 
 	@Override

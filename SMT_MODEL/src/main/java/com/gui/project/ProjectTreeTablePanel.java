@@ -61,7 +61,7 @@ public class ProjectTreeTablePanel extends JPanel implements RefreshListener{
 	}
 	protected void onAttributeSelected(Attribute attribute, List<ProjectEntity> list, ProjectEntity projectEntity) {
 		if(attribute!=null) {
-			splitPane.setRightComponent(new AttributeManagementPanel(attribute,this,list,projectEntity));
+			splitPane.setRightComponent(new AttributeManagementPanel(attribute,this));
 		}
 	}
 

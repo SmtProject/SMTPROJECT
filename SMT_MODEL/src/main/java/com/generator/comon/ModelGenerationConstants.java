@@ -1,5 +1,8 @@
 package com.generator.comon;
 
+import javax.management.RuntimeErrorException;
+
+
 public class ModelGenerationConstants {
 
 	public static String MODEL_PACKAGE="package com.model;";
@@ -14,6 +17,7 @@ public class ModelGenerationConstants {
 			"import javax.persistence.EnumType;\n" + 
 			"import javax.persistence.Enumerated;\n" + 
 			"import javax.persistence.GeneratedValue;\n" + 
+			"import java.util.Date;\n" + 
 			"import javax.persistence.GenerationType;\n" + 
 			"import javax.persistence.Id;\n" + 
 			"import javax.persistence.Table;\n"; 
@@ -103,27 +107,27 @@ public class ModelGenerationConstants {
 			"	@Autowired\n" + 
 			"	private ${"+CLASS_NAME+"}Repository ${"+CLASS_NAME_START_LOWE+"}Repository;\n" + 
 			"	\n" + 
-			"	@Override\n" + 
+			"	\n" + 
 			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+CLASS_NAME+"} object) throws CustomException {\n" + 
 			"		return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
 			"	}\n" + 
 			"\n" + 
-			"	@Override\n" + 
+			"	\n" + 
 			"	public ${"+CLASS_NAME+"} updateObject(${"+CLASS_NAME+"} object) throws CustomException {\n" + 
 			"		return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
 			"	}\n" + 
 			"\n" + 
-			"	@Override\n" + 
+			"	\n" + 
 			"	public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException {\n" + 
 			"		return ${"+CLASS_NAME_START_LOWE+"}Repository.findAll();\n" + 
 			"	}\n" + 
 			"\n" + 
-			"	@Override\n" + 
+			"	\n" + 
 			"	public ${"+CLASS_NAME+"} get${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
 			"		return ${"+CLASS_NAME_START_LOWE+"}Repository.findOne(id);\n" + 
 			"	}\n" + 
 			"\n" + 
-			"	@Override\n" + 
+			"	\n" + 
 			"	public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
 			"		${"+CLASS_NAME_START_LOWE+"}Repository.delete(id);\n" + 
 			"	}\n" + 
@@ -133,27 +137,41 @@ public class ModelGenerationConstants {
 
 	public static String SERVICES_GETTER_SETTER="	private ${"+CLASS_NAME+"}Service ${"+CLASS_NAME_START_LOWE+"}Service;\n" + 
 			"	\n" + 
-			"	public ${"+CLASS_NAME+"}Service get${"+CLASS_NAME_START_LOWE+"}Service() {\n" + 
+			"	public ${"+CLASS_NAME+"}Service get${"+CLASS_NAME+"}Service() {\n" + 
 			"		return ${"+CLASS_NAME_START_LOWE+"}Service;\n" + 
 			"	}\n" + 
 			"	\n" + 
-			"	public void set${"+CLASS_NAME_START_LOWE+"}Service(${"+CLASS_NAME+"}Service ${"+CLASS_NAME_START_LOWE+"}Service) {\n" + 
+			"	public void set${"+CLASS_NAME+"}Service(${"+CLASS_NAME+"}Service ${"+CLASS_NAME_START_LOWE+"}Service) {\n" + 
 			"		this.${"+CLASS_NAME_START_LOWE+"}Service = ${"+CLASS_NAME_START_LOWE+"}Service;\n" + 
 			"	}";
 
 	public static String SERVICES="package com.service;\n" + 
 			"\n" + 
+			"import java.time.Duration;\n" + 
+			"import java.time.Instant;\n" + 
+			"import javax.management.RuntimeErrorException;\n" + 
+			"\n" + 
+			"import org.springframework.context.support.ClassPathXmlApplicationContext;\n" + 
+			"\n" + 
 			"public class Services {\n" + 
 			"	private static Services services;\n" + 
 			"	\n" + 
-			"	public Services() {\n" + 
+			"	public static Services getinstance() {\n" + 
+			"		if(services==null) {\n" + 
+			"			try{\n" + 
+			"				new ClassPathXmlApplicationContext(\"com/spring/spring.xml\");  \n" + 
+			"			}catch (Exception e) {\n" + 
+			"				throw new RuntimeErrorException(null, e.getMessage());\n" + 
+			"			}\n" + 
+			"			}\n" + 
+			"		return services;\n" + 
+			"	}\n" + 
+			"	\n" + 
+			"	private Services() {\n" + 
 			"		services=this;\n" + 
 			"	}\n" + 
-			"	\n ${"+CLASS_BODY+"}\n" + 
-			"public static Services getServices() {\n" + 
-			"		return services;\n" + 
-			"	}"
-			+ "}\n" + 
+			"	\n ${"+CLASS_BODY+"}" + 
+			"}\n" + 
 			"";
 
 	public static String STRING_SERVICES="springServices";

@@ -1,5 +1,7 @@
 package com.script.generator;
 
+import javax.swing.JOptionPane;
+
 import com.generator.model.ProjectModelGenerator;
 import com.generator.model.ProjectModelRepositoriesGenerator;
 import com.model.entity.Project;
@@ -20,6 +22,9 @@ public class ProjectBuilder {
 					ServiceImplGenerator.generate(project, selectedPath);
 					ServicesProviderGenerator.generate(project, selectedPath);
 					ServicesProviderGeneratorXml.generate(project, selectedPath);
+					EntitiesGridGenerator.generate(project, selectedPath);
+					MainGuiGenarator.generate(project, selectedPath);
+					JOptionPane.showMessageDialog(null, "Project Created");
 				}
 			}catch (Exception e) {
 				System.out.println("Error in ProjectBuilder "+e.getMessage());

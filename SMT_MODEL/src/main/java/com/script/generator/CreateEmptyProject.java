@@ -16,6 +16,7 @@ public class CreateEmptyProject {
 		if(selectPath!=null) {
 			CopyUtils.copy("Resources//project",selectPath);
 			Replace.replace(selectPath, PROJECT_SAMPLE, project.getProjectName());
+			Replace.replace(selectPath, "VaadinTest", project.getProjectName());
 			Replace.replaceFolderName(selectPath+"//"+PROJECT_SAMPLE, project.getProjectName());
 			return selectPath+"//"+project.getProjectName();
 		}
