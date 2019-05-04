@@ -9,25 +9,24 @@ import com.model.entity.Project;
 import com.model.entity.ProjectEntity;
 import com.script.generator.utils.FileUtils;
 
-public class MainGuiGenarator {
+public class PanelsGenerator {
 	
 	private static final String MODEL_PATH = "/src/main/java/com/gui";
 
 	public static void generate(Project project, String path) {
 		if(project!=null) {
 			String modelPath=path+MODEL_PATH;
-			FileUtils.getFile(mainGuiGenaration(project), modelPath,"MainGui.java");
+			for (ProjectEntity projectEntity : project.getProjectEntitys()) {
+				FileUtils.getFile(generateClassAsText(projectEntity), modelPath,projectEntity.getClassName()+"Panel.java");
+			}
 		}
 	}
-	private static String mainGuiGenaration(Project project) {
-		if(project!=null) {
-			String grids="";
-			for (ProjectEntity projectEntity : project.getProjectEntitys()) {
-				grids+="tabsheet.addTab(new "+projectEntity.getClassName()+"Panel(),\""+projectEntity.getClassName()+"\");\n";
-			}
+	private static String generateClassAsText(ProjectEntity projectEntity) {
+		if(projectEntity!=null) {
 			Map<String, String> valuesMap = new HashMap<String, String>();
-			valuesMap.put(GuiGeneratorConstants.GRIDS_CLASSES,grids);
-			return new StrSubstitutor(valuesMap).replace(GuiGeneratorConstants.MAIN_GUI_CLASS);
+			valuesMap.put(GuiGeneratorConstants.CLASS_NAME,projectEntity.getClassName());
+
+			return new StrSubstitutor(valuesMap).replace(GuiGeneratorConstants.PANEL);
 		}
 		return null;
 	}

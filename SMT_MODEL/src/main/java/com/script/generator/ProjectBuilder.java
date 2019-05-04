@@ -23,6 +23,8 @@ public class ProjectBuilder {
 					ServicesProviderGenerator.generate(project, selectedPath);
 					ServicesProviderGeneratorXml.generate(project, selectedPath);
 					EntitiesGridGenerator.generate(project, selectedPath);
+					FormPanelsGenerator.generate(project, selectedPath);
+					PanelsGenerator.generate(project, selectedPath);
 					MainGuiGenarator.generate(project, selectedPath);
 					JOptionPane.showMessageDialog(null, "Project Created");
 				}

@@ -110,5 +110,14 @@ public class Attribute extends Followed implements Serializable {
 	public String toString() {
 		return entityName;
 	}
+	@Transient
+	public String getFromatedComponent(){
+		return entityType.getComponent()+" "+getEntityName().toLowerCase()+" = new "+entityType.getComponent()+"(); ";
+	}
+	@Transient
+	public String getFromatedComponentCaption(){
+		return getEntityName().toLowerCase()+".setCaption(\""+getEntityName().toLowerCase()+"\");";
+	}
+	
 
 }

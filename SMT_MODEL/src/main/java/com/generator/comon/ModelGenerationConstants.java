@@ -1,5 +1,7 @@
 package com.generator.comon;
 
+import java.util.UUID;
+
 import javax.management.RuntimeErrorException;
 
 
@@ -97,7 +99,7 @@ public class ModelGenerationConstants {
 			"import java.util.List;\n" + 
 			"\n" + 
 			"import org.springframework.beans.factory.annotation.Autowired;\n" + 
-			"\n" + 
+			"import java.util.UUID;\n" + 
 			"import com.exception.CustomException;\n" + 
 			"import com.model.${"+CLASS_NAME+"};\n" + 
 			"import com.repository.${"+CLASS_NAME+"}Repository;\n" + 
@@ -109,7 +111,8 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"	\n" + 
 			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+CLASS_NAME+"} object) throws CustomException {\n" + 
-			"		return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
+			"				object.setId(UUID.randomUUID().variant());\n" + 
+			"       return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
 			"	}\n" + 
 			"\n" + 
 			"	\n" + 

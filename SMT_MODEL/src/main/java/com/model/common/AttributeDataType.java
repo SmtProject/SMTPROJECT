@@ -20,7 +20,31 @@ STRING,DATE,INTEGER,DOUBLE,BOOLEAN;
 			return "";
 		}
 	}
-
+	
+	public String getComponent() {
+		switch (this){
+		case STRING:
+			return "TextField";
+		case DATE:
+			return "DateField";
+		case INTEGER:
+			return "TextField";
+		case DOUBLE:
+			return "TextField";
+		case BOOLEAN:
+			return "CheckBox";
+		default:
+			return "";
+		}
+	}
+	public String getBinder(String className,String attributeName,String formatedEntityName) {
+		switch (this){
+		case INTEGER:
+			return "	binder.forField("+attributeName+").withNullRepresentation(\"0\").withConverter(new StringToIntegerConverter(\"Please enter a number\")).bind("+className+"::get"+formatedEntityName+", "+className+"::set"+formatedEntityName+");\n";
+		default:
+			return null;
+		}
+	}
 	
 	@Override
 	public String toString() {
