@@ -81,10 +81,11 @@ public class GuiGeneratorConstants {
 	public static String FORM_PANEL="package com.gui;\n" + 
 			"\n" + 
 			"import com.exception.CustomException;\n" + 
-			"import com.model.${"+CLASS_NAME+"};\n" + 
+			"import java.time.ZoneId;\n" 
+			+ "import com.model.${"+CLASS_NAME+"};\n" + 
 			"import com.service.Services;\n" + 
 			"import com.vaadin.data.Binder;\n" + 
-			"import com.vaadin.data.converter.StringToIntegerConverter;\n" + 
+			"import com.vaadin.data.converter.*;\n" + 
 			"import com.vaadin.ui.CheckBox;\n" + 
 			"import com.vaadin.ui.DateField;\n" + 
 			"import com.vaadin.ui.HorizontalLayout;\n" + 

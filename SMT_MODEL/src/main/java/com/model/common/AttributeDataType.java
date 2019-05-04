@@ -1,9 +1,11 @@
 package com.model.common;
 
+import java.time.ZoneId;
+
 public enum AttributeDataType {
-STRING,DATE,INTEGER,DOUBLE,BOOLEAN;
-	
-	
+	STRING,DATE,INTEGER,DOUBLE,BOOLEAN;
+
+
 	public String dataBaseName() {
 		switch (this){
 		case STRING:
@@ -20,7 +22,7 @@ STRING,DATE,INTEGER,DOUBLE,BOOLEAN;
 			return "";
 		}
 	}
-	
+
 	public String getComponent() {
 		switch (this){
 		case STRING:
@@ -41,11 +43,15 @@ STRING,DATE,INTEGER,DOUBLE,BOOLEAN;
 		switch (this){
 		case INTEGER:
 			return "	binder.forField("+attributeName+").withNullRepresentation(\"0\").withConverter(new StringToIntegerConverter(\"Please enter a number\")).bind("+className+"::get"+formatedEntityName+", "+className+"::set"+formatedEntityName+");\n";
+		case DOUBLE:
+			return "	binder.forField("+attributeName+").withNullRepresentation(\"0\").withConverter(new StringToDoubleConverter(\"Please enter a number\")).bind("+className+"::get"+formatedEntityName+", "+className+"::set"+formatedEntityName+");\n";
+		case DATE:
+			return "	binder.forField("+attributeName+").withConverter(new LocalDateToDateConverter(ZoneId.systemDefault())).bind("+className+"::get"+formatedEntityName+", "+className+"::set"+formatedEntityName+");\n";
 		default:
 			return null;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		switch (this){
