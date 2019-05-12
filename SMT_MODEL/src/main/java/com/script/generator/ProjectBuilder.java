@@ -18,6 +18,7 @@ public class ProjectBuilder {
 					ProjectScriptGenerator.generateProjectScriptGenerator(project,selectedPath);
 					ProjectModelRepositoriesGenerator.generateModels(project.getProjectEntitys(),selectedPath);
 					SpringFileUpdator.Update(project,selectedPath);
+					ValidationGenerator.generate(project, selectedPath);
 					ServiceGenerator.generate(project,selectedPath);
 					ServiceImplGenerator.generate(project, selectedPath);
 					ServicesProviderGenerator.generate(project, selectedPath);

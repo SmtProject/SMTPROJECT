@@ -1,10 +1,5 @@
 package com.generator.comon;
 
-import java.util.UUID;
-
-import javax.management.RuntimeErrorException;
-
-
 public class ModelGenerationConstants {
 
 	public static String MODEL_PACKAGE="package com.model;";
@@ -13,6 +8,7 @@ public class ModelGenerationConstants {
 	public static String CLASS_NAME_START_LOWE="classNamestartLower";
 	public static String UPPER_CLASS_NAME="upperClassName";
 	public static String CLASS_BODY="classBody";
+	public static String VALIDATION_MANDATORY="validationMandatory";
 
 	public static String MODEL_BASIC_IMPORTS="import javax.persistence.Column;\n" + 
 			"import javax.persistence.Entity;\n" + 
@@ -83,7 +79,7 @@ public class ModelGenerationConstants {
 			"\n" + 
 			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+CLASS_NAME+"} object) throws CustomException;\n" + 
 			"	\n" + 
-			"	public ${"+CLASS_NAME+"} updateObject(${"+CLASS_NAME+"} object) throws CustomException;\n" + 
+			"	public ${"+CLASS_NAME+"} update${"+CLASS_NAME+"}(${"+CLASS_NAME+"} object) throws CustomException;\n" + 
 			"	\n" + 
 			"	public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException;\n" + 
 			"	\n" + 
@@ -103,7 +99,8 @@ public class ModelGenerationConstants {
 			"import com.exception.CustomException;\n" + 
 			"import com.model.${"+CLASS_NAME+"};\n" + 
 			"import com.repository.${"+CLASS_NAME+"}Repository;\n" + 
-			"import com.service.${"+CLASS_NAME+"}Service;\n" + 
+			"import com.service.${"+CLASS_NAME+"}Service;\n"
+			+ "import com.validation.*;" + 
 			"\n" + 
 			"public class ${"+CLASS_NAME+"}ServiceImpl implements ${"+CLASS_NAME+"}Service{\n" + 
 			"	@Autowired\n" + 
@@ -111,13 +108,15 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"	\n" + 
 			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+CLASS_NAME+"} object) throws CustomException {\n" + 
-			"				object.setId(UUID.randomUUID().variant());\n" + 
+			"				object.setId(UUID.randomUUID().variant());\n"
+			+ "             ${"+CLASS_NAME+"}Validation.validate${"+CLASS_NAME+"}(object);\n" + 
 			"       return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
 			"	}\n" + 
 			"\n" + 
 			"	\n" + 
-			"	public ${"+CLASS_NAME+"} updateObject(${"+CLASS_NAME+"} object) throws CustomException {\n" + 
-			"		return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
+			"	public ${"+CLASS_NAME+"} update${"+CLASS_NAME+"}(${"+CLASS_NAME+"} object) throws CustomException {\n" + 
+			"		 ${"+CLASS_NAME+"}Validation.validate${"+CLASS_NAME+"}(object);\n"
+			+ "return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
 			"	}\n" + 
 			"\n" + 
 			"	\n" + 
@@ -198,4 +197,18 @@ public class ModelGenerationConstants {
 
 	public static String SERVICE_BEAN_REF="<property name=\"${"+CLASS_NAME_START_LOWE+"}Service\" ref=\"${"+CLASS_NAME+"}ServiceBean\" />\n";
 
+	public static String VALIDATION="package com.validation;\n" + 
+			"\n" + 
+			"import com.exception.CustomException;\n" + 
+			"import com.model.${"+CLASS_NAME+"};\n" + 
+			"\n" + 
+			"public class ${"+CLASS_NAME+"}Validation {\n" + 
+			"\n" + 
+			"	public static void validate${"+CLASS_NAME+"}(${"+CLASS_NAME+"} ${"+CLASS_NAME_START_LOWE+"}) throws CustomException{\n" + 
+			"		if(${"+CLASS_NAME_START_LOWE+"}==null)\n" + 
+			"			throw new CustomException(\"${"+CLASS_NAME+"} is Null\");\n" + 
+			"  ${"+VALIDATION_MANDATORY+"}" + 
+			"	}\n" + 
+			"}\n" + 
+			"";
 }

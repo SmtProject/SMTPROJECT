@@ -126,7 +126,10 @@ public class GuiGeneratorConstants {
 			"	protected ${"+CLASS_NAME+"} save() {\n" + 
 			"		${"+CLASS_NAME+"} saved=null;\n" + 
 			"		try {\n" + 
-			"			saved = Services.getinstance().get${"+CLASS_NAME+"}Service().save${"+CLASS_NAME+"}(object);\n" + 
+			"	if(object.getId()==null)\n		"
+			+ "    saved = Services.getinstance().get${"+CLASS_NAME+"}Service().save${"+CLASS_NAME+"}(object);\n"
+			+ "else \n"
+					+ "  saved = Services.getinstance().get${"+CLASS_NAME+"}Service().update${"+CLASS_NAME+"}(object);\n" + 
 			"			object.setId(saved.getId());\n" + 
 			"			refreshController.refresh();\n" + 
 			"			setVisible(false);\n" + 
@@ -138,6 +141,7 @@ public class GuiGeneratorConstants {
 			"\n" + 
 			"}\n" + 
 			"";
+	
 	public static String PANEL="package com.gui;\n" + 
 			"\n" + 
 			"\n" + 
@@ -160,7 +164,7 @@ public class GuiGeneratorConstants {
 			"		Button addBtn = new Button(\"Add new \",VaadinIcons.FILE_ADD);\n" + 
 			"		addBtn.addClickListener(e -> {\n" + 
 			"			grid.asSingleSelect().clear();\n" + 
-			"			form.setObject(new ${"+CLASS_NAME+"}());\n" + 
+			"			form.setObject(new ${"+CLASS_NAME+"}(),false);\n" + 
 			"		});\n" + 
 			"		HorizontalLayout toolbar = new HorizontalLayout( addBtn);\n" + 
 			"		HorizontalLayout main = new HorizontalLayout(grid, form);\n" + 
@@ -173,7 +177,7 @@ public class GuiGeneratorConstants {
 			"			if (event.getValue() == null) {\n" + 
 			"				form.setVisible(false);\n" + 
 			"			} else {\n" + 
-			"				form.setObject(event.getValue());\n" + 
+			"				form.setObject(event.getValue(),true);\n" + 
 			"			}\n" + 
 			"		});\n" + 
 			"	}\n" + 
