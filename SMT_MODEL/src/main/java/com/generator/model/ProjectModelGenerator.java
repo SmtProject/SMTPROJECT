@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 import com.generator.comon.ModelGenerationConstants;
+import com.model.common.AttributeDataType;
 import com.model.entity.Attribute;
 import com.model.entity.ProjectEntity;
 import com.script.generator.utils.FileUtils;
@@ -29,6 +32,7 @@ public class ProjectModelGenerator {
 	}
 	private static File generateModel(ProjectEntity projectEntity, String modelPath) {
 		if(projectEntity!=null) {
+			generateEnum(projectEntity, modelPath);
 			String classAsString=generateModelAsText(projectEntity);
 			if(classAsString!=null) {
 				return FileUtils.getFile(classAsString, modelPath,projectEntity.getClassName()+".java");
@@ -57,11 +61,25 @@ public class ProjectModelGenerator {
 				valuesMap.put(ModelGenerationConstants.ATTRIBUTE_UPPER,attribute.getEntityName().toUpperCase());
 				valuesMap.put(ModelGenerationConstants.ATTRIBUTE_START_UPPER, StringUtils.capitalize(attribute.getEntityName().toLowerCase()));
 				valuesMap.put(ModelGenerationConstants.ATTRIBUTE_START_LOWER, ModelGenerationConstants.decapitalize(attribute.getEntityName().toLowerCase()));
-				valuesMap.put(ModelGenerationConstants.ATTRIBUTE_TYPE, attribute.getEntityType().toString());
+				valuesMap.put(ModelGenerationConstants.ATTRIBUTE_TYPE, attribute.getFormatedEntityType());
 				result+= new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.MODEL_CLASS_TEMPLATE_GETTER_SETTER)+"\n";
 			}
 		}
 		return result;
+	}
+	private static void generateEnum(ProjectEntity projectEntity, String modelPath) {
+		if(projectEntity!=null && projectEntity.getAttributes()!=null) {
+			for(Attribute attribute: projectEntity.getAttributes()) {
+				if(attribute!=null && AttributeDataType.ENUM.equals(attribute.getEntityType())) {
+					String enumClass="package com.model;\n" + 
+							"\n" + 
+							"public enum "+attribute.getFormatedEntityName()+" {\n" ;
+					enumClass+=attribute.getFormatedEnumValues();
+					enumClass+="}";
+					FileUtils.getFile(enumClass, modelPath,attribute.getFormatedEntityName()+".java");
+				}
+			}
+		}
 	}
 
 }

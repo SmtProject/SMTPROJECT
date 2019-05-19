@@ -82,10 +82,12 @@ public class GuiGeneratorConstants {
 			"\n" + 
 			"import com.exception.CustomException;\n" + 
 			"import java.time.ZoneId;\n" 
-			+ "import com.model.${"+CLASS_NAME+"};\n" + 
+			+ "import com.model.*;\n" + 
+			"import java.util.Arrays;\n" + 
 			"import com.service.Services;\n" + 
 			"import com.vaadin.data.Binder;\n" + 
-			"import com.vaadin.data.converter.*;\n" + 
+			"import com.vaadin.data.converter.*;\n"
+			+ "import com.vaadin.ui.ComboBox;\n" +  
 			"import com.vaadin.ui.CheckBox;\n" + 
 			"import com.vaadin.ui.DateField;\n" + 
 			"import com.vaadin.ui.HorizontalLayout;\n" + 

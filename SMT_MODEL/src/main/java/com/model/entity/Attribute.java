@@ -1,7 +1,12 @@
 package com.model.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,12 +30,16 @@ import com.model.common.Followed;
 @Table(name = "ATTRIBUTE")
 public class Attribute extends Followed implements Serializable {
 	private static final long serialVersionUID = 4458257710739947115L;
+	private static final String SEP = "#_#";
+
 
 	private String entityName;
 	private AttributeDataType entityType;
 	private Boolean isMandatory;
 	private Boolean isUnique;
 	private Integer entity;
+	private String enumValues;
+
 
 	public Attribute() {
 		super();
@@ -63,7 +72,7 @@ public class Attribute extends Followed implements Serializable {
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
 	}
-	
+
 	@Transient
 	public String getFormatedEntityName(){
 		return StringUtils.capitalize(getEntityName().toLowerCase());
@@ -106,18 +115,62 @@ public class Attribute extends Followed implements Serializable {
 		this.entity = entity;
 	}
 
+	public String getEnumValues() {
+		return enumValues;
+	}
+
+	public void setEnumValues(String enumValues) {
+		this.enumValues = enumValues;
+	}
+
 	@Override
 	public String toString() {
 		return entityName;
 	}
 	@Transient
+	public void setEnumValuesAsList(Collection<String>enumValues) {
+		if(enumValues==null)
+			this.enumValues=null;
+		else
+			this.enumValues=String.join(SEP, enumValues);
+
+	}
+	@Transient
+	public Set<String> getEnumValuesAsList() {
+		Set<String> result=new HashSet<>();
+		if(enumValues!=null || enumValues.isEmpty()) {
+			String[] values=enumValues.split(SEP);
+			for(String value:values) {
+				result.add(value);
+			}
+		}
+		return result;
+	}
+	@Transient
 	public String getFromatedComponent(){
-		return entityType.getComponent()+" "+getEntityName().toLowerCase()+" = new "+entityType.getComponent()+"(); ";
+		if(AttributeDataType.ENUM.equals(entityType))
+			return entityType.getComponent()+"<"+getFormatedEntityName()+"> "+getEntityName().toLowerCase()+" = new "+entityType.getComponent()+"<"+getFormatedEntityName()+">(\"\", Arrays.asList("+getFormatedEntityName()+".values()));";
+		else
+			return entityType.getComponent()+" "+getEntityName().toLowerCase()+" = new "+entityType.getComponent()+"(); ";
+
 	}
 	@Transient
 	public String getFromatedComponentCaption(){
 		return getEntityName().toLowerCase()+".setCaption(\""+getEntityName().toLowerCase()+"\");";
 	}
-	
 
-}
+	@Transient
+	public String getFormatedEnumValues() {
+		if(enumValues==null || enumValues.isEmpty())
+			return "";
+		return enumValues.replaceAll(SEP, ",")+";";
+	}
+	@Transient
+	public String getFormatedEntityType() {
+		if(AttributeDataType.ENUM.equals(getEntityType())) 
+			return getFormatedEntityName();
+		return getEntityType().toString();
+	}
+
+
+	}

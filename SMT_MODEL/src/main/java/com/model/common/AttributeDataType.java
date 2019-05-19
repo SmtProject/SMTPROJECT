@@ -1,14 +1,14 @@
 package com.model.common;
 
-import java.time.ZoneId;
 
 public enum AttributeDataType {
-	STRING,DATE,INTEGER,DOUBLE,BOOLEAN;
+	STRING,DATE,INTEGER,DOUBLE,BOOLEAN,ENUM;
 
 
 	public String dataBaseName() {
 		switch (this){
 		case STRING:
+		case ENUM:
 			return "VARCHAR (255)";
 		case DATE:
 			return "DATE";
@@ -35,6 +35,9 @@ public enum AttributeDataType {
 			return "TextField";
 		case BOOLEAN:
 			return "CheckBox";
+		case ENUM:
+			return "ComboBox";
+
 		default:
 			return "";
 		}
@@ -65,6 +68,8 @@ public enum AttributeDataType {
 			return "Double";
 		case BOOLEAN:
 			return "Boolean";
+		case ENUM:
+			return "Enum";
 		default:
 			return "";
 		}
