@@ -95,6 +95,14 @@ public class ProjectTreeTablePanel extends JPanel implements RefreshListener{
 			}
 		});
 		popup.add(addNewEntity);
+		JMenuItem relations = new JMenuItem("Relations");
+		relations.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				splitPane.setRightComponent(new ProjectRelationsPanel(project));
+			}
+		});
+		popup.add(relations);
 
 		JMenuItem generate = new JMenuItem("Generate Code");
 		generate.addActionListener(new ActionListener() {
