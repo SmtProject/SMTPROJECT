@@ -138,7 +138,7 @@ public class Attribute extends Followed implements Serializable {
 	@Transient
 	public Set<String> getEnumValuesAsList() {
 		Set<String> result=new HashSet<>();
-		if(enumValues!=null || enumValues.isEmpty()) {
+		if(enumValues!=null && !enumValues.isEmpty()) {
 			String[] values=enumValues.split(SEP);
 			for(String value:values) {
 				result.add(value);

@@ -2,6 +2,7 @@ package com.custom.service;
 
 import java.util.List;
 
+import com.model.entity.EntityRelation;
 import com.model.entity.Project;
 import com.model.exception.CustomException;
 

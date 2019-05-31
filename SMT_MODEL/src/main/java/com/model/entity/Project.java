@@ -22,6 +22,9 @@ public class Project extends Followed implements Serializable{
 	private String projectName;
 	private List<ProjectEntity>projectEntitys;
 	
+	@Transient
+	private List<EntityRelation> relations;
+	
 	public Project() {
 		super();
 		this.projectEntitys=new ArrayList<>();
@@ -64,4 +67,38 @@ public class Project extends Followed implements Serializable{
 	public String getDataBaseName(){
 		return projectName.toUpperCase();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((projectName == null) ? 0 : projectName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Project other = (Project) obj;
+		if (projectName == null) {
+			if (other.projectName != null)
+				return false;
+		} else if (!projectName.equals(other.projectName))
+			return false;
+		return true;
+	}
+	@Transient
+	public List<EntityRelation> getRelations() {
+		return relations;
+	}
+	@Transient
+	public void setRelations(List<EntityRelation> relations) {
+		this.relations = relations;
+	}
+	
 }
