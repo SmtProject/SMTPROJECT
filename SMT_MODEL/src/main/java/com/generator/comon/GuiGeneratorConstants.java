@@ -11,9 +11,9 @@ public class GuiGeneratorConstants {
 	public static String BINDINGS="Bindings";
 	public static String ADD_COMPONENTS="addComponents";
 	public static String SET_CAPTIONS="setCaptions";
+	public static String CUS_MANY_TO_ONE="CUS_MANY_TO_ONE";
 
 
-	
 	public static String GRID_CLASS="package com.gui;\n" + 
 	"\n" + 
 	"import java.util.ArrayList;\n" + 
@@ -99,7 +99,8 @@ public class GuiGeneratorConstants {
 			"${"+COMPONENTS+"}" + 
 			"	\n" + 
 			"	public ${"+CLASS_NAME+"}Form(RefreshController refreshController) {\n" + 
-			"		super( refreshController);\n" + 
+			"		super( refreshController);\n"+
+			"		refreshData();\n"+	
 			"		initAndLayout();\n" + 
 			"	}\n" + 
 			"\n" + 
@@ -141,6 +142,11 @@ public class GuiGeneratorConstants {
 			"		return saved;\n" + 
 			"	}\n" + 
 			"\n" + 
+			"@Override\n" + 
+			"	public void refreshData() {\n" 
+			+ "${"+CUS_MANY_TO_ONE+"}" + 
+			"		\n" + 
+			"	}"+
 			"}\n" + 
 			"";
 	

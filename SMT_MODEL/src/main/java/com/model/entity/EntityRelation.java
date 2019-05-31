@@ -1,7 +1,9 @@
 package com.model.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang.text.StrSubstitutor;
+
+import com.generator.comon.ModelGenerationConstants;
 import com.model.common.Followed;
 @Entity
 @Table(name = "ENTITY_RELATION")
@@ -31,7 +37,7 @@ public class EntityRelation extends Followed implements Serializable{
 	public Integer getId() {
 		return id;
 	}
-	
+
 	@Column(name = "NAME")
 	public String getName() {
 		return name;
@@ -55,7 +61,7 @@ public class EntityRelation extends Followed implements Serializable{
 	public void setEntityRelationType1(EntityRelationType entityRelationType1) {
 		this.entityRelationType1 = entityRelationType1;
 	}
-	
+
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ENTITY_2")
 	public ProjectEntity getEntity2() {
@@ -88,5 +94,114 @@ public class EntityRelation extends Followed implements Serializable{
 	public String toString() {
 		return name;
 	}
-	
+	@Transient
+	public String getModel(ProjectEntity projectEntity) {
+		String result="";
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.MANY) && entityRelationType2.equals(EntityRelationType.ONE) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHER, entity2.getClassName());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHER_UPPER, entity2.getClassName().toUpperCase());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHERSTART_LOWE,  ModelGenerationConstants.decapitalize(entity2.getClassName()));
+					result+= new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.ONE_TO_MANY);
+				}
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHER, entity2.getClassName());
+					valuesMap.put(ModelGenerationConstants.UPPER_CLASS_NAME, entity1.getClassName().toUpperCase());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHERSTART_LOWE,  ModelGenerationConstants.decapitalize(entity2.getClassName()));
+					result+= new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.MANY_TO_ONE);
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+
+				if(entityRelationType2.equals(EntityRelationType.MANY) && entityRelationType1.equals(EntityRelationType.ONE) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHER, entity1.getClassName());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHER_UPPER, entity1.getClassName().toUpperCase());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHERSTART_LOWE,  ModelGenerationConstants.decapitalize(entity1.getClassName()));
+					result+= new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.ONE_TO_MANY);
+				}else if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHER, entity1.getClassName());
+					valuesMap.put(ModelGenerationConstants.UPPER_CLASS_NAME, entity2.getClassName().toUpperCase());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHERSTART_LOWE,  ModelGenerationConstants.decapitalize(entity1.getClassName()));
+					result+= new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.MANY_TO_ONE);
+				}
+			}
+		}
+		return result;
+	}
+	@Transient
+	public String getManyToOneFormComponent(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					return "ComboBox<"+entity2.getClassName()+"> "+entity2.getClassName().toLowerCase()+" = new ComboBox<"+entity2.getClassName()+">(\"\");	\r\n";
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return "ComboBox<"+entity1.getClassName()+"> "+entity1.getClassName().toLowerCase()+" = new ComboBox<"+entity1.getClassName()+">(\"\");	\r\n";
+				}
+			}
+		}
+		return null;
+	}
+	@Transient
+	public String getManyToOneFormComponentName(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					return entity2.getClassName()	;
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return entity1.getClassName()	;
+				}
+			}
+		}
+		return null;
+	}
+	@Transient
+	public String getManyToOneFormComponentCaption(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					return entity2.getClassName().toLowerCase()+".setCaption(\""+entity2.getClassName().toLowerCase()+"\");";
+
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return entity1.getClassName().toLowerCase()+".setCaption(\""+entity1.getClassName().toLowerCase()+"\");";
+				}
+			}
+		}
+		return null;
+	}
+	@Transient
+	public String getManyToOneFormComponentData(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					return"try {\r\n" + 
+							"			"+entity2.getClassName().toLowerCase()+".setItems(Services.getinstance().get"+entity2.getServiceName()+"().getAll"+entity2.getClassName()+"());\r\n" + 
+							"		} catch (CustomException e) {\r\n" + 
+							"		}";
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return"try {\r\n" + 
+							"			"+entity1.getClassName().toLowerCase()+".setItems(Services.getinstance().get"+entity2.getServiceName()+"().getAll"+entity2.getClassName()+"());\r\n" + 
+							"		} catch (CustomException e) {\r\n" + 
+							"		}";				}
+			}
+		}
+		return null;
+	}
+
 }

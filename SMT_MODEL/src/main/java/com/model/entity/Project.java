@@ -2,7 +2,9 @@ package com.model.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,15 +23,15 @@ public class Project extends Followed implements Serializable{
 	private static final long serialVersionUID = 4061441175240087239L;
 	private String projectName;
 	private List<ProjectEntity>projectEntitys;
-	
+
 	@Transient
 	private List<EntityRelation> relations;
-	
+
 	public Project() {
 		super();
 		this.projectEntitys=new ArrayList<>();
 	}
-	
+
 	public Project(String projectName) {
 		super();
 		this.projectName = projectName;
@@ -41,7 +43,7 @@ public class Project extends Followed implements Serializable{
 	public Integer getId() {
 		return id;
 	}
-	
+
 	@Column(name = "NAME")
 	public String getProjectName() {
 		return projectName;
@@ -100,5 +102,23 @@ public class Project extends Followed implements Serializable{
 	public void setRelations(List<EntityRelation> relations) {
 		this.relations = relations;
 	}
-	
+	@Transient
+	public List<EntityRelation>getProjectEntityEntityRelation(ProjectEntity entity){
+		Set<EntityRelation> result=new HashSet<>();
+		if(entity!=null && getRelations()!=null) {
+			for (EntityRelation entityRelation : getRelations()) {
+				if(entity.getId()!=null  && entityRelation.getEntity1()!=null) {
+					if(entity.getId().equals(entityRelation.getEntity1().getId())) {
+						result.add(entityRelation) ;
+
+					}else if(entity.getId().equals(entityRelation.getEntity2().getId())) {
+						result.add(entityRelation) ;
+					}
+				} 
+
+			}	
+		}
+		return new ArrayList<>(result);
+	}
+
 }

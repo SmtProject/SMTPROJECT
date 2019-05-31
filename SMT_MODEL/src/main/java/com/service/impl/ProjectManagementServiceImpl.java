@@ -115,10 +115,10 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
 		if(projects==null) 
 			throw new CustomException("projects is null");
 		try {
+			entityRelationRepository.deleteAll();
 			attributeRepository.deleteAll();
 			projectEntityRepository.deleteAll();
 			projectRepository.deleteAll();
-			entityRelationRepository.deleteAll();
 			List<Project> result=new ArrayList<>();
 			for (Project project : projects) {
 				result.add(_saveOrUpdateProject(project));

@@ -14,7 +14,7 @@ public class ProjectBuilder {
 			try {
 				String selectedPath=CreateEmptyProject.createEmptyProject(project);
 				if(selectedPath!=null) {
-					ProjectModelGenerator.generateModels(project.getProjectEntitys(),selectedPath);
+					ProjectModelGenerator.generateModels(project,selectedPath);
 					ProjectScriptGenerator.generateProjectScriptGenerator(project,selectedPath);
 					ProjectModelRepositoriesGenerator.generateModels(project.getProjectEntitys(),selectedPath);
 					SpringFileUpdator.Update(project,selectedPath);

@@ -1,24 +1,34 @@
 package com.generator.comon;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+
 public class ModelGenerationConstants {
 
 	public static String MODEL_PACKAGE="package com.model;";
 
 	public static String CLASS_NAME="className";
+	public static String CLASS_NAME_ANOTHER="classNameAnother";
+	public static String CLASS_NAME_ANOTHERSTART_LOWE="classNameAnotherLowe";
+	public static String CLASS_NAME_ANOTHER_UPPER="classNameAnotherUpper";
+
 	public static String CLASS_NAME_START_LOWE="classNamestartLower";
 	public static String UPPER_CLASS_NAME="upperClassName";
 	public static String CLASS_BODY="classBody";
 	public static String VALIDATION_MANDATORY="validationMandatory";
+	public static String RELATION="Relation";
+	public static String TO_STRING="TOSTRING";
 
 	public static String MODEL_BASIC_IMPORTS="import javax.persistence.Column;\n" + 
 			"import javax.persistence.Entity;\n" + 
 			"import javax.persistence.EnumType;\n" + 
 			"import javax.persistence.Enumerated;\n" + 
 			"import javax.persistence.GeneratedValue;\n" + 
+			"import java.util.List;\n" + 
 			"import java.util.Date;\n" + 
-			"import javax.persistence.GenerationType;\n" + 
-			"import javax.persistence.Id;\n" + 
-			"import javax.persistence.Table;\n"; 
+			"import javax.persistence.*;\n"; 
 	public static String ID_GETTER_SETTER="\nprotected Integer id;\n" + 
 			"	public void setId(Integer id) {\n" + 
 			"		this.id = id;\n" + 
@@ -28,7 +38,7 @@ public class ModelGenerationConstants {
 			"	public Integer getId() {\n" + 
 			"		return id;\n" + 
 			"	}";
-	public static String MODEL_CLASS_TEMPLATE=MODEL_PACKAGE+" \n"+MODEL_BASIC_IMPORTS+"\n @Entity \n @Table(name = \"${"+UPPER_CLASS_NAME+"}\") \n public class ${"+CLASS_NAME+"} { \n "+ID_GETTER_SETTER+" ${"+CLASS_BODY+"} \n}";
+	public static String MODEL_CLASS_TEMPLATE=MODEL_PACKAGE+" \n"+MODEL_BASIC_IMPORTS+"\n @Entity \n @Table(name = \"${"+UPPER_CLASS_NAME+"}\") \n public class ${"+CLASS_NAME+"} { \n "+ID_GETTER_SETTER+" ${"+CLASS_BODY+"}  ${"+RELATION+"}  ${"+TO_STRING+"} \n}";
 
 	public static String ATTRIBUTE_UPPER="ATTRIBUTE_UPPER";
 	public static String ATTRIBUTE_START_UPPER="ATTRIBUTE_START_UPPER";
@@ -211,4 +221,24 @@ public class ModelGenerationConstants {
 			"	}\n" + 
 			"}\n" + 
 			"";
+
+	public static String ONE_TO_MANY= "	private List<${"+CLASS_NAME_ANOTHER+"}>${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s;\n" + 
+			"	@OneToMany(fetch = FetchType.EAGER)\n" + 
+			"    @JoinColumn(name=\"${"+CLASS_NAME_ANOTHER_UPPER+"}_ID\")\n" + 
+			"	public List<${"+CLASS_NAME_ANOTHER+"}> get${"+CLASS_NAME_ANOTHER+"}s() {\n" + 
+			"		return ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s;\n" + 
+			"	}\n" + 
+			"	public void set${"+CLASS_NAME_ANOTHER+"}s(List<${"+CLASS_NAME_ANOTHER+"}> ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s) {\n" + 
+			"		this.${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s = ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s;\n" + 
+			"	}";
+	public static String MANY_TO_ONE="	public ${"+CLASS_NAME_ANOTHER+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"};\n" + 
+			"	@ManyToOne(fetch = FetchType.EAGER)\n" + 
+			"    @JoinColumn(name=\"${"+UPPER_CLASS_NAME+"}_ID\")\n" + 
+			"	public ${"+CLASS_NAME_ANOTHER+"} get${"+CLASS_NAME_ANOTHER+"}() {\n" + 
+			"		return ${"+CLASS_NAME_ANOTHERSTART_LOWE+"};\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	public void set${"+CLASS_NAME_ANOTHER+"}(${"+CLASS_NAME_ANOTHER+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}) {\n" + 
+			"		this.${"+CLASS_NAME_ANOTHERSTART_LOWE+"} = ${"+CLASS_NAME_ANOTHERSTART_LOWE+"};\n" + 
+			"	}";
 }
