@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.text.StrSubstitutor;
 
 import com.generator.comon.ModelGenerationConstants;
+import com.google.common.collect.Lists;
 import com.model.common.Followed;
 @Entity
 @Table(name = "ENTITY_RELATION")
@@ -133,6 +134,7 @@ public class EntityRelation extends Followed implements Serializable{
 		}
 		return result;
 	}
+
 	@Transient
 	public String getManyToOneFormComponent(ProjectEntity projectEntity) {
 		if(projectEntity!=null && projectEntity.getId()!=null) {
@@ -199,6 +201,43 @@ public class EntityRelation extends Followed implements Serializable{
 							"			"+entity1.getClassName().toLowerCase()+".setItems(Services.getinstance().get"+entity2.getServiceName()+"().getAll"+entity2.getClassName()+"());\r\n" + 
 							"		} catch (CustomException e) {\r\n" + 
 							"		}";				}
+			}
+		}
+		return null;
+	}
+
+	@Transient
+	public String getManyToOneService(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+
+					return "public List<"+entity1.getClassName()+"> getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(Integer id) throws CustomException;";
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return "public List<"+entity2.getClassName()+"> getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(Integer id) throws CustomException;";
+				}
+			}
+		}
+		return null;
+	}
+	@Transient
+	public String getManyToOneServiceImpl(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					return "public List<"+entity1.getClassName()+"> getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
+							"		return Lists.newArrayList("+ModelGenerationConstants.decapitalize(entity1.getRepositoryName())+".findAll(Q"+entity1.getClassName()+"."+ModelGenerationConstants.decapitalize(entity1.getClassName())+"."+ModelGenerationConstants.decapitalize(entity2.getClassName())+".id.eq(id)));\r\n" + 
+							"	}";
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return "public List<"+entity2.getClassName()+"> getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
+							"		return Lists.newArrayList("+ModelGenerationConstants.decapitalize(entity2.getRepositoryName())+".findAll(Q"+entity2.getClassName()+"."+ModelGenerationConstants.decapitalize(entity2.getClassName())+"."+ModelGenerationConstants.decapitalize(entity1.getClassName())+".id.eq(id)));\r\n" + 
+							"	}";				}
 			}
 		}
 		return null;

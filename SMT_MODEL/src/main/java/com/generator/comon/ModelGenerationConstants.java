@@ -20,12 +20,14 @@ public class ModelGenerationConstants {
 	public static String VALIDATION_MANDATORY="validationMandatory";
 	public static String RELATION="Relation";
 	public static String TO_STRING="TOSTRING";
+	public static String ADDED_SERVICES="ADDED_SERVICES";
+
 
 	public static String MODEL_BASIC_IMPORTS="import javax.persistence.Column;\n" + 
 			"import javax.persistence.Entity;\n" + 
 			"import javax.persistence.EnumType;\n" + 
 			"import javax.persistence.Enumerated;\n" + 
-			"import javax.persistence.GeneratedValue;\n" + 
+			"import javax.persistence.GeneratedValue;\n" +
 			"import java.util.List;\n" + 
 			"import java.util.Date;\n" + 
 			"import javax.persistence.*;\n"; 
@@ -81,7 +83,10 @@ public class ModelGenerationConstants {
 			"\n" + 
 			"import java.util.List;\n" + 
 			"\n" + 
-			"import com.model.${"+CLASS_NAME+"};\n" + 
+			"import com.model.*;\n" + 
+			"\n" + 
+			"\n" + 
+			"import com.google.common.collect.Lists;\n" + 
 			"\n" + 
 			"import com.exception.CustomException;\n" + 
 			"\n" + 
@@ -97,6 +102,8 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"	public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException;\n" + 
 			"\n" + 
+			"${"+ADDED_SERVICES+"}"+
+			"\n" + 
 			"}";
 
 
@@ -106,8 +113,9 @@ public class ModelGenerationConstants {
 			"\n" + 
 			"import org.springframework.beans.factory.annotation.Autowired;\n" + 
 			"import java.util.UUID;\n" + 
+			"import com.google.common.collect.Lists;\n" + 
 			"import com.exception.CustomException;\n" + 
-			"import com.model.${"+CLASS_NAME+"};\n" + 
+			"import com.model.*;\n" + 
 			"import com.repository.${"+CLASS_NAME+"}Repository;\n" + 
 			"import com.service.${"+CLASS_NAME+"}Service;\n"
 			+ "import com.validation.*;" + 
@@ -144,6 +152,8 @@ public class ModelGenerationConstants {
 			"		${"+CLASS_NAME_START_LOWE+"}Repository.delete(id);\n" + 
 			"	}\n" + 
 			"\n" + 
+			"${"+ADDED_SERVICES+"}"+
+			"\n" +
 			"}\n" + 
 			"";
 

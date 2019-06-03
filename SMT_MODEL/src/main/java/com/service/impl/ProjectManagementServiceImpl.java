@@ -124,6 +124,8 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
 				result.add(_saveOrUpdateProject(project));
 				if(project.getRelations()!=null)
 					entityRelationRepository.save(project.getRelations());
+				QAttribute.attribute.id.eq(1);
+				
 			}
 
 			return result;
