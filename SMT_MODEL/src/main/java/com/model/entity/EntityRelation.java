@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.text.StrSubstitutor;
 
+import com.generator.comon.GuiGeneratorConstants;
 import com.generator.comon.ModelGenerationConstants;
 import com.google.common.collect.Lists;
 import com.model.common.Followed;
@@ -241,6 +242,76 @@ public class EntityRelation extends Followed implements Serializable{
 			}
 		}
 		return null;
+	}
+	 
+	@Transient
+	public String getManyToOneCustomGrid(ProjectEntity projectEntity) {
+
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(GuiGeneratorConstants.MAIN_CLASS_NAME,entity1.getClassName());
+					valuesMap.put(GuiGeneratorConstants.SEC_CLASS_NAME,entity2.getClassName());
+					valuesMap.put(GuiGeneratorConstants.SEC_CLASS_NAME_LOWER,ModelGenerationConstants.decapitalize(entity2.getClassName()));
+					return new StrSubstitutor(valuesMap).replace(GuiGeneratorConstants.MANY_TO_ONE_CUSTOM_GRID);
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(GuiGeneratorConstants.MAIN_CLASS_NAME,entity2.getClassName());
+					valuesMap.put(GuiGeneratorConstants.SEC_CLASS_NAME,entity1.getClassName());
+					valuesMap.put(GuiGeneratorConstants.SEC_CLASS_NAME_LOWER,ModelGenerationConstants.decapitalize(entity1.getClassName()));
+					return new StrSubstitutor(valuesMap).replace(GuiGeneratorConstants.MANY_TO_ONE_CUSTOM_GRID);
+				}
+			}
+		}
+		return null;
+	}
+	@Transient
+	public String getManyToOneCustomGridName(ProjectEntity projectEntity) {
+
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					return entity1.getClassName()+"sBy"+entity2.getClassName()+"sGrid";
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return entity2.getClassName()+"sBy"+entity1.getClassName()+"sGrid";
+				}
+			}
+		}
+		return null;
+	}
+
+	public String getManyToOneFormCustomBtns(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.MANY) && entityRelationType2.equals(EntityRelationType.ONE) ) {
+					
+					return "Button btns1=new Button(\""+entity2.getClassName()+"s\");\n" + 
+							"	buttons.addComponent(btns1);\n" + 
+							"	btns1.addClickListener(e ->{ if(object!=null) {\n" + 
+							"		new "+entity2.getClassName()+"sBy"+entity1.getClassName()+"sGrid(object).showGrid();\n" + 
+							"	}\n" + 
+							"	});";
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.MANY) && entityRelationType1.equals(EntityRelationType.ONE) ) {
+					return "Button btns1=new Button(\""+entity1.getClassName()+"s\");\n" + 
+							"	buttons.addComponent(btns1);\n" + 
+							"	btns1.addClickListener(e ->{ if(object!=null) {\n" + 
+							"		new "+entity1.getClassName()+"sBy"+entity2.getClassName()+"sGrid(object).showGrid();\n" + 
+							"	}\n" + 
+							"	});";				}
+			}
+		}
+		return null;
+	
 	}
 
 }

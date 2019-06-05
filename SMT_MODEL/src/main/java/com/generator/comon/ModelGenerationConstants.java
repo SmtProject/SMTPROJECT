@@ -126,8 +126,8 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"	\n" + 
 			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+CLASS_NAME+"} object) throws CustomException {\n" + 
-			"				object.setId(UUID.randomUUID().variant());\n"
-			+ "             ${"+CLASS_NAME+"}Validation.validate${"+CLASS_NAME+"}(object);\n" + 
+			
+			 "             ${"+CLASS_NAME+"}Validation.validate${"+CLASS_NAME+"}(object);\n" + 
 			"       return ${"+CLASS_NAME_START_LOWE+"}Repository.save(object);\n" + 
 			"	}\n" + 
 			"\n" + 

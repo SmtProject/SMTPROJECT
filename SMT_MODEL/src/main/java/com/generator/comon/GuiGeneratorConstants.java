@@ -12,6 +12,8 @@ public class GuiGeneratorConstants {
 	public static String ADD_COMPONENTS="addComponents";
 	public static String SET_CAPTIONS="setCaptions";
 	public static String CUS_MANY_TO_ONE="CUS_MANY_TO_ONE";
+	public static String CUSTOM_BTS="CUSTOM_BTNS";
+
 
 
 	public static String GRID_CLASS="package com.gui;\n" + 
@@ -83,6 +85,7 @@ public class GuiGeneratorConstants {
 			"import com.exception.CustomException;\n" + 
 			"import java.time.ZoneId;\n" 
 			+ "import com.model.*;\n" + 
+			"import com.vaadin.ui.Button;\n" + 
 			"import java.util.Arrays;\n" + 
 			"import com.service.Services;\n" + 
 			"import com.vaadin.data.Binder;\n" + 
@@ -111,6 +114,7 @@ public class GuiGeneratorConstants {
 			"		binder.bindInstanceFields(this);\n" + 
 			"		setSizeUndefined();\n" + 
 			"		HorizontalLayout buttons = new HorizontalLayout(save, delete);\n" + 
+			"${"+CUSTOM_BTS+"}"+
 			"${"+ADD_COMPONENTS+"}\n" + 
 			"	}\n" + 
 			"\n" + 
@@ -193,5 +197,41 @@ public class GuiGeneratorConstants {
 			"\n" + 
 			"}\n" + 
 			"";
+	public static String MAIN_CLASS_NAME="mainClassName";
+	public static String SEC_CLASS_NAME="secClassName";
+	public static String SEC_CLASS_NAME_LOWER="secClassNameLower";
+	
+	
+	public static String MANY_TO_ONE_CUSTOM_GRID="package com.gui;\n" + 
+			"\n" + 
+			"import java.util.Collection;\n" + 
+			"import java.util.List;\n" + 
+			"\n" + 
+			"import com.exception.CustomException;\n" + 
+			"import com.model.*;\n" +  
+			"import com.service.Services;\n" + 
+			"\n" + 
+			"public class ${"+MAIN_CLASS_NAME+"}sBy${"+SEC_CLASS_NAME+"}sGrid extends ${"+MAIN_CLASS_NAME+"}Grid {\n" + 
+			"	private ${"+SEC_CLASS_NAME+"} ${"+SEC_CLASS_NAME_LOWER+"};\n" + 
+			"\n" + 
+			"	public ${"+MAIN_CLASS_NAME+"}sBy${"+SEC_CLASS_NAME+"}sGrid(${"+SEC_CLASS_NAME+"} ${"+SEC_CLASS_NAME_LOWER+"}) {\n" + 
+			"		super();\n" + 
+			"		this.${"+SEC_CLASS_NAME_LOWER+"} = ${"+SEC_CLASS_NAME_LOWER+"};\n" + 
+			"		refreshData();\n" + 
+			"\n" + 
+			"	}\n" + 
+			"	@Override\n" + 
+			"	public Collection<${"+MAIN_CLASS_NAME+"}> refreshData() {\n" + 
+			"		if(${"+SEC_CLASS_NAME_LOWER+"}!=null) {\n" + 
+			"			try {\n" + 
+			"				List<${"+MAIN_CLASS_NAME+"}> objects = Services.getinstance().get${"+MAIN_CLASS_NAME+"}Service().getAll${"+MAIN_CLASS_NAME+"}By${"+SEC_CLASS_NAME+"}Id(${"+SEC_CLASS_NAME_LOWER+"}.getId());\n" + 
+			"				this.setItems(objects);\n" + 
+			"				return objects;\n" + 
+			"			} catch (CustomException e) {\n" + 
+			"			}\n" + 
+			"		}\n" + 
+			"		return null;\n" + 
+			"	}\n" + 
+			"}\n" ;
 
 }

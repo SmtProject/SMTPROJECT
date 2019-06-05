@@ -62,11 +62,24 @@ public class FormPanelsGenerator {
 			valuesMap.put(GuiGeneratorConstants.ADD_COMPONENTS,addCompoenents);
 			valuesMap.put(GuiGeneratorConstants.SET_CAPTIONS,captions);
 			valuesMap.put(GuiGeneratorConstants.CUS_MANY_TO_ONE,getConstructorManyToOne(projectEntity,entityRelations));
+			valuesMap.put(GuiGeneratorConstants.CUSTOM_BTS,getManyToOneCustomBtns(projectEntity,entityRelations));
 
 			return new StrSubstitutor(valuesMap).replace(GuiGeneratorConstants.FORM_PANEL);
 		}
 		return null;
 	}
+	private static String getManyToOneCustomBtns(ProjectEntity projectEntity, List<EntityRelation> entityRelations) {
+		String result="";
+		if(projectEntity!=null && entityRelations!=null) {
+			for (EntityRelation entityRelation : entityRelations) {
+				String toAdd=entityRelation.getManyToOneFormCustomBtns(projectEntity);
+				if(toAdd!=null)
+					result+=toAdd;
+			}
+
+		}
+		return result;
+	}	
 	private static String getConstructorManyToOne(ProjectEntity projectEntity, List<EntityRelation> entityRelations) {
 		String result="";
 		if(projectEntity!=null && entityRelations!=null) {
