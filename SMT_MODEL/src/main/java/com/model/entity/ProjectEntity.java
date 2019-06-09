@@ -2,7 +2,9 @@ package com.model.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.generator.comon.ModelGenerationConstants;
 import com.model.common.Followed;
 @Entity
 @Table(name = "PROJECT_ENTITY")
@@ -115,6 +118,25 @@ public class ProjectEntity extends Followed implements Serializable{
 		} else if (!projectId.equals(other.projectId))
 			return false;
 		return true;
+	}
+	@Transient
+	public String getAttributesAsStringApiParam() {
+		List<String> result=new ArrayList<>();
+		for (Attribute attribute : attributes) {
+			result.add(attribute.getAttributeAsStringForApiParam());
+		}
+		return String.join(",", result);
+	}
+	@Transient
+	public String getFillObject() {
+		String result="";
+		if(attributes!=null) {
+			for (Attribute attribute : attributes) {
+				if(attribute.getEntityName()!=null)
+					result+="object.set"+attribute.getFormatedEntityName()+"("+ModelGenerationConstants.decapitalize(attribute.getEntityName())+");\n";
+			}
+		}
+		return result;
 	}
 	
 }

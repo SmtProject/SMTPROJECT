@@ -27,6 +27,7 @@ public class ProjectBuilder {
 					FormPanelsGenerator.generate(project, selectedPath);
 					PanelsGenerator.generate(project, selectedPath);
 					MainGuiGenarator.generate(project, selectedPath);
+					ServiceApiGenerator.generate(project, selectedPath);
 					JOptionPane.showMessageDialog(null, "Project Created");
 				}
 			}catch (Exception e) {

@@ -23,6 +23,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.generator.comon.ModelGenerationConstants;
 import com.model.common.AttributeDataType;
 import com.model.common.Followed;
 
@@ -170,6 +171,14 @@ public class Attribute extends Followed implements Serializable {
 		if(AttributeDataType.ENUM.equals(getEntityType())) 
 			return getFormatedEntityName();
 		return getEntityType().toString();
+	}
+	@Transient
+	public String getAttributeAsStringForApiParam() {
+		String result="";
+		if(getEntityName()!=null && getEntityType()!=null) {
+			result+="@QueryParam(\""+ModelGenerationConstants.decapitalize(getEntityName())+"\")"+" "+getFormatedEntityType()+" "+ModelGenerationConstants.decapitalize(getEntityName());
+		}
+		return result;
 	}
 
 

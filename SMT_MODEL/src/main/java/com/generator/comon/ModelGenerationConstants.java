@@ -1,10 +1,5 @@
 package com.generator.comon;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-
 public class ModelGenerationConstants {
 
 	public static String MODEL_PACKAGE="package com.model;";
@@ -28,6 +23,10 @@ public class ModelGenerationConstants {
 			"import javax.persistence.EnumType;\n" + 
 			"import javax.persistence.Enumerated;\n" + 
 			"import javax.persistence.GeneratedValue;\n" +
+			"import javax.xml.bind.annotation.XmlRootElement;\n" + 
+			"import javax.xml.bind.annotation.XmlAccessType;\n"+
+			"import javax.xml.bind.annotation.XmlAccessorType;\n"+
+			"import javax.xml.bind.annotation.XmlTransient;\n"+
 			"import java.util.List;\n" + 
 			"import java.util.Date;\n" + 
 			"import javax.persistence.*;\n"; 
@@ -40,7 +39,7 @@ public class ModelGenerationConstants {
 			"	public Integer getId() {\n" + 
 			"		return id;\n" + 
 			"	}";
-	public static String MODEL_CLASS_TEMPLATE=MODEL_PACKAGE+" \n"+MODEL_BASIC_IMPORTS+"\n @Entity \n @Table(name = \"${"+UPPER_CLASS_NAME+"}\") \n public class ${"+CLASS_NAME+"} { \n "+ID_GETTER_SETTER+" ${"+CLASS_BODY+"}  ${"+RELATION+"}  ${"+TO_STRING+"} \n}";
+	public static String MODEL_CLASS_TEMPLATE=MODEL_PACKAGE+" \n"+MODEL_BASIC_IMPORTS+"\n @XmlRootElement(name = \"${"+CLASS_NAME+"}\") \n @XmlAccessorType(value = XmlAccessType.FIELD)\n @Entity \n @Table(name = \"${"+UPPER_CLASS_NAME+"}\") \n public class ${"+CLASS_NAME+"} { \n "+ID_GETTER_SETTER+" ${"+CLASS_BODY+"}  ${"+RELATION+"}  ${"+TO_STRING+"} \n}";
 
 	public static String ATTRIBUTE_UPPER="ATTRIBUTE_UPPER";
 	public static String ATTRIBUTE_START_UPPER="ATTRIBUTE_START_UPPER";
@@ -241,7 +240,8 @@ public class ModelGenerationConstants {
 			"	public void set${"+CLASS_NAME_ANOTHER+"}s(List<${"+CLASS_NAME_ANOTHER+"}> ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s) {\n" + 
 			"		this.${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s = ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}s;\n" + 
 			"	}";
-	public static String MANY_TO_ONE="	public ${"+CLASS_NAME_ANOTHER+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"};\n" + 
+	public static String MANY_TO_ONE="@XmlTransient\n"
+			+ "	public ${"+CLASS_NAME_ANOTHER+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"};\n" + 
 			"	@ManyToOne(fetch = FetchType.EAGER)\n" + 
 			"    @JoinColumn(name=\"${"+UPPER_CLASS_NAME+"}_ID\")\n" + 
 			"	public ${"+CLASS_NAME_ANOTHER+"} get${"+CLASS_NAME_ANOTHER+"}() {\n" + 
@@ -251,4 +251,75 @@ public class ModelGenerationConstants {
 			"	public void set${"+CLASS_NAME_ANOTHER+"}(${"+CLASS_NAME_ANOTHER+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}) {\n" + 
 			"		this.${"+CLASS_NAME_ANOTHERSTART_LOWE+"} = ${"+CLASS_NAME_ANOTHERSTART_LOWE+"};\n" + 
 			"	}";
+	public static String SERVICE_API_ATTRIBUTES="SERVICE_API_ATTRIBUTES";
+	public static String SERVICE_API_OBJECT_FILL="SERVICE_API_OBJECT_FILL";
+
+	public static String SERVICE_API_TEMPLATE="package com.service.api;\n" + 
+			"\n" + 
+			"import java.util.List;\n" + 
+			"\n" + 
+			"import org.springframework.beans.factory.annotation.Autowired;\n" + 
+			"import java.util.UUID;\n" + 
+			"import com.google.common.collect.Lists;\n" + 
+			"import com.exception.CustomException;\n" + 
+			"import com.model.*;\n" + 
+			"import com.service.Services;\n"+ 
+			"import javax.ws.rs.*;\n" + 
+			"import javax.ws.rs.core.MediaType;\n"+
+			"import com.repository.${"+CLASS_NAME+"}Repository;\n" + 
+			"import com.service.${"+CLASS_NAME+"}Service;\n"
+			+ "import com.validation.*;" + 
+			"\n" + 
+			"@Path(\"/${"+CLASS_NAME+"}Service\")" +
+			"\n" + 
+			"public class ${"+CLASS_NAME+"}ApiService {\n" + 
+			"	\n" + 
+			"	\n" + 
+			"@GET\n" + 
+			"    @Path(\"/save${"+CLASS_NAME+"}\")\n" + 
+			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+SERVICE_API_ATTRIBUTES+"}) throws CustomException {\n" + 
+			"        ${"+CLASS_NAME+"} object=new ${"+CLASS_NAME+"}();\n" + 
+			"       ${"+SERVICE_API_OBJECT_FILL+"}" + 
+			"     return  Services.getinstance().get${"+CLASS_NAME+"}Service().save${"+CLASS_NAME+"}(object);\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	\n" + 
+			"@GET\n" + 
+			"    @Path(\"/update${"+CLASS_NAME+"}\")\n" + 
+			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"	public ${"+CLASS_NAME+"} update${"+CLASS_NAME+"}(@QueryParam(\"id\") Integer id,${"+SERVICE_API_ATTRIBUTES+"} ) throws CustomException {\n" + 
+			"        ${"+CLASS_NAME+"} object=new ${"+CLASS_NAME+"}();\n"
+			+ "      object.setId(id);\n" + 
+			"       ${"+SERVICE_API_OBJECT_FILL+"}" + 
+			"     return  Services.getinstance().get${"+CLASS_NAME+"}Service().save${"+CLASS_NAME+"}(object);\n" + 			"	}\n" + 
+			"\n" + 
+			"	\n" + 
+			"@GET\n" + 
+			"    @Path(\"/getAll${"+CLASS_NAME+"}\")\n" + 
+			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"	public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException {\n" + 
+			"		return Services.getinstance().get${"+CLASS_NAME+"}Service().getAll${"+CLASS_NAME+"}();"+
+			"	}\n" + 
+			"\n" + 
+			"	\n" + 
+			"@GET\n" + 
+			"    @Path(\"/get${"+CLASS_NAME+"}ById\")\n" + 
+			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"	public ${"+CLASS_NAME+"} get${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
+			"		return Services.getinstance().get${"+CLASS_NAME+"}Service().get${"+CLASS_NAME+"}ById(id);"+
+			"	}\n" + 
+			"\n" + 
+			"	\n" + 
+			"@GET\n" + 
+			"    @Path(\"/delete${"+CLASS_NAME+"}ById\")\n" + 
+			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"	public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
+			"		 Services.getinstance().get${"+CLASS_NAME+"}Service().delete${"+CLASS_NAME+"}ById(id);"+
+			"	}\n" + 
+			"\n" + 
+			"${"+ADDED_SERVICES+"}"+
+			"\n" +
+			"}\n" + 
+			"";
 }
