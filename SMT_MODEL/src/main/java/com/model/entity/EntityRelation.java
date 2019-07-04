@@ -18,11 +18,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 
 import com.generator.comon.GuiGeneratorConstants;
 import com.generator.comon.ModelGenerationConstants;
-import com.google.common.collect.Lists;
 import com.model.common.Followed;
 @Entity
 @Table(name = "ENTITY_RELATION")
@@ -224,6 +224,7 @@ public class EntityRelation extends Followed implements Serializable{
 		}
 		return null;
 	}
+	
 	@Transient
 	public String getManyToOneServiceImpl(ProjectEntity projectEntity) {
 		if(projectEntity!=null && projectEntity.getId()!=null) {
@@ -243,7 +244,32 @@ public class EntityRelation extends Followed implements Serializable{
 		}
 		return null;
 	}
-	 
+	@Transient
+	public String getManyToOneApiServiceImpl(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if(entity1!=null && projectEntity.getId().equals(entity1.getId())) {
+				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					return "@GET\r\n" + 
+							"@Path(\"/getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id\")\r\n" + 
+							"@Produces({MediaType.APPLICATION_XML})\r\n" +
+							"public List<"+entity1.getClassName()+"> getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
+							"		return Services.getinstance().get"+entity1.getClassName()+"Service().getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(id);\r\n" + 
+							"	}";
+				}
+			}
+			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
+				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
+					return "@GET\r\n" + 
+							"@Path(\"/getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id\")\r\n" + 
+							"@Produces({MediaType.APPLICATION_XML})\r\n" +
+							"public List<"+entity2.getClassName()+"> getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
+							"		return Services.getinstance().get"+entity2.getClassName()+"Service().getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(id);\r\n" + 
+
+							"	}";				}
+			}
+		}
+		return null;
+	}
 	@Transient
 	public String getManyToOneCustomGrid(ProjectEntity projectEntity) {
 
@@ -313,5 +339,60 @@ public class EntityRelation extends Followed implements Serializable{
 		return null;
 	
 	}
-
+	
+	@Transient
+	public String getManyToManyName() {
+		return StringUtils.capitalize(entity1.getEntityName().toLowerCase())+StringUtils.capitalize(entity2.getEntityName().toLowerCase())+"Relation";
+	}
+	@Transient
+	public String getManyToManyRepositoryName() {
+		return getManyToManyName()+"Repository";
+	}
+	
+	@Transient
+	public String getManyToManyService(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if((entity1!=null && projectEntity.getId().equals(entity1.getId()) )||(entity2!=null && projectEntity.getId().equals(entity2.getId()))) {
+				if(entityRelationType1.equals(EntityRelationType.MANY) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME, getManyToManyName());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHERSTART_LOWE,ModelGenerationConstants.decapitalize(getManyToManyName()));
+					return new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.MANY_TO_MANY_SERVICE);
+				}
+			}
+		}
+		return null;
+	}
+	@Transient
+	public String getManyToManyServiceImpl(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if((entity1!=null && projectEntity.getId().equals(entity1.getId()) )||(entity2!=null && projectEntity.getId().equals(entity2.getId()))) {
+				if(entityRelationType1.equals(EntityRelationType.MANY) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME, getManyToManyName());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHERSTART_LOWE,ModelGenerationConstants.decapitalize(getManyToManyName()));
+					return new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.MANY_TO_MANY_SERVICE_IMPL);
+				}
+			}
+		}
+		return null;
+	}
+	@Transient
+	public String getManyToManyServiceApi(ProjectEntity projectEntity) {
+		if(projectEntity!=null && projectEntity.getId()!=null) {
+			if((entity1!=null && projectEntity.getId().equals(entity1.getId()) )||(entity2!=null && projectEntity.getId().equals(entity2.getId()))) {
+				if(entityRelationType1.equals(EntityRelationType.MANY) && entityRelationType2.equals(EntityRelationType.MANY) ) {
+					Map<String, String> valuesMap = new HashMap<String, String>();
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME, getManyToManyName());
+					valuesMap.put(ModelGenerationConstants.CLASS_NAME_ANOTHERSTART_LOWE,ModelGenerationConstants.decapitalize(getManyToManyName()));
+					valuesMap.put(ModelGenerationConstants.FIRST_ENTITY_NAME, entity1.getClassName());
+					valuesMap.put(ModelGenerationConstants.FIRST_ENTITY_NAME_START_LOWER, ModelGenerationConstants.decapitalize(entity1.getClassName()));
+					valuesMap.put(ModelGenerationConstants.SEC_ENTITY_NAME, entity2.getClassName());
+					valuesMap.put(ModelGenerationConstants.SEC_ENTITY_NAME_START_LOWER, ModelGenerationConstants.decapitalize(entity2.getClassName()));
+					return new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.MANY_TO_MANY_SERVICE_API);
+				}
+			}
+		}
+		return null;
+	}
 }

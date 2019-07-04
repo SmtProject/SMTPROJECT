@@ -16,7 +16,7 @@ public class ProjectBuilder {
 				if(selectedPath!=null) {
 					ProjectModelGenerator.generateModels(project,selectedPath);
 					ProjectScriptGenerator.generateProjectScriptGenerator(project,selectedPath);
-					ProjectModelRepositoriesGenerator.generateModels(project.getProjectEntitys(),selectedPath);
+					ProjectModelRepositoriesGenerator.generateModels(project,selectedPath);
 					SpringFileUpdator.Update(project,selectedPath);
 					ValidationGenerator.generate(project, selectedPath);
 					ServiceGenerator.generate(project,selectedPath);

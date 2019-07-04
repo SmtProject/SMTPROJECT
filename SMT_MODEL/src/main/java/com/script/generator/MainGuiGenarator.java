@@ -5,6 +5,8 @@ import java.util.Map;
 import org.apache.commons.lang.text.StrSubstitutor;
 
 import com.generator.comon.GuiGeneratorConstants;
+import com.model.entity.EntityRelation;
+import com.model.entity.EntityRelationType;
 import com.model.entity.Project;
 import com.model.entity.ProjectEntity;
 import com.script.generator.utils.FileUtils;
@@ -24,6 +26,13 @@ public class MainGuiGenarator {
 			String grids="";
 			for (ProjectEntity projectEntity : project.getProjectEntitys()) {
 				grids+="tabsheet.addTab(new "+projectEntity.getClassName()+"Panel(),\""+projectEntity.getClassName()+"\");\n";
+			}
+			if(project.getRelations()!=null) {
+				for (EntityRelation entityRelation : project.getRelations()) {
+					if(EntityRelationType.MANY.equals(entityRelation.getEntityRelationType1())&& EntityRelationType.MANY.equals(entityRelation.getEntityRelationType2())) {
+						grids+="tabsheet.addTab(new "+entityRelation.getManyToManyName()+"Panel(),\""+entityRelation.getManyToManyName()+"\");\n";
+					}
+				}
 			}
 			Map<String, String> valuesMap = new HashMap<String, String>();
 			valuesMap.put(GuiGeneratorConstants.GRIDS_CLASSES,grids);

@@ -1,8 +1,10 @@
 package com.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,7 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
 			Map<Integer,List<EntityRelation>>entityRelationByEntityOneId= allEntityRelation.stream().filter(e->e.getEntity1()!=null).collect(Collectors.groupingBy(e-> e.getEntity1().getId()));
 			Map<Integer,List<EntityRelation>>entityRelationByEntityTwoId= allEntityRelation.stream().filter(e->e.getEntity2()!=null).collect(Collectors.groupingBy(e-> e.getEntity2().getId()));
 			for (Project project : result) {
-				List<EntityRelation>entityRelations=new ArrayList<>();
+				Set<EntityRelation>entityRelations=new HashSet<>();
 				List<ProjectEntity> projectEntities=Lists.newArrayList(projectEntityRepository.findAll(QProjectEntity.projectEntity.projectId.eq(project.getId())));
 				project.setProjectEntitys(projectEntities);
 				for (ProjectEntity projectEntity : projectEntities) {
@@ -53,7 +55,7 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
 						entityRelations.addAll(entityRelationTwoid);
 					projectEntity.setAttributes(Lists.newArrayList(attributeRepository.findAll(QAttribute.attribute.entity.eq(projectEntity.getId()))));
 				}
-				project.setRelations(entityRelations);
+				project.setRelations(new ArrayList<>(entityRelations));
 			}
 			return result;
 		}catch (Exception e) {

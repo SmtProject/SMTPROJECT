@@ -54,9 +54,9 @@ public class ProjectRelationPanel extends JPanel{
 		if(entityRelation!=null) {
 			relationName.setText(entityRelation.getName());
 			relation1Entity.setSelectedItem(entityRelation.getEntity1());
-			relation1Entity.setSelectedItem(entityRelation.getEntityRelationType1());
+			relation1Type.setSelectedItem(entityRelation.getEntityRelationType1());
 			relation2Entity.setSelectedItem(entityRelation.getEntity2());
-			relation2Entity.setSelectedItem(entityRelation.getEntityRelationType2());
+			relation2Type.setSelectedItem(entityRelation.getEntityRelationType2());
 		}
 	}
 

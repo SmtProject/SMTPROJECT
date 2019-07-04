@@ -6,8 +6,10 @@ import java.util.Map;
 import org.apache.commons.lang.text.StrSubstitutor;
 
 import com.generator.comon.GuiGeneratorConstants;
+import com.generator.comon.ModelGenerationConstants;
 import com.model.entity.Attribute;
 import com.model.entity.EntityRelation;
+import com.model.entity.EntityRelationType;
 import com.model.entity.Project;
 import com.model.entity.ProjectEntity;
 import com.script.generator.utils.FileUtils;
@@ -22,7 +24,24 @@ public class FormPanelsGenerator {
 			for (ProjectEntity projectEntity : project.getProjectEntitys()) {
 				FileUtils.getFile(generateClassAsText(projectEntity,project.getProjectEntityEntityRelation(projectEntity)), modelPath,projectEntity.getClassName()+"Form.java");
 			}
+			if(project.getRelations()!=null) {
+				for (EntityRelation entityRelation : project.getRelations()) {
+					if(EntityRelationType.MANY.equals(entityRelation.getEntityRelationType1())&& EntityRelationType.MANY.equals(entityRelation.getEntityRelationType2())) {
+						FileUtils.getFile(generateManyToManyClassAsText(entityRelation), modelPath,entityRelation.getManyToManyName()+"Form.java");
+					}
+				}
+			}
 		}
+	}
+
+	private static String generateManyToManyClassAsText(EntityRelation entityRelation) {
+		Map<String, String> valuesMap = new HashMap<String, String>();
+		valuesMap.put(ModelGenerationConstants.CLASS_NAME,entityRelation.getManyToManyName());
+		valuesMap.put(ModelGenerationConstants.FIRST_ENTITY_NAME,entityRelation.getEntity1().getClassName());
+		valuesMap.put(ModelGenerationConstants.FIRST_ENTITY_NAME_START_LOWER,ModelGenerationConstants.decapitalize(entityRelation.getEntity1().getClassName()));
+		valuesMap.put(ModelGenerationConstants.SEC_ENTITY_NAME,entityRelation.getEntity2().getClassName());
+		valuesMap.put(ModelGenerationConstants.SEC_ENTITY_NAME_START_LOWER,ModelGenerationConstants.decapitalize(entityRelation.getEntity2().getClassName()));
+		return new StrSubstitutor(valuesMap).replace(ModelGenerationConstants.MANY_TO_MANY_RELATION_FORM);
 	}
 	private static String generateClassAsText(ProjectEntity projectEntity, List<EntityRelation> entityRelations) {
 		if(projectEntity!=null) {

@@ -57,6 +57,9 @@ public class ServiceImplGenerator {
 				String modelRelationSetterAndGetter=entityRelationEntry.getManyToOneServiceImpl(projectEntity);
 				if(modelRelationSetterAndGetter!=null)
 					result+="\n"+modelRelationSetterAndGetter+"\n";
+				String manyToManyServiceAdded=entityRelationEntry.getManyToManyServiceImpl(projectEntity);
+				if(manyToManyServiceAdded!=null)
+					result+="\n"+manyToManyServiceAdded+"\n";
 			}
 		}
 		return result;

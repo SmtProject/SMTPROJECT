@@ -55,9 +55,13 @@ public class ServiceApiGenerator {
 		String result="";
 		if(projectEntity!=null && entityRelations!=null) {
 			for (EntityRelation entityRelationEntry : entityRelations) {
-				String modelRelationSetterAndGetter=entityRelationEntry.getManyToOneServiceImpl(projectEntity);
+				String modelRelationSetterAndGetter=entityRelationEntry.getManyToOneApiServiceImpl(projectEntity);
 				if(modelRelationSetterAndGetter!=null)
 					result+="\n"+modelRelationSetterAndGetter+"\n";
+				
+				String manyToManyServiceAdded=entityRelationEntry.getManyToManyServiceApi(projectEntity);
+				if(manyToManyServiceAdded!=null)
+					result+="\n"+manyToManyServiceAdded+"\n";
 			}
 		}
 		return result;

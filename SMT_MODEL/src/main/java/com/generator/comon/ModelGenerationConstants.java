@@ -1,5 +1,7 @@
 package com.generator.comon;
 
+import java.util.List;
+
 public class ModelGenerationConstants {
 
 	public static String MODEL_PACKAGE="package com.model;";
@@ -115,7 +117,7 @@ public class ModelGenerationConstants {
 			"import com.google.common.collect.Lists;\n" + 
 			"import com.exception.CustomException;\n" + 
 			"import com.model.*;\n" + 
-			"import com.repository.${"+CLASS_NAME+"}Repository;\n" + 
+			"import com.repository.*;\n" + 
 			"import com.service.${"+CLASS_NAME+"}Service;\n"
 			+ "import com.validation.*;" + 
 			"\n" + 
@@ -256,7 +258,7 @@ public class ModelGenerationConstants {
 
 	public static String SERVICE_API_TEMPLATE="package com.service.api;\n" + 
 			"\n" + 
-			"import java.util.List;\n" + 
+			"import java.util.*;\n" + 
 			"\n" + 
 			"import org.springframework.beans.factory.annotation.Autowired;\n" + 
 			"import java.util.UUID;\n" + 
@@ -322,4 +324,278 @@ public class ModelGenerationConstants {
 			"\n" +
 			"}\n" + 
 			"";
+	
+	
+	public static String FIRST_ENTITY_NAME="FIRST_ENTITY_NAME";
+	public static String FIRST_ENTITY_NAME_UPPER="FIRST_ENTITY_NAME_UPPER";
+	public static String FIRST_ENTITY_NAME_START_LOWER="FIRST_ENTITY_NAME_START_LOWER";
+	
+	public static String SEC_ENTITY_NAME="SEC_ENTITY_NAME";
+	public static String SEC_ENTITY_NAME_UPPER="SEC_ENTITY_NAME_UPPER";
+	public static String SEC_ENTITY_NAME_START_LOWER="SEC_ENTITY_NAME_START_LOWER";
+	
+	
+	public static String MANY_TO_MANY_MODEL="package com.model;\n" + 
+			"\n" + 
+			"import javax.persistence.Entity;\n" + 
+			"import javax.persistence.FetchType;\n" + 
+			"import javax.persistence.GeneratedValue;\n" + 
+			"import javax.persistence.GenerationType;\n" + 
+			"import javax.persistence.Id;\n" + 
+			"import javax.persistence.JoinColumn;\n" + 
+			"import javax.persistence.ManyToOne;\n" + 
+			"import javax.persistence.Table;\n" + 
+			"import javax.xml.bind.annotation.XmlAccessType;\n" + 
+			"import javax.xml.bind.annotation.XmlAccessorType;\n" + 
+			"import javax.xml.bind.annotation.XmlRootElement;\n" + 
+			"\n" + 
+			"@XmlRootElement(name = \"${"+FIRST_ENTITY_NAME+"}${"+FIRST_ENTITY_NAME+"}Relation\") \n" + 
+			"@XmlAccessorType(value = XmlAccessType.FIELD)\n" + 
+			"@Entity \n" + 
+			"@Table(name = \"${"+FIRST_ENTITY_NAME_UPPER+"}_${"+SEC_ENTITY_NAME_UPPER+"}_RELATION\") \n" + 
+			"public class ${"+FIRST_ENTITY_NAME+"}${"+SEC_ENTITY_NAME+"}Relation {\n" + 
+			"\n" + 
+			"	public ${"+FIRST_ENTITY_NAME+"}${"+SEC_ENTITY_NAME+"}Relation(){}"
+			+"\n" 
+			+ "protected Integer id;\n" + 
+			"	public void setId(Integer id) {\n" + 
+			"		this.id = id;\n" + 
+			"	}\n" + 
+			"	@Id\n" + 
+			"	@GeneratedValue(strategy = GenerationType.AUTO)\n" + 
+			"	public Integer getId() {\n" + 
+			"		return id;\n" + 
+			"	} \n" + 
+			"	\n" + 
+			"	public ${"+FIRST_ENTITY_NAME+"} ${"+FIRST_ENTITY_NAME_START_LOWER+"};\n" + 
+			"	@ManyToOne(fetch = FetchType.EAGER)\n" + 
+			"    @JoinColumn(name=\"${"+FIRST_ENTITY_NAME_UPPER+"}_ID\")\n" + 
+			"	public ${"+FIRST_ENTITY_NAME+"} get${"+FIRST_ENTITY_NAME+"}() {\n" + 
+			"		return ${"+FIRST_ENTITY_NAME_START_LOWER+"};\n" + 
+			"	}\n" + 
+			"	public void set${"+FIRST_ENTITY_NAME+"}(${"+FIRST_ENTITY_NAME+"} ${"+FIRST_ENTITY_NAME_START_LOWER+"}) {\n" + 
+			"		this.${"+FIRST_ENTITY_NAME_START_LOWER+"} = ${"+FIRST_ENTITY_NAME_START_LOWER+"};\n" + 
+			"	}\n" + 
+			"	\n" + 
+			"	\n" + 
+			"	public ${"+SEC_ENTITY_NAME+"} ${"+SEC_ENTITY_NAME_START_LOWER+"};\n" + 
+			"	@ManyToOne(fetch = FetchType.EAGER)\n" + 
+			"    @JoinColumn(name=\"${"+SEC_ENTITY_NAME_UPPER+"}_ID\")\n" + 
+			"	public ${"+SEC_ENTITY_NAME+"} get${"+SEC_ENTITY_NAME+"}() {\n" + 
+			"		return ${"+SEC_ENTITY_NAME_START_LOWER+"};\n" + 
+			"	}\n" + 
+			"	public void set${"+SEC_ENTITY_NAME+"}(${"+SEC_ENTITY_NAME+"} ${"+SEC_ENTITY_NAME_START_LOWER+"}) {\n" + 
+			"		this.${"+SEC_ENTITY_NAME_START_LOWER+"} = ${"+SEC_ENTITY_NAME_START_LOWER+"};\n" + 
+			"	}\n" + 
+			"	\n" + 
+			"	\n" + 
+			"}\n" + 
+			"";
+	
+	
+	public static String MANY_TO_MANY_SERVICE= "	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+CLASS_NAME+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"})throws CustomException;\n" + 
+			"\n" + 
+			"	public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException;\n" + 
+			"	\n" + 
+			"	public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException;";
+
+	public static String MANY_TO_MANY_SERVICE_IMPL="\n	@Autowired\n" + 
+			"	private ${"+CLASS_NAME+"}Repository ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}Repository;\n" + 
+			"	\n" + 
+			"	@Override\n" + 
+			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+CLASS_NAME+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}) throws CustomException {\n" + 
+			"		return ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}Repository.save(${"+CLASS_NAME_ANOTHERSTART_LOWE+"});\n" + 
+			"	}\n" + 
+			"\n" + 
+			"\n" + 
+			"	@Override\n" + 
+			"	public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException {\n" + 
+			"		return ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}Repository.findAll();\n" + 
+			"	}\n" + 
+			"\n" + 
+			"\n" + 
+			"	@Override\n" + 
+			"	public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
+			"		${"+CLASS_NAME_ANOTHERSTART_LOWE+"}Repository.delete(id);		\n" + 
+			"	}";
+	
+	public static String MANY_TO_MANY_SERVICE_API="@GET\n" + 
+			"@Path(\"/getAll${"+CLASS_NAME+"}\")\n" + 
+			"@Produces({MediaType.APPLICATION_XML})\n" + 
+			"public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException {\n" + 
+			"	return Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().getAll${"+CLASS_NAME+"}();	}\n" + 
+			"\n" + 
+			"@GET\n" + 
+			"@Path(\"/save${"+CLASS_NAME+"}\")\n" + 
+			"@Produces({MediaType.APPLICATION_XML})\n" + 
+			"public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(@QueryParam(\"${"+FIRST_ENTITY_NAME_START_LOWER+"}Id\") Integer ${"+FIRST_ENTITY_NAME_START_LOWER+"}Id,@QueryParam(\"${"+SEC_ENTITY_NAME_START_LOWER+"}Id\") Integer ${"+SEC_ENTITY_NAME_START_LOWER+"}Id) throws CustomException {\n" + 
+			"    ${"+FIRST_ENTITY_NAME+"} ${"+FIRST_ENTITY_NAME_START_LOWER+"}=new ${"+FIRST_ENTITY_NAME+"}();\n" + 
+			"    ${"+FIRST_ENTITY_NAME_START_LOWER+"}.setId(${"+FIRST_ENTITY_NAME_START_LOWER+"}Id);\n" + 
+			"    ${"+SEC_ENTITY_NAME+"} ${"+SEC_ENTITY_NAME_START_LOWER+"}=new ${"+SEC_ENTITY_NAME+"}();\n" + 
+			"    ${"+SEC_ENTITY_NAME_START_LOWER+"}.setId(${"+SEC_ENTITY_NAME_START_LOWER+"}Id);\n" + 
+			"    ${"+CLASS_NAME+"} ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}=new ${"+CLASS_NAME+"}();\n" + 
+			"    ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}.set${"+FIRST_ENTITY_NAME+"}(${"+FIRST_ENTITY_NAME_START_LOWER+"});\n" + 
+			"    ${"+CLASS_NAME_ANOTHERSTART_LOWE+"}.set${"+SEC_ENTITY_NAME+"}(${"+SEC_ENTITY_NAME_START_LOWER+"});\n" + 
+			" return  Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().save${"+CLASS_NAME+"}(${"+CLASS_NAME_ANOTHERSTART_LOWE+"});\n" + 
+			"}\n" + 
+			"@GET\n" + 
+			"@Path(\"/delete${"+CLASS_NAME+"}ById\")\n" + 
+			"@Produces({MediaType.APPLICATION_XML})\n" + 
+			"public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
+			"	 Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().delete${"+CLASS_NAME+"}ById(id);	}";
+
+	public static String MANY_TO_MANY_RELATION_FORM="package com.gui;\n" + 
+			"\n" + 
+			"import com.exception.CustomException;\n" + 
+			"import java.time.ZoneId;\n" + 
+			"import com.model.*;\n" + 
+			"import com.vaadin.ui.Button;\n" + 
+			"import java.util.Arrays;\n" + 
+			"import com.service.Services;\n" + 
+			"import com.vaadin.data.Binder;\n" + 
+			"import com.vaadin.data.converter.*;\n" + 
+			"import com.vaadin.ui.ComboBox;\n" + 
+			"import com.vaadin.ui.CheckBox;\n" + 
+			"import com.vaadin.ui.DateField;\n" + 
+			"import com.vaadin.ui.HorizontalLayout;\n" + 
+			"import com.vaadin.ui.Notification;\n" + 
+			"\n" + 
+			"public class ${"+CLASS_NAME+"}Form extends BasicForm<${"+CLASS_NAME+"}> {\n" + 
+			"\n" + 
+			"	ComboBox<${"+FIRST_ENTITY_NAME+"}> ${"+FIRST_ENTITY_NAME_START_LOWER+"} ;\n" + 
+			"	ComboBox<${"+SEC_ENTITY_NAME+"}> ${"+SEC_ENTITY_NAME_START_LOWER+"} ;\n" + 
+			"	public ${"+CLASS_NAME+"}Form(RefreshController refreshController) {\n" + 
+			"		super( refreshController);\n" + 
+			"		${"+FIRST_ENTITY_NAME_START_LOWER+"}=new ComboBox<${"+FIRST_ENTITY_NAME+"}> ();\n" + 
+			"		${"+SEC_ENTITY_NAME_START_LOWER+"}=new ComboBox<${"+SEC_ENTITY_NAME+"}> ();\n" + 
+			"		refreshData();\n" + 
+			"		initAndLayout();\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	private void initAndLayout() {\n" + 
+			"		${"+FIRST_ENTITY_NAME_START_LOWER+"}.setCaption(\"${"+FIRST_ENTITY_NAME_START_LOWER+"}\");\n" + 
+			"		${"+SEC_ENTITY_NAME_START_LOWER+"}.setCaption(\"${"+SEC_ENTITY_NAME_START_LOWER+"}\");\n" + 
+			"		binder = new Binder<${"+CLASS_NAME+"}>(${"+CLASS_NAME+"}.class);\n" + 
+			"		binder.bindInstanceFields(this);\n" + 
+			"		setSizeUndefined();\n" + 
+			"		HorizontalLayout buttons = new HorizontalLayout(save, delete);\n" + 
+			"		addComponents(${"+FIRST_ENTITY_NAME_START_LOWER+"},${"+SEC_ENTITY_NAME_START_LOWER+"},buttons);\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	protected void delete() {\n" + 
+			"		if(object!=null) {\n" + 
+			"			try {\n" + 
+			"				Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().delete${"+CLASS_NAME+"}ById(object.getId());\n" + 
+			"				refreshController.refresh();\n" + 
+			"				setVisible(false);\n" + 
+			"			} catch (CustomException e) {\n" + 
+			"				Notification.show(e.getMessage());\n" + 
+			"			}\n" + 
+			"		}\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	protected ${"+CLASS_NAME+"} save() {\n" + 
+			"		${"+CLASS_NAME+"} saved=null;\n" + 
+			"		try {\n" + 
+			"			if(object.getId()==null)\n" + 
+			"				saved = Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().save${"+CLASS_NAME+"}(object);\n" + 
+			"			object.setId(saved.getId());\n" + 
+			"			refreshController.refresh();\n" + 
+			"			setVisible(false);\n" + 
+			"		} catch (CustomException e) {\n" + 
+			"			Notification.show(e.getMessage());\n" + 
+			"		}\n" + 
+			"		return saved;\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	@Override\n" + 
+			"	public void refreshData() {\n" + 
+			"		try {\n" + 
+			"			${"+FIRST_ENTITY_NAME_START_LOWER+"}.setItems(Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().getAll${"+FIRST_ENTITY_NAME+"}());\n" + 
+			"			${"+SEC_ENTITY_NAME_START_LOWER+"}.setItems(Services.getinstance().get${"+SEC_ENTITY_NAME+"}Service().getAll${"+SEC_ENTITY_NAME+"}());\n" + 
+			"		} catch (CustomException e) {\n" + 
+			"			e.printStackTrace();\n" + 
+			"		}\n" + 
+			"\n" + 
+			"	}}\n" + 
+			"";
+	public static String MANY_TO_MANY_RELATION_GRID="package com.gui;\n" + 
+			"\n" + 
+			"import java.util.ArrayList;\n" + 
+			"import java.util.Collection;\n" + 
+			"import java.util.List;\n" + 
+			"\n" + 
+			"import com.exception.CustomException;\n" + 
+			"import com.model.*;\n" + 
+			"import com.service.Services;\n" + 
+			"\n" + 
+			"public class ${"+CLASS_NAME+"}Grid extends FilteredGrid<${"+CLASS_NAME+"}>{\n" + 
+			"	private static final long serialVersionUID = 9202728836701096130L;\n" + 
+			"\n" + 
+			"	public ${"+CLASS_NAME+"}Grid()  {\n" + 
+			"		super(\"${"+CLASS_NAME+"}\", new ArrayList<>());\n" + 
+			"		this.setSizeFull();\n" + 
+			"		this.addColumn(${"+CLASS_NAME+"}::get${"+FIRST_ENTITY_NAME+"}).setCaption(\"${"+FIRST_ENTITY_NAME+"}\");\n" + 
+			"		this.addColumn(${"+CLASS_NAME+"}::get${"+SEC_ENTITY_NAME+"}).setCaption(\"${"+SEC_ENTITY_NAME+"}\");\n" + 
+			"		initFilter();\n" + 
+			"		refreshData();\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	@Override\n" + 
+			"	public Collection<${"+CLASS_NAME+"}> refreshData() {\n" + 
+			"		try {\n" + 
+			"			List<${"+CLASS_NAME+"}> objects = Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().getAll${"+CLASS_NAME+"}();\n" + 
+			"			this.setItems(objects);\n" + 
+			"			return objects;\n" + 
+			"		} catch (CustomException e) {\n" + 
+			"		}\n" + 
+			"		return null;\n" + 
+			"	}\n" + 
+			"\n" + 
+			"}\n" + 
+			"";
+	public static String MANY_TO_MANY_RELATION_PANEl="package com.gui;\n" + 
+			"\n" + 
+			"\n" + 
+			"import com.model.*;\n" + 
+			"import com.vaadin.icons.VaadinIcons;\n" + 
+			"import com.vaadin.ui.Button;\n" + 
+			"import com.vaadin.ui.HorizontalLayout;\n" + 
+			"import com.vaadin.ui.VerticalLayout;\n" + 
+			"\n" + 
+			"public class ${"+CLASS_NAME+"}Panel extends BasicPanel{\n" + 
+			"\n" + 
+			"	public ${"+CLASS_NAME+"}Panel() {\n" + 
+			"		init();\n" + 
+			"	}\n" + 
+			"\n" + 
+			"	private void init()  {\n" + 
+			"		grid = new ${"+CLASS_NAME+"}Grid();\n" + 
+			"		form = new ${"+CLASS_NAME+"}Form(this);\n" + 
+			"		VerticalLayout layout = new VerticalLayout();\n" + 
+			"		Button addBtn = new Button(\"Add new \",VaadinIcons.FILE_ADD);\n" + 
+			"		addBtn.addClickListener(e -> {\n" + 
+			"			grid.asSingleSelect().clear();\n" + 
+			"			form.setObject(new ${"+CLASS_NAME+"}(),false);\n" + 
+			"		});\n" + 
+			"		HorizontalLayout toolbar = new HorizontalLayout( addBtn);\n" + 
+			"		HorizontalLayout main = new HorizontalLayout(grid, form);\n" + 
+			"		main.setSizeFull();\n" + 
+			"		main.setExpandRatio(grid, 1);\n" + 
+			"		layout.addComponents(toolbar, main);\n" + 
+			"		setContent(layout);\n" + 
+			"		form.setVisible(false);\n" + 
+			"		grid.asSingleSelect().addValueChangeListener(event -> {\n" + 
+			"			if (event.getValue() == null) {\n" + 
+			"				form.setVisible(false);\n" + 
+			"			} else {\n" + 
+			"				form.setObject(event.getValue(),true);\n" + 
+			"			}\n" + 
+			"		});\n" + 
+			"	}\n" + 
+			"\n" + 
+			"\n" + 
+			"}\n" + 
+			"";
+
 }
