@@ -199,7 +199,7 @@ public class EntityRelation extends Followed implements Serializable{
 			else if(entity2!=null && projectEntity.getId().equals(entity2.getId())) {
 				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
 					return"try {\r\n" + 
-							"			"+entity1.getClassName().toLowerCase()+".setItems(Services.getinstance().get"+entity2.getServiceName()+"().getAll"+entity2.getClassName()+"());\r\n" + 
+							"			"+entity1.getClassName().toLowerCase()+".setItems(Services.getinstance().get"+entity1.getServiceName()+"().getAll"+entity1.getClassName()+"());\r\n" + 
 							"		} catch (CustomException e) {\r\n" + 
 							"		}";				}
 			}
@@ -251,7 +251,7 @@ public class EntityRelation extends Followed implements Serializable{
 				if(entityRelationType1.equals(EntityRelationType.ONE) && entityRelationType2.equals(EntityRelationType.MANY) ) {
 					return "@GET\r\n" + 
 							"@Path(\"/getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id\")\r\n" + 
-							"@Produces({MediaType.APPLICATION_XML})\r\n" +
+							"@Produces({MediaType.APPLICATION_JSON})\r\n" +
 							"public List<"+entity1.getClassName()+"> getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
 							"		return Services.getinstance().get"+entity1.getClassName()+"Service().getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(id);\r\n" + 
 							"	}";
@@ -261,7 +261,7 @@ public class EntityRelation extends Followed implements Serializable{
 				if(entityRelationType2.equals(EntityRelationType.ONE) && entityRelationType1.equals(EntityRelationType.MANY) ) {
 					return "@GET\r\n" + 
 							"@Path(\"/getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id\")\r\n" + 
-							"@Produces({MediaType.APPLICATION_XML})\r\n" +
+							"@Produces({MediaType.APPLICATION_JSON})\r\n" +
 							"public List<"+entity2.getClassName()+"> getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
 							"		return Services.getinstance().get"+entity2.getClassName()+"Service().getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(id);\r\n" + 
 

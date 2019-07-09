@@ -279,7 +279,7 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"@GET\n" + 
 			"    @Path(\"/save${"+CLASS_NAME+"}\")\n" + 
-			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"    @Produces({MediaType.APPLICATION_JSON})\n"+
 			"	public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(${"+SERVICE_API_ATTRIBUTES+"}) throws CustomException {\n" + 
 			"        ${"+CLASS_NAME+"} object=new ${"+CLASS_NAME+"}();\n" + 
 			"       ${"+SERVICE_API_OBJECT_FILL+"}" + 
@@ -289,7 +289,7 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"@GET\n" + 
 			"    @Path(\"/update${"+CLASS_NAME+"}\")\n" + 
-			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"    @Produces({MediaType.APPLICATION_JSON})\n"+
 			"	public ${"+CLASS_NAME+"} update${"+CLASS_NAME+"}(@QueryParam(\"id\") Integer id,${"+SERVICE_API_ATTRIBUTES+"} ) throws CustomException {\n" + 
 			"        ${"+CLASS_NAME+"} object=new ${"+CLASS_NAME+"}();\n"
 			+ "      object.setId(id);\n" + 
@@ -299,7 +299,7 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"@GET\n" + 
 			"    @Path(\"/getAll${"+CLASS_NAME+"}\")\n" + 
-			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"    @Produces({MediaType.APPLICATION_JSON})\n"+
 			"	public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException {\n" + 
 			"		return Services.getinstance().get${"+CLASS_NAME+"}Service().getAll${"+CLASS_NAME+"}();"+
 			"	}\n" + 
@@ -307,7 +307,7 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"@GET\n" + 
 			"    @Path(\"/get${"+CLASS_NAME+"}ById\")\n" + 
-			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"    @Produces({MediaType.APPLICATION_JSON})\n"+
 			"	public ${"+CLASS_NAME+"} get${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
 			"		return Services.getinstance().get${"+CLASS_NAME+"}Service().get${"+CLASS_NAME+"}ById(id);"+
 			"	}\n" + 
@@ -315,7 +315,7 @@ public class ModelGenerationConstants {
 			"	\n" + 
 			"@GET\n" + 
 			"    @Path(\"/delete${"+CLASS_NAME+"}ById\")\n" + 
-			"    @Produces({MediaType.APPLICATION_XML})\n"+
+			"    @Produces({MediaType.APPLICATION_JSON})\n"+
 			"	public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
 			"		 Services.getinstance().get${"+CLASS_NAME+"}Service().delete${"+CLASS_NAME+"}ById(id);"+
 			"	}\n" + 
@@ -421,13 +421,13 @@ public class ModelGenerationConstants {
 	
 	public static String MANY_TO_MANY_SERVICE_API="@GET\n" + 
 			"@Path(\"/getAll${"+CLASS_NAME+"}\")\n" + 
-			"@Produces({MediaType.APPLICATION_XML})\n" + 
+			"@Produces({MediaType.APPLICATION_JSON})\n" + 
 			"public List<${"+CLASS_NAME+"}> getAll${"+CLASS_NAME+"}() throws CustomException {\n" + 
 			"	return Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().getAll${"+CLASS_NAME+"}();	}\n" + 
 			"\n" + 
 			"@GET\n" + 
 			"@Path(\"/save${"+CLASS_NAME+"}\")\n" + 
-			"@Produces({MediaType.APPLICATION_XML})\n" + 
+			"@Produces({MediaType.APPLICATION_JSON})\n" + 
 			"public ${"+CLASS_NAME+"} save${"+CLASS_NAME+"}(@QueryParam(\"${"+FIRST_ENTITY_NAME_START_LOWER+"}Id\") Integer ${"+FIRST_ENTITY_NAME_START_LOWER+"}Id,@QueryParam(\"${"+SEC_ENTITY_NAME_START_LOWER+"}Id\") Integer ${"+SEC_ENTITY_NAME_START_LOWER+"}Id) throws CustomException {\n" + 
 			"    ${"+FIRST_ENTITY_NAME+"} ${"+FIRST_ENTITY_NAME_START_LOWER+"}=new ${"+FIRST_ENTITY_NAME+"}();\n" + 
 			"    ${"+FIRST_ENTITY_NAME_START_LOWER+"}.setId(${"+FIRST_ENTITY_NAME_START_LOWER+"}Id);\n" + 
@@ -440,7 +440,7 @@ public class ModelGenerationConstants {
 			"}\n" + 
 			"@GET\n" + 
 			"@Path(\"/delete${"+CLASS_NAME+"}ById\")\n" + 
-			"@Produces({MediaType.APPLICATION_XML})\n" + 
+			"@Produces({MediaType.APPLICATION_JSON})\n" + 
 			"public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
 			"	 Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().delete${"+CLASS_NAME+"}ById(id);	}";
 
