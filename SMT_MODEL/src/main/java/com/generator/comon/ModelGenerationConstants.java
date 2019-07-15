@@ -308,7 +308,7 @@ public class ModelGenerationConstants {
 			"@GET\n" + 
 			"    @Path(\"/get${"+CLASS_NAME+"}ById\")\n" + 
 			"    @Produces({MediaType.APPLICATION_JSON})\n"+
-			"	public ${"+CLASS_NAME+"} get${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
+			"	public ${"+CLASS_NAME+"} get${"+CLASS_NAME+"}ById(@QueryParam(\"id\") Integer id) throws CustomException {\n" + 
 			"		return Services.getinstance().get${"+CLASS_NAME+"}Service().get${"+CLASS_NAME+"}ById(id);"+
 			"	}\n" + 
 			"\n" + 
@@ -316,7 +316,7 @@ public class ModelGenerationConstants {
 			"@GET\n" + 
 			"    @Path(\"/delete${"+CLASS_NAME+"}ById\")\n" + 
 			"    @Produces({MediaType.APPLICATION_JSON})\n"+
-			"	public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
+			"	public void delete${"+CLASS_NAME+"}ById(@QueryParam(\"id\") Integer id) throws CustomException {\n" + 
 			"		 Services.getinstance().get${"+CLASS_NAME+"}Service().delete${"+CLASS_NAME+"}ById(id);"+
 			"	}\n" + 
 			"\n" + 
@@ -441,7 +441,7 @@ public class ModelGenerationConstants {
 			"@GET\n" + 
 			"@Path(\"/delete${"+CLASS_NAME+"}ById\")\n" + 
 			"@Produces({MediaType.APPLICATION_JSON})\n" + 
-			"public void delete${"+CLASS_NAME+"}ById(Integer id) throws CustomException {\n" + 
+			"public void delete${"+CLASS_NAME+"}ById(@QueryParam(\"id\") Integer id) throws CustomException {\n" + 
 			"	 Services.getinstance().get${"+FIRST_ENTITY_NAME+"}Service().delete${"+CLASS_NAME+"}ById(id);	}";
 
 	public static String MANY_TO_MANY_RELATION_FORM="package com.gui;\n" + 

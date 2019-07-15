@@ -252,7 +252,7 @@ public class EntityRelation extends Followed implements Serializable{
 					return "@GET\r\n" + 
 							"@Path(\"/getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id\")\r\n" + 
 							"@Produces({MediaType.APPLICATION_JSON})\r\n" +
-							"public List<"+entity1.getClassName()+"> getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
+							"public List<"+entity1.getClassName()+"> getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(@QueryParam(\"id\")  Integer id) throws CustomException {\r\n" + 
 							"		return Services.getinstance().get"+entity1.getClassName()+"Service().getAll"+entity1.getClassName()+"By"+entity2.getClassName()+"Id(id);\r\n" + 
 							"	}";
 				}
@@ -262,7 +262,7 @@ public class EntityRelation extends Followed implements Serializable{
 					return "@GET\r\n" + 
 							"@Path(\"/getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id\")\r\n" + 
 							"@Produces({MediaType.APPLICATION_JSON})\r\n" +
-							"public List<"+entity2.getClassName()+"> getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(Integer id) throws CustomException {\r\n" + 
+							"public List<"+entity2.getClassName()+"> getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(@QueryParam(\"id\")  Integer id) throws CustomException {\r\n" + 
 							"		return Services.getinstance().get"+entity2.getClassName()+"Service().getAll"+entity2.getClassName()+"By"+entity1.getClassName()+"Id(id);\r\n" + 
 
 							"	}";				}
